@@ -12,7 +12,7 @@ from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
 
 
 def prepare_row(row: dict) -> dict:
-    input_text = f"<LM>{row['context']}\nОпределение слова {row['word']}: "
+    input_text = f"<LM>{row['context']}\n Определение слова {row['word']}: "
     target_text = row['definition']
     return {"input_text": input_text, "target_text": target_text}
 

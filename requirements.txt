@@ -1,0 +1,11 @@
+accelerate
+beautifulsoup4
+datasets
+evaluate
+nltk
+numpy
+pandas
+protobuf
+transformers
+torch
+requests

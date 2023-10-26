@@ -42,8 +42,8 @@ def process_element(element: ET.Element, output_filepath: str | Path) -> None:
     :param output_filepath: str | Path - the path to the output jsonl file.
     :return: None
     """
-    if (not element.find(TAGS["namespace"]) or not element.find(TAGS["id"]) or
-            not element.find(TAGS["title"]) or not element.find(TAGS["text"])):
+    if element.find(TAGS["namespace"]) is None or element.find(TAGS["id"]) is None \
+        or element.find(TAGS["title"]) is None or element.find(TAGS["text"]) is None:
         return
     if not "page" in element.tag or element.find(TAGS["namespace"]).text != ARTICLE_NAMESPACE:
         return

@@ -43,4 +43,6 @@ class ParseDumpTest(unittest.TestCase):
 
         self.assertEqual(self.expected_definitions, actual_definitions)
 
-        self.test_definitions_path.unlink()
+    def tearDown(self):
+        if self.test_definitions_path.exists():
+            self.test_definitions_path.unlink()

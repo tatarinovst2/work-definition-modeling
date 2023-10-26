@@ -1,61 +1,18 @@
 """A script for training a T5 model"""
-import json
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
-import torch
-from datasets import Dataset, DatasetDict
-from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,
+import torch  # pylint: disable=import-error
+from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,  # pylint: disable=import-error
                           DataCollatorForSeq2Seq, PreTrainedTokenizer,
                           Seq2SeqTrainer, Seq2SeqTrainingArguments,
                           TrainerCallback, TrainerControl, TrainerState,
                           TrainingArguments)
 
 from constants import ROOT_DIR
+from model_training.dataset_processing import prepare_dataset
 from model_training.metrics import get_bleu_score, get_rouge_score
 from model_training.utils import plot_metric, plot_training_and_test_loss
-
-
-def prepare_row(row: dict) -> dict:
-    """
-    Converts a row from the dataset to a readable format.
-    :param row: dict - the row to prepare.
-    :return: dict - the prepared row.
-    """
-    input_text = f"<LM>{row['context']}\n Определение слова \"{row['word']}\": "
-    target_text = row['definition']
-    return {"input_text": input_text, "target_text": target_text}
-
-
-def prepare_dataset(filepath: str | Path) -> DatasetDict:
-    """
-    Loads and creates a dataset from a jsonl file.
-    :param filepath: str | Path - the path to the jsonl file.
-    :return: DatasetDict - the dataset with train and test splits.
-    """
-    rows = []
-    with open(filepath, "r", encoding="utf-8") as file:
-        for line in file:
-            json_line = json.loads(line)
-            for definition in json_line["definitions"]:
-                examples = json_line["definitions"][definition]
-                for example in examples:
-                    rows.append({"word": json_line["title"],
-                                 "definition": definition,
-                                 "context": example})
-
-    df = pd.DataFrame(rows)
-
-    df = df[df["word"].str.len() >= 3]
-
-    prepared_rows = [prepare_row(row.to_dict()) for _, row in df.iterrows()]
-    new_df = pd.DataFrame(prepared_rows)
-
-    created_dataset = Dataset.from_pandas(new_df)
-    created_dataset = created_dataset.train_test_split(test_size=0.2)
-
-    return created_dataset
 
 
 def preprocess_function(examples: dict, tokenizer: PreTrainedTokenizer) -> dict:
@@ -89,9 +46,9 @@ def compute_metrics(eval_pred: tuple, tokenizer: PreTrainedTokenizer) -> dict[st
     predictions, labels = eval_pred
 
     # Replace -100 in the labels as we can't decode them.
-    labels = np.where(labels != -100, labels, loaded_tokenizer.pad_token_id)
-    decoded_labels = loaded_tokenizer.batch_decode(labels, skip_special_tokens=True)
-    decoded_predictions = loaded_tokenizer.batch_decode(predictions, skip_special_tokens=True)
+    labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
+    decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
+    decoded_predictions = tokenizer.batch_decode(predictions, skip_special_tokens=True)
 
     results = {
         "blue": get_bleu_score(decoded_predictions, decoded_labels),
@@ -102,10 +59,13 @@ def compute_metrics(eval_pred: tuple, tokenizer: PreTrainedTokenizer) -> dict[st
     return results
 
 
-class LossLoggingCallback(TrainerCallback):
+class LossLoggingCallback(TrainerCallback):  # pylint: disable=too-few-public-methods
     """A callback that draws plots for metrics"""
     def on_evaluate(self, args: TrainingArguments, state: TrainerState,
                     control: TrainerControl, **kwargs):
+        """
+        Event called after an evaluation phase.
+        """
         checkpoint_dir = Path(args.output_dir) / f"checkpoint-{state.global_step}"
 
         graphs_dir = checkpoint_dir / "graphs"

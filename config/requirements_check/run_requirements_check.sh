@@ -7,4 +7,8 @@ echo "Check requirements files"
 
 configure_script
 
-python config/stage_1_style_tests/requirements_check.py
+python config/requirements_check/requirements_check.py
+
+check_if_failed
+
+echo "Requirements check passed."

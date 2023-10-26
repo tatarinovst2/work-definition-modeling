@@ -3,11 +3,12 @@ Checks dependencies
 """
 import re
 import sys
+from pathlib import Path
 
 from constants import ROOT_DIR
 
 
-def get_paths() -> list:
+def get_paths() -> list[Path]:
     """
     Returns list of paths to non-python files
     """
@@ -18,7 +19,7 @@ def get_paths() -> list:
     return list_with_paths
 
 
-def get_requirements(path: list) -> list:
+def get_requirements(path: str | Path) -> list:
     """
     Returns a list of dependencies
     """
@@ -39,13 +40,13 @@ def check_dependencies(lines: list, compiled_pattern: re.Pattern) -> bool:
     Checks that dependencies confirm to the template
     """
     if sorted(lines) != lines:
-        print('Dependencies in requirements.txt do not conform to the template.')
+        print('Dependencies do not conform to the template.')
         return False
     for line in lines:
         if not re.search(compiled_pattern, line):
-            print('Dependencies in requirements.txt do not conform to the template.')
+            print('Dependencies do not conform to the template.')
             return False
-    print('Dependencies in requirements.txt: OK.')
+    print('Dependencies: OK.')
     return True
 
 
@@ -55,9 +56,12 @@ def main() -> None:
     """
     paths = get_paths()
     compiled_pattern = compile_pattern()
+
     for path in paths:
+        print(f"Checking {path} file...")
         lines = get_requirements(path)
-        sys.exit(not check_dependencies(lines, compiled_pattern))
+        if not check_dependencies(lines, compiled_pattern):
+            sys.exit(1)
 
 
 if __name__ == '__main__':

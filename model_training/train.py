@@ -3,18 +3,21 @@ from pathlib import Path
 
 import numpy as np
 import torch  # pylint: disable=import-error
+from datasets import DatasetDict
 from transformers import (  # pylint: disable=import-error
-    AutoModelForSeq2SeqLM, AutoTokenizer, DataCollatorForSeq2Seq,
-    PreTrainedTokenizer, Seq2SeqTrainer, Seq2SeqTrainingArguments,
-    TrainerCallback, TrainerControl, TrainerState, TrainingArguments)
+    AutoModelForSeq2SeqLM, AutoTokenizer, BatchEncoding,
+    DataCollatorForSeq2Seq, PreTrainedTokenizer, Seq2SeqTrainer,
+    Seq2SeqTrainingArguments, TrainerCallback, TrainerControl, TrainerState,
+    TrainingArguments)
 
 from constants import ROOT_DIR
 from model_training.dataset_processing import prepare_dataset
 from model_training.metrics import get_bleu_score, get_rouge_score
-from model_training.utils import plot_metric, plot_training_and_test_loss
+from model_training.utils import (load_train_config, plot_metric,
+                                  plot_training_and_test_loss)
 
 
-def preprocess_function(examples: dict, tokenizer: PreTrainedTokenizer) -> dict:
+def preprocess_function(examples: dict, tokenizer: PreTrainedTokenizer) -> BatchEncoding:
     """
     Preprocesses the examples for the model using the tokenizer.
     :param examples: dict - the readable examples to preprocess.
@@ -59,7 +62,9 @@ def compute_metrics(eval_pred: tuple, tokenizer: PreTrainedTokenizer) -> dict[st
 
 
 class LossLoggingCallback(TrainerCallback):  # pylint: disable=too-few-public-methods
-    """A callback that draws plots for metrics"""
+    """
+    A callback that draws plots for metrics
+    """
     def on_evaluate(self, args: TrainingArguments, state: TrainerState,
                     control: TrainerControl, **kwargs):
         """
@@ -83,18 +88,23 @@ class LossLoggingCallback(TrainerCallback):  # pylint: disable=too-few-public-me
 
 
 if __name__ == "__main__":
-    # MODEL_CHECKPOINT = "ai-forever/FRED-T5-large"
-    MODEL_CHECKPOINT = "cointegrated/ruT5-small"
+    train_config = load_train_config(ROOT_DIR / "model_training" / "train_config.json")
 
-    loaded_tokenizer = AutoTokenizer.from_pretrained(MODEL_CHECKPOINT)
+    loaded_tokenizer = AutoTokenizer.from_pretrained(train_config["model_checkpoint"])
     print(f"Using {type(loaded_tokenizer)}")
 
-    dataset = prepare_dataset(ROOT_DIR / "wiktionary_parser" / "data" / "definitions.jsonl")
+    dataset_dict = prepare_dataset(ROOT_DIR / train_config["dataset_path"])
 
-    tokenized_datasets = dataset.map(
+    if train_config.get("debug", False):
+        new_dataset_dict = {}
+        for split in dataset_dict:
+            new_dataset_dict[split] = dataset_dict[split].select(range(100))
+        dataset_dict = DatasetDict(new_dataset_dict)
+
+    tokenized_datasets = dataset_dict.map(
         lambda examples: preprocess_function(examples, loaded_tokenizer), batched=True)
 
-    model = AutoModelForSeq2SeqLM.from_pretrained(MODEL_CHECKPOINT)
+    model = AutoModelForSeq2SeqLM.from_pretrained(train_config["model_checkpoint"])
 
     if torch.cuda.is_available():
         model.to("cuda")
@@ -103,25 +113,28 @@ if __name__ == "__main__":
     else:
         model.to("cpu")
 
-    BATCH_SIZE = 4
-    model_name = MODEL_CHECKPOINT.rsplit('/', maxsplit=1)[-1]
+    model_name = train_config["model_checkpoint"].rsplit('/', maxsplit=1)[-1]
     arguments = Seq2SeqTrainingArguments(
         ROOT_DIR / "models" / f"{model_name}-definition-modeling",
-        learning_rate=2e-5,
-        per_device_train_batch_size=BATCH_SIZE,
-        per_device_eval_batch_size=BATCH_SIZE,
-        gradient_checkpointing=True,
-        gradient_accumulation_steps=4,
-        weight_decay=0.01,
-        optim="adafactor",
-        save_total_limit=3,
-        evaluation_strategy="epoch",
-        save_strategy="epoch",
-        num_train_epochs=10,
-        predict_with_generate=True,
-        fp16=False,
-        push_to_hub=False,
-        logging_strategy="epoch"
+        learning_rate=train_config["learning_rate"],
+        per_device_train_batch_size=train_config["batch_size"],
+        per_device_eval_batch_size=train_config["batch_size"],
+        gradient_checkpointing=train_config.get("gradient_checkpointing", False),
+        gradient_accumulation_steps=train_config.get("gradient_accumulation_steps", 1),
+        weight_decay=train_config.get("weight_decay", 0.01),
+        optim=train_config.get("optimizer", "adamw_torch"),
+        save_total_limit=train_config.get("save_total_limit", 3),
+        evaluation_strategy=train_config.get("evaluation_strategy", "epoch"),
+        save_strategy=train_config.get("save_strategy", "epoch"),
+        logging_strategy=train_config.get("logging_strategy", "epoch"),
+        save_steps=train_config.get("save_steps", 500),
+        logging_steps=train_config.get("logging_steps", 500),
+        eval_steps=train_config.get("eval_steps", 500),
+        num_train_epochs=train_config.get("num_train_epochs", 3),
+        max_steps=train_config.get("max_steps", -1),
+        predict_with_generate=train_config.get("predict_with_generate", False),
+        fp16=train_config.get("fp16", False),
+        push_to_hub=train_config.get("push_to_hub", False)
     )
 
     data_collator = DataCollatorForSeq2Seq(loaded_tokenizer, model=model)
@@ -138,7 +151,3 @@ if __name__ == "__main__":
     )
 
     trainer.train()
-
-    training_losses = trainer.state.log_history
-    for log in training_losses:
-        print(log)

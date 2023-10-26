@@ -3,11 +3,10 @@ from pathlib import Path
 
 import numpy as np
 import torch  # pylint: disable=import-error
-from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,  # pylint: disable=import-error
-                          DataCollatorForSeq2Seq, PreTrainedTokenizer,
-                          Seq2SeqTrainer, Seq2SeqTrainingArguments,
-                          TrainerCallback, TrainerControl, TrainerState,
-                          TrainingArguments)
+from transformers import (  # pylint: disable=import-error
+    AutoModelForSeq2SeqLM, AutoTokenizer, DataCollatorForSeq2Seq,
+    PreTrainedTokenizer, Seq2SeqTrainer, Seq2SeqTrainingArguments,
+    TrainerCallback, TrainerControl, TrainerState, TrainingArguments)
 
 from constants import ROOT_DIR
 from model_training.dataset_processing import prepare_dataset

@@ -170,3 +170,4 @@ Thumbs.db
 
 # Project
 models/
+wiktionary_parser/data/*xml.bz2

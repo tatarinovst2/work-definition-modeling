@@ -23,13 +23,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup FIPL environment
-        uses: fipl-hse/setup-env-action@v0.9
-      - name: Confirming everything is OK
-        run: |
-          ls -la venv
-          pip3 install -r requirements.txt
-          pip3 install -r requirements_ci.txt
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+      - name: Install dependencies
+        run: bash config/venv_setup.sh
 
   code-style:
     name: Code Style

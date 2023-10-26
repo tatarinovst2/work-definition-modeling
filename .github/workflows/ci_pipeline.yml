@@ -11,7 +11,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  REPOSITORY_TYPE: public
+  REPOSITORY_TYPE: private
   GITHUB_REPOSITORY: ${{ github.repository }}
   BRANCH_NAME: ${{ github.ref }}
 

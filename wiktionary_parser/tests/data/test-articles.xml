@@ -1,0 +1,229 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.10/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.10/ http://www.mediawiki.org/xml/export-0.10.xsd" version="0.10" xml:lang="ru">
+  <siteinfo>
+    <sitename>Викисловарь</sitename>
+    <dbname>ruwiktionary</dbname>
+    <base>https://ru.wiktionary.org/wiki/%D0%92%D0%B8%D0%BA%D0%B8%D1%81%D0%BB%D0%BE%D0%B2%D0%B0%D1%80%D1%8C:%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0</base>
+    <generator>MediaWiki 1.41.0-wmf.28</generator>
+    <case>case-sensitive</case>
+    <namespaces>
+      <namespace key="-2" case="case-sensitive">Медиа</namespace>
+      <namespace key="-1" case="first-letter">Служебная</namespace>
+      <namespace key="0" case="case-sensitive" />
+      <namespace key="1" case="case-sensitive">Обсуждение</namespace>
+      <namespace key="2" case="first-letter">Участник</namespace>
+      <namespace key="3" case="first-letter">Обсуждение участника</namespace>
+      <namespace key="4" case="case-sensitive">Викисловарь</namespace>
+      <namespace key="5" case="case-sensitive">Обсуждение Викисловаря</namespace>
+      <namespace key="6" case="case-sensitive">Файл</namespace>
+      <namespace key="7" case="case-sensitive">Обсуждение файла</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">Обсуждение MediaWiki</namespace>
+      <namespace key="10" case="case-sensitive">Шаблон</namespace>
+      <namespace key="11" case="case-sensitive">Обсуждение шаблона</namespace>
+      <namespace key="12" case="case-sensitive">Справка</namespace>
+      <namespace key="13" case="case-sensitive">Обсуждение справки</namespace>
+      <namespace key="14" case="case-sensitive">Категория</namespace>
+      <namespace key="15" case="case-sensitive">Обсуждение категории</namespace>
+      <namespace key="100" case="case-sensitive">Приложение</namespace>
+      <namespace key="101" case="case-sensitive">Обсуждение приложения</namespace>
+      <namespace key="102" case="case-sensitive">Конкорданс</namespace>
+      <namespace key="103" case="case-sensitive">Обсуждение конкорданса</namespace>
+      <namespace key="104" case="case-sensitive">Индекс</namespace>
+      <namespace key="105" case="case-sensitive">Обсуждение индекса</namespace>
+      <namespace key="106" case="case-sensitive">Рифмы</namespace>
+      <namespace key="107" case="case-sensitive">Обсуждение рифм</namespace>
+      <namespace key="710" case="case-sensitive">TimedText</namespace>
+      <namespace key="711" case="case-sensitive">TimedText talk</namespace>
+      <namespace key="828" case="case-sensitive">Модуль</namespace>
+      <namespace key="829" case="case-sensitive">Обсуждение модуля</namespace>
+      <namespace key="2300" case="case-sensitive">Гаджет</namespace>
+      <namespace key="2301" case="case-sensitive">Обсуждение гаджета</namespace>
+      <namespace key="2302" case="case-sensitive">Определение гаджета</namespace>
+      <namespace key="2303" case="case-sensitive">Обсуждение определения гаджета</namespace>
+    </namespaces>
+  </siteinfo>
+<page>
+    <title>четвертинный</title>
+    <ns>0</ns>
+    <id>2841278</id>
+    <revision>
+      <id>13157844</id>
+      <parentid>13157840</parentid>
+      <timestamp>2023-10-01T09:04:34Z</timestamp>
+      <contributor>
+        <username>Procyon lotor lotor</username>
+        <id>298007</id>
+      </contributor>
+      <minor />
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+      <text bytes="5900" xml:space="preserve">= {{-ru-}} =
+
+=== Морфологические и синтаксические свойства ===
+{{прил ru 1a
+|основа=четверти́нн
+|основа1=
+|тип=
+|слоги={{по-слогам|чет|вер|ти́н|ный}}
+|степень=
+|краткая=
+|коммент=
+|дореф=четвертинный
+}}
+
+
+{{морфо-ru|чет|-в-|-ерт|-ин|-н|+ый}}
+
+=== Произношение ===
+{{transcription-ru|четверти́нный}}{{transcription-ru||}}
+
+=== Семантические свойства ===
+
+==== Значение ====
+#  {{редк.|ru}} составляющий четвертую часть ([[четверть]]) от чего либо {{пример|Таким образом, к малоформатным печатным машинам можно отнести машины «{{выдел|четвертинных}}» форматов А3-В3.|Вячеслав Румянцев|Малоформатные листовые офсетные печатные машины
+|2008|источник=compuart.ru}}
+#  {{редк.|ru}} дважды свёрнутый {{пример|От теста отщипываем по небольшому кусочку, раскатываем из него кружок потоньше, толщиной примерно 3 мм., обмакиваем его одной стороной в тарелку с сахаром, складываем вдвое сахаром внутрь, снова обмакиваем и складываем по такому же принципу. Полученный в итоге {{выдел|четвертинный}} конвертик одной стороной снова обмакиваем в сахар и кладём на противень противоположной.|источник=cooktogether.ru}}
+
+==== Синонимы ====
+# [[четверичный]], [[четвертичный]]
+# ?
+
+==== Антонимы ====
+# {{помета|по признаку полноты}} [[целый]]
+# ?
+
+==== Гиперонимы ====
+# [[дробный]]
+# [[свёрнутый]]
+
+==== Гипонимы ====
+# —
+# —
+
+=== Родственные слова ===
+{{родств-блок
+|умласк=
+|уничиж=
+|увелич=
+|имена-собственные=
+|существительные=четвертина
+|прилагательные=
+|числительные=
+|местоимения=
+|глаголы=
+|наречия=
+|предикативы=
+|предлоги=
+|полн=
+}}
+
+=== Этимология ===
+Происходит от сущ. [[четвертина]], далее от числ. [[четвёртый]], из {{этимология:четвёртый}}
+
+=== Фразеологизмы и устойчивые сочетания ===
+*
+
+=== Перевод ===
+{{перев-блок|
+|az=&lt;!-- Азербайджанский--&gt;
+|sq=&lt;!-- Албанский--&gt;
+|am=&lt;!-- Амхарский --&gt;
+|en=&lt;!-- Английский--&gt;
+|ar=&lt;!-- Арабский--&gt;
+|hy=&lt;!-- Армянский--&gt;
+|af=&lt;!-- Африкаанс--&gt;
+|eu=&lt;!-- Баскский--&gt;
+|ba=&lt;!-- Башкирский--&gt;
+|be=&lt;!-- Белорусский--&gt;
+|bn=&lt;!-- Бенгали--&gt;
+|bg=&lt;!-- Болгарский--&gt;
+|bs=&lt;!-- Боснийский--&gt;
+|br=&lt;!-- Бретонский--&gt;
+|cy=&lt;!-- Валлийский--&gt;
+|hu=&lt;!-- Венгерский--&gt;
+|vi=&lt;!-- Вьетнамский--&gt;
+|gl=&lt;!-- Галисийский--&gt;
+|el=&lt;!-- Греческий--&gt;
+|ka=&lt;!-- Грузинский--&gt;
+|da=&lt;!-- Датский--&gt;
+|he=&lt;!-- Иврит--&gt;
+|yi=&lt;!-- Идиш--&gt;
+|io=&lt;!-- Идо--&gt;
+|id=&lt;!-- Индонезийский--&gt;
+|ia=&lt;!-- Интерлингва--&gt;
+|ga=&lt;!-- Ирландский--&gt;
+|is=&lt;!-- Исландский--&gt;
+|es=&lt;!-- Испанский--&gt;
+|it=&lt;!-- Итальянский--&gt;
+|kk=&lt;!-- Казахский--&gt;
+|krl=&lt;!-- Карельский--&gt;
+|ca=&lt;!-- Каталанский--&gt;
+|ky=&lt;!-- Киргизский--&gt;
+|zh-tw=&lt;!-- Китайский (традиц.)--&gt;
+|zh-woo=&lt;!-- Китайский (у) --&gt;
+|zh-cn=&lt;!-- Китайский (упрощ.)--&gt;
+|ko=&lt;!-- Корейский--&gt;
+|ku=&lt;!-- Курдский--&gt;
+|la=&lt;!-- Латинский--&gt;
+|lv=&lt;!-- Латышский--&gt;
+|lt=&lt;!-- Литовский--&gt;
+|mk=&lt;!-- Македонский--&gt;
+|ms=&lt;!-- Малайский--&gt;
+|ml=&lt;!-- Малаялам--&gt;
+|mr=&lt;!-- Маратхи--&gt;
+|mdf=&lt;!-- Мокшанский--&gt;
+|mn=&lt;!-- Монгольский--&gt;
+|de=&lt;!-- Немецкий--&gt;
+|nl=&lt;!-- Нидерландский--&gt;
+|no=&lt;!-- Норвежский--&gt;
+|os=&lt;!-- Осетинский--&gt;
+|pa=&lt;!-- Панджаби--&gt;
+|fa=&lt;!-- Персидский--&gt;
+|pl=&lt;!-- Польский--&gt;
+|pt=&lt;!-- Португальский--&gt;
+|ro=&lt;!-- Румынский--&gt;
+|sa=&lt;!-- Санскрит--&gt;
+|sr=&lt;!-- Сербский (кир)--&gt;
+|sr-l=&lt;!-- Сербский (лат)--&gt;
+|sk=&lt;!-- Словацкий--&gt;
+|sl=&lt;!-- Словенский--&gt;
+|slovio-c=&lt;!-- Словио (кир)--&gt;
+|slovio-l=&lt;!-- Словио (лат)--&gt;
+|cu-Cyrl=&lt;!-- Старославянский (кир)--&gt;
+|cu-Glag=&lt;!-- Старославянский (лат)--&gt;
+|tl=&lt;!-- Тагальский--&gt;
+|th=&lt;!-- Тайский--&gt;
+|ta=&lt;!-- Тамильский--&gt;
+|tt=&lt;!-- Татарский--&gt;
+|te=&lt;!-- Телугу--&gt;
+|art=&lt;!-- Токипона--&gt;
+|tr=&lt;!-- Турецкий--&gt;
+|tk=&lt;!-- Туркменский--&gt;
+|uz=&lt;!-- Узбекский--&gt;
+|uk=&lt;!-- Украинский--&gt;
+|ur=&lt;!-- Урду--&gt;
+|fi=&lt;!-- Финский--&gt;
+|fr=&lt;!-- Французский--&gt;
+|hi=&lt;!-- Хинди--&gt;
+|hr=&lt;!-- Хорватский--&gt;
+|cs=&lt;!-- Чешский--&gt;
+|cv=&lt;!-- Чувашский--&gt;
+|sv=&lt;!-- Шведский--&gt;
+|eo=&lt;!--Эсперанто--&gt;
+|et=&lt;!--Эстонский--&gt;
+|jv=&lt;!--Яванский--&gt;
+|sah=&lt;!--Якутский--&gt;
+|ja=&lt;!--Японский--&gt;
+}}
+
+=== Библиография ===
+*
+
+{{improve|ru|??}}
+
+{{Категория|язык=ru|||}}
+{{длина слова|12|lang=ru}}</text>
+      <sha1>aafielx5ur7463hiear0e8fhjf2ulbe</sha1>
+    </revision>
+  </page>
+</mediawiki>

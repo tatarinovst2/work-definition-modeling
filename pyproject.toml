@@ -1,0 +1,17 @@
+[tool.pytest.ini_options]
+markers = [
+    "wiktionary_parser",
+    "model_training"
+]
+
+[tool.coverage.run]
+omit = [
+    "*__init__.py",
+    "*_test.py"
+]
+
+[[tool.mypy.overrides]]
+module = ["wiktionary_parser/*", "model_training/*"]
+disable_error_code = [
+    'import-untyped'
+]

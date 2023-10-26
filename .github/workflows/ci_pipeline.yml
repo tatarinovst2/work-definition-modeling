@@ -38,11 +38,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup FIPL environment
-        uses: fipl-hse/setup-env-action@v0.9
+      - name: Setup environment
+        uses: actions/setup-env-action@v0.9
       - name: Code Style
         run: |
-          bash config/run_pylint.sh
+          bash config/pylint/run_pylint.sh
 
   mypy-checks:
     name: Mypy checks
@@ -52,8 +52,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup FIPL environment
-        uses: fipl-hse/setup-env-action@v0.9
+      - name: Setup environment
+        uses: actions/setup-env-action@v0.9
       - name: MyPy check
         run: |
           bash config/run_mypy.sh
@@ -66,8 +66,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup FIPL environment
-        uses: fipl-hse/setup-env-action@v0.9
+      - name: Setup environment
+        uses: actions/setup-env-action@v0.9
       - name: Run tests
         run: |
           bash config/run_tests.sh
@@ -82,10 +82,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup FIPL environment
-        uses: fipl-hse/setup-env-action@v0.9
+      - name: Setup environment
+        uses: actions/setup-env-action@v0.9
       - name: Run start
-        if: ${{ env.REPOSITORY_TYPE == 'admin' }}
         run: |
           bash config/run_coverage.sh
 
@@ -99,10 +98,9 @@ jobs:
       - name: Install Aspell
         run: |
           sudo apt-get install aspell aspell-en aspell-ru
-      - name: Setup FIPL environment
-        uses: fipl-hse/setup-env-action@v0.9
+      - name: Setup environment
+        uses: actions/setup-env-action@v0.9
       - name: Spell check
-        if: ${{ env.REPOSITORY_TYPE == 'admin' }}
         run: |
           bash config/spellcheck/run_spellcheck.sh
 
@@ -114,8 +112,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup FIPL environment
-        uses: fipl-hse/setup-env-action@v0.9
+      - name: Setup environment
+        uses: actions/setup-env-action@v0.9
       - name: Flake8 check
         run: |
           bash config/flake8/run_flake8.sh
@@ -128,10 +126,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup FIPL environment
-        uses: fipl-hse/setup-env-action@v0.9
+      - name: Setup environment
+        uses: actions/setup-env-action@v0.9
       - name: Pymarkdownlnt check
-        if: ${{ env.REPOSITORY_TYPE == 'admin' }}
         run: |
           bash config/pymarkdownlnt/run_pymarkdownlnt.sh
 
@@ -143,9 +140,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - name: Setup FIPL environment
-        uses: fipl-hse/setup-env-action@v0.9
+      - name: Setup environment
+        uses: actions/setup-env-action@v0.9
       - name: Dependencies check
-        if: ${{ env.REPOSITORY_TYPE == 'admin' }}
         run: |
           bash config/run_requirements_check.sh

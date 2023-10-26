@@ -19,7 +19,7 @@ jobs:
   install-dependencies:
     name: Installing dependencies
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
 
     steps:
       - uses: actions/checkout@v3

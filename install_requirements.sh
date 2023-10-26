@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Install packages from requirements.txt
 pip3 install -r requirements.txt
+pip3 install -r requirements_train.txt
 
 # Install CUDA-enabled PyTorch
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121

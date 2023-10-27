@@ -40,5 +40,5 @@ matrix:
       docstrings: true
       comments: false
   sources:
-  - '*.py'
+  - '**/*.py'
   default_encoding: utf-8

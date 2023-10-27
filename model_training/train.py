@@ -10,10 +10,10 @@ from transformers import (  # pylint: disable=import-error
     Seq2SeqTrainingArguments, TrainerCallback, TrainerControl, TrainerState,
     TrainingArguments)
 
-from constants import ROOT_DIR
-from dataset_processing import prepare_dataset
-from metrics import get_bleu_score, get_rouge_score
-from utils import (load_train_config, plot_metric,
+from model_training.constants import ROOT_DIR
+from model_training.dataset_processing import prepare_dataset
+from model_training.metrics import get_bleu_score, get_rouge_score
+from model_training.utils import (load_train_config, plot_metric,
                                   plot_training_and_test_loss)
 
 

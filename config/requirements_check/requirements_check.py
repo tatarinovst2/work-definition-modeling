@@ -5,7 +5,8 @@ import re
 import sys
 from pathlib import Path
 
-from constants import ROOT_DIR
+
+ROOT_DIR = Path(__file__).parent.parent.parent
 
 
 def get_paths() -> list[Path]:

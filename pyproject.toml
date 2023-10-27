@@ -14,5 +14,5 @@ omit = [
 module = ["wiktionary_parser/*", "model_training/*"]
 disable_error_code = [
     'import-untyped',
-    'ignore_missing_imports'
+    'import-not-found'
 ]

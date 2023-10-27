@@ -2,6 +2,7 @@ coverage==7.3.2
 flake8-isort==6.1.0
 flake8==6.1.0
 mypy==1.6.1
+pandas-stubs==2.1.1.230928
 pylint==3.0.2
 pymarkdownlnt==0.9.13.4
 pymdown-extensions==10.3.1

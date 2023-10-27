@@ -13,11 +13,6 @@ omit = [
 [[tool.mypy.overrides]]
 module = ["wiktionary_parser/*", "model_training/*"]
 disable_error_code = [
-    'import-untyped'
-]
-
-[[tool.mypy.overrides]]
-module = ["model_training/*"]
-disable_error_code = [
+    'import-untyped',
     'ignore_missing_imports'
 ]

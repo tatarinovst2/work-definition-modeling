@@ -40,5 +40,6 @@ matrix:
       docstrings: true
       comments: false
   sources:
-  - '**/*.py'
+  - 'model_training/*.py'
+  - 'wiktionary_parser/*.py'
   default_encoding: utf-8

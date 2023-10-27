@@ -8,7 +8,7 @@ echo 'Running mypy check...'
 
 configure_script
 
-python3 -m mypy *.py wiktionary_parser model_training
+python3 -m mypy wiktionary_parser model_training
 
 check_if_failed
 

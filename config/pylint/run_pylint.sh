@@ -8,6 +8,6 @@ echo 'Running lint check...'
 
 configure_script
 
-python3 -m pylint --rcfile config/pylint/.pylintrc *.py config wiktionary_parser model_training
+python3 -m pylint --rcfile config/pylint/.pylintrc config wiktionary_parser model_training
 
 check_if_failed

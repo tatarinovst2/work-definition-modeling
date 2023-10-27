@@ -4,6 +4,7 @@ import json
 import re
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from typing import TypedDict
 
 import wikitextparser as wtp
 
@@ -19,6 +20,15 @@ TAGS: dict[str, str] = {
 }
 
 ARTICLE_NAMESPACE: str = "0"
+
+
+class TemplateDict(TypedDict):
+    """
+    A dictionary corresponding to templates in wikitextparser
+    """
+    text: str
+    start_index: int
+    end_index: int
 
 
 def parse_dump(input_filepath: str | Path, output_filepath: str | Path) -> None:
@@ -42,15 +52,26 @@ def process_element(element: ET.Element, output_filepath: str | Path) -> None:
     :param output_filepath: str | Path - the path to the output jsonl file.
     :return: None
     """
-    if element.find(TAGS["namespace"]) is None or element.find(TAGS["id"]) is None \
-        or element.find(TAGS["title"]) is None or element.find(TAGS["text"]) is None:
-        return
-    if not "page" in element.tag or element.find(TAGS["namespace"]).text != ARTICLE_NAMESPACE:
+    namespace_element = element.find(TAGS["namespace"])
+    if namespace_element is None:
         return
 
-    element_id: int = int(element.find(TAGS["id"]).text)
-    title: str = element.find(TAGS["title"]).text
-    wiki: str = element.find(TAGS["text"]).text
+    if not "page" in element.tag or namespace_element.text != ARTICLE_NAMESPACE:
+        return
+
+    id_element = element.find(TAGS["id"])
+    title_element = element.find(TAGS["title"])
+    wiki_element = element.find(TAGS["text"])
+
+    if id_element is None or title_element is None or wiki_element is None:
+        return
+
+    if id_element.text is None or title_element.text is None or wiki_element.text is None:
+        return
+
+    identifier: int = int(id_element.text)
+    title: str = title_element.text
+    wiki: str = wiki_element.text
 
     definitions = parse_wiki(wiki)
     if not definitions:
@@ -58,7 +79,7 @@ def process_element(element: ET.Element, output_filepath: str | Path) -> None:
 
     with open(output_filepath, "a", encoding="utf-8") as output_file:
         output_file.write(json.dumps(
-            {"id": element_id, "title": title, "definitions": definitions},
+            {"id": identifier, "title": title, "definitions": definitions},
             ensure_ascii=False) + "\n")
 
 
@@ -96,7 +117,7 @@ def replace_templates_in_definition(text: str) -> str:
     :param text: str - the definition text to replace templates in.
     :return: str - the definition text with replaced templates.
     """
-    def get_template(text: str, template_start: str) -> dict[str, str | int] | None:
+    def get_template(text: str, template_start: str) -> TemplateDict | None:
         """
         Gets the template from the text.
         :param text: str - the text to get the template from.
@@ -135,7 +156,13 @@ def replace_templates_in_definition(text: str) -> str:
 
         template_text = text[start_index + len(template_start): end_index]
 
-        return {"text": template_text, "start_index": start_index, "end_index": end_index}
+        result_dict: TemplateDict = {
+            "text": template_text,
+            "start_index": start_index,
+            "end_index": end_index
+        }
+
+        return result_dict
 
     templates_to_replace = ["{{t:=|", "{{помета|", "{{===|"]
 

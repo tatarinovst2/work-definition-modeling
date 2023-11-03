@@ -15,7 +15,7 @@ if [[ -z "${directories}" ]]; then
   exit 0
 fi
 
-coverage run -m pytest "${directories}"
+coverage run -m pytest ${directories}
 coverage report
 
 check_if_failed

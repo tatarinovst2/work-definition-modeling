@@ -14,8 +14,7 @@ directories=$(get_project_directories)
 
 for directory in $directories; do
   python3 -m pymarkdown --config config/pymarkdownlnt/.pymarkdownlnt.json scan "${directory}"
+  check_if_failed
 done
-
-check_if_failed
 
 echo "Pymarkdownlnt check passed."

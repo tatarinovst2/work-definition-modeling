@@ -22,8 +22,8 @@ def get_requirements(path: str | Path) -> list:
     :param path: Path to requirements file
     :return: List of dependencies
     """
-    with path.open(encoding='utf-8') as f:
-        lines = f.readlines()
+    with open(path, 'r', encoding='utf-8') as requirements_file:
+        lines = requirements_file.readlines()
     return [line.strip() for line in lines if line.strip()]
 
 

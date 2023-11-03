@@ -14,8 +14,8 @@ directories=$(get_project_directories)
 
 for directory in $directories; do
   python3 -m flake8 --config ./config/flake8/.flake8 "${directory}"
-done
 
-check_if_failed
+  check_if_failed
+done
 
 echo "Flake8 check passed."

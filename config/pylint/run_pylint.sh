@@ -14,8 +14,7 @@ directories=$(get_project_directories)
 
 for directory in $directories; do
   python3 -m pylint --rcfile config/pylint/.pylintrc "${directory}"
+  check_if_failed
 done
-
-check_if_failed
 
 echo "Lint check passed."

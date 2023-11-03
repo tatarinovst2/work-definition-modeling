@@ -18,3 +18,8 @@ check_if_failed() {
     echo "Check passed."
   fi
 }
+
+get_project_directories() {
+  local directories=()
+  echo ${directories[@]}
+}

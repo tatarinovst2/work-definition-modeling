@@ -8,7 +8,9 @@ echo 'Running mypy check...'
 
 configure_script
 
-python3 -m mypy wiktionary_parser model_training
+directories=$(get_project_directories)
+
+python3 -m mypy "${directories}"
 
 check_if_failed
 

@@ -10,3 +10,5 @@ configure_script
 python3 config/newline_check/newline_check.py
 
 check_if_failed
+
+echo "Newline check passed."

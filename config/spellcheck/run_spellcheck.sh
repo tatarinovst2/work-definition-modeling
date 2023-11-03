@@ -11,3 +11,5 @@ configure_script
 python3 -m pyspelling -c config/spellcheck/.spellcheck.yaml -v
 
 check_if_failed
+
+echo "Spellcheck passed."

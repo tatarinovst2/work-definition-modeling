@@ -8,7 +8,9 @@ echo 'Running coverage check...'
 
 configure_script
 
-coverage run -m pytest "wiktionary_parser" "model_training"
+directories=$(get_project_directories)
+
+coverage run -m pytest "${directories}"
 coverage report
 
 check_if_failed

@@ -75,23 +75,6 @@ jobs:
         run: |
           bash config/run_tests.sh
 
-  coverage:
-    name: Coverage
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    needs: [ unittests ]
-    env:
-      PR_NAME: ${{ github.event.pull_request.title }}
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Setup environment
-        run: |
-          bash config/venv_setup.sh
-      - name: Run start
-        run: |
-          bash config/run_coverage.sh
-
   spellcheck:
     name: Spellcheck
     runs-on: ubuntu-latest
@@ -153,3 +136,50 @@ jobs:
       - name: Dependencies check
         run: |
           bash config/requirements_check/run_requirements_check.sh
+
+  docstring-style-checks:
+    name: Docstring style checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    needs: [ install-dependencies ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup environment
+        run: |
+          bash config/venv_setup.sh
+      - name: Docstring style checks
+        run: |
+          bash config/docstrings_check/run_docstrings_check.sh
+
+  newline-check:
+    name: Newline check
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    needs: [ install-dependencies ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup environment
+        run: |
+          bash config/venv_setup.sh
+      - name: Newline check
+        run: |
+          bash config/newline_check/run_newline_check.sh
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [ unittests ]
+    env:
+      PR_NAME: ${{ github.event.pull_request.title }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup environment
+        run: |
+          bash config/venv_setup.sh
+      - name: Run start
+        run: |
+          bash config/run_coverage.sh

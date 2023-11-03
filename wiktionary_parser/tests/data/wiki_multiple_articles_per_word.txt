@@ -67,299 +67,27 @@
 
 === Перевод ===
 {{перев-блок|приспособление для запирания и отпирания замка
-|abq=[[цӏапхатӏыга]]
-|ab=[[ацаԥха]]
-|av=[[кӏул]]
-|ave=
-|agh=
-|aja=
-|ady=[[ӏункӏыбз]]
-|az=[[açar]]
-|ay=[[llawi]]
-|ain=
-|ain.kana=
-|ain.lat=
-|akz=[[istafinapka]]
-|sq=[[çelës]]
-|als=
-|ale=
-|alt=[[тӱлкӱӱр]]
-|am=[[መፍቻ]] (mäfča); [[ቁልፍ]] (ḳulf)
-|en=[[key]]
-|ar=[[مفتاح]] (miftāḥ)
-|an=
-|arc.jud=
-|arc.syr=
-|arn=
-|hy=[[բանալի]] (banali)
-|rup=[[cljao]]
-|asm=[[চাবি]] (čābi)
-|ast=[[llave]]
-|af=[[sleutel]]
-|bar=
-|bm=
-|eu=[[giltza]]
-|ba=[[асҡыс]]
-|be=[[ключ#|ключ]] {{m}}
-|bn=[[চাবি]] (čābi)
-|bg=[[ключ#|ключ]] {{m}}
-|bs=
-|br=[[alc'houez]] {{m}}; [[alc’hwez]]
-|bua=[[түлхюур]]
-|cy=[[allwedd]]
-|wa=[[clé]]
-|hu=[[kulcs]]
-|vep=[[avadim]]
-|hsb=[[kluč]]
-|vot=
-|vo=[[kik]]
-|wo=[[doom]]; [[caabi]]
-|stq=[[Koai]]
-|vro=
-|vi=[[chìa]], [[chìa khóa]]; [[hòn đảo nhỏ]]
-|gag=[[anatar]]
-|haw=[[kī]]
-|ht=[[kle]]
-|gl=[[chave]]
-|ze=
-|kl=[[matuersaat]]
-|el=[[κλειδί]]
-|ka=[[გასაღები]] (gasaġebi)
-|gn=[[okẽndavoka]]
-|gu=[[ચાવી]] (čāvī)
-|gd=[[iuchair]]
-|dar=[[умхьу]]
-|prs=[[کلید]] (kalīd)
-|da=[[nøgle]]
-|dv=[[ތަޅުދަނޑި]] (taḷudaṅḋi)
-|ang=
-|grc=[[κλείς]]
-|sms=
-|zza=[[mıfte]]
-|zu=[[isikhiye]]; [[isihluthulelo]]
-|he=[[מפתח]] (mafteaḥ)
-|ibo=[[ìgòdó]]
-|yi=[[שליסל]] (šlisl)
-|io=
-|inh=[[дӏоагӏа]]
-|id=[[kunci]]
-|ia=
-|iu=[[ᑮ]] (kii)
-|ik=
-|ga=[[eochair]]
-|is=[[lykill]]
-|es=[[llave]] {{f}}, [[clave]] {{f}}
-|it=[[chiave]] {{f}}
-|yo=[[kó̩kó̩ró̩]] (kökörö); o̩mo̩ ìs̩íkà (ômô ìÿíkà); o̩mo̩ àgàdàgodo; ìtumò̩ (ìtumõ)
-|kbd=[[ӏункӏыбзэӏух]]
-|kab=[[tasarut]]
-|kk=[[кілт]]
-|xal=[[түлкүр]]
-|kn=[[ಕೀಲಿಕೈ]] (kīlikai); [[ಚಾವಿ]] (čāvi)
-|kaa=[[gilt]]
-|krc=[[ачхыч]]
-|krl=[[avain]]
-|ca=[[clau]]
-|csb=[[klucz]]
-|qu=[[qapcha]]
-|ky=[[ачкыч]]; [[килит]]
-|zh=
-|zh-tw=[[鑰匙]]
-|zh-cn=[[钥匙]] (yàoshi)
-|kom=[[восьтан]]
-|koi=[[восьтан]]
-|kok=[[बिगाथु]] (bigātʰu)
-|kw=[[alhwedh]]; [[alwhedh]]
-|ko=[[열쇠]] (yeolsoe)
-|co=[[chjave]]
-|xh=[[isitshixo]]
-|crh=[[anahtar]]
-|kum=[[ачгъыч]]
-|ku=[[kilît]]; [[enextar]]
-|ckb=[[کەلیل]] (kelîl)
-|km=[[ចំណុចសោរ]] (čaṃṇaučasōr)
-|lad=[[ייאבﬞי]] ([[yave]])
-|lzz=[[კილა]] (k’ila)
-|lkt=[[iyúšloke]]
-|lbe=[[кӏула]]
-|lo=[[ຂໍກະແຈ]] (kʰaṃkačǣ)
-|ltg=[[atslāgs]]
-|la=[[clavis]] {{f}}
-|lez=[[куьлег]]
-|lv=[[atslēga]]
-|li=[[sjleutel]]
-|ln=
-|lt=[[raktas]] {{m}}
-|lb=[[Schlëssel]]
-|mk=[[клуч]]
-|mg=[[fanalahidy]]; [[lakile]]
-|ms=[[kunci]]
-|ml=[[താക്കോൽ]] (tākkōl)
-|mt=[[ċavetta]]
-|mi=[[kī]]
-|mr=[[चावी]] (čāvī); [[किल्ली]] (killi)
-|chm=[[сравоч]]
-|mdf=[[панжема]]
-|mo=[[кее]]
-|mn=[[түлхүүр]]
-|gv=[[çhiooney]]; [[ogher]] {{f}}
-|nv=
-|gld=[[анако]]
-|nah=[[tlahtlapoaloni]]
-|na=
-|nio=
-|new=
-|nap=
-|de=[[Schlüssel]] {{m}} -s, =
-|yrk=[[ключ#|ключ]]; [[пакла’ма]]; [[нэмбабць’]]
-|ne=[[चाबी]] (cābī)
-|nl=[[sleutel]]
-|dsb=[[kluc]]
-|nds=[[Slötel]]
-|nov=[[klefe]]
-|no=[[nøkkel]]
-|roa-nor=[[cllé]]
-|oc=[[clau]]
-|os=[[дӕгъӕл]]
-|ota=[[آناختار]] (ānāḫtār)
-|pi=[[kuñchikā]]
-|pa=[[ਕੁੰਜੀ]] (kũjī)
-|pap=
-|fa=[[کلید]] (kalid)
-|pl=[[klucz]] {{m}}
-|pt=[[chave]] {{f}}
-|ps=[[کلي]] (kəlī)
-|pms=
-|rap=
-|rm=[[clav]]
-|ro=[[cheie]]
-|sjd=[[ло̄һк-чуэввт]]
-|sm=
-|sa=[[कुन्चिका]] (kuncikā)
-|sc=[[crai]]
-|se=[[čoavdda]]
-|sr=[[кључ]]
-|sr-l=
-|szl=[[kluč]]
-|si=[[යතුර]] (yatura)
-|sd=[[ڪُنجيِ]] (kunjī)
-|scn=[[chiavi]]
-|sk=[[kľúč]]
-|sl=[[ključ]]
-|slovio-c=[[клуч]]
-|slovio-l=[[klucx]]
-|so=[[fure]]
-|cu-Cyrl=
-|cu-Glag=
-|sw=[[ufunguo]]
-|su=
-|tab=[[жюлег]]; [[бурма]]
-|tl=[[susi]]
-|tg=[[калид]]
-|ty=[[tāviri]]
-|th=[[ลูกกุญแจ]] (lūkkunčǣ)
-|ta=[[சாவி]] (cāvi)
-|tt=[[ачкыч]]
-|tt.cyr=
-|tt.lat=
-|ttt=[[очор]]
-|te=[[తాళంచెవి]] (tāḷaṃčevi); [[బీగంచెవి]] (bīgaṃčevi)
-|tet=
-|bo=[[ལྡེ་མིག།]] (lde.mig)
-|tir=[[መፍትሕ]] (mäftəḥ)
-|art=
-|tpi=
-|kim=
-|tn=
-|tyv=[[дүлгүүр]]
-|tr=[[anahtar]]
-|tk=[[açar]]
-|udm=[[усьтон]]
-|ug=[[ئاچقۇچ]] (achquch, [[ачқуч]])
-|uz=[[kalit]]
-|uk=[[ключ#|ключ]] {{m}}
-|ur=[[چابی]] (čābī)
-|fo=[[lykil]] {{m}}
-|fi=[[lykil]]; [[avain]]
-|fr=[[clé]] {{f}}, [[clef]] {{f}}
-|fy=[[kaai]]
-|fur=[[clâf]]
-|kjh=[[клӱс]]
-|ha=[[mabuɗi]]
-|hi=[[चाभी]] (čābʰī)
-|hr=[[ključ]] {{m}}
-|rom=[[клыдын]]
-|ch=[[yabi]]
-|chr=[[ᏍᏗᎢᏍᏗ]] (sdiisdi)
-|ce=[[догӏа]]
-|cs=[[klíč]]
-|cv=[[ҫӑраҫҫи]]
-|sv={{t|sv|nyckel|c}}
-|xsr=[[लिमी]] (limī)
-|cjs=
-|sco=[[key]]
-|ewe=
-|evn=[[ключ#|ключ]]; [[килук]]
-|eve=[[килич]]
-|myv=[[панжома]]
-|eo=[[ŝlosilo]]
-|et=[[võti]]
-|yua=[[ch’otob]]
-|jv=
-|sah=[[күлүүс тыла]]
 |ja=[[鍵]] （[[かぎ]], kagi）
 }}
 
 {{перев-блок|инструмент для отвинчивания
 |en=[[wrench]], [[spanner]], [[screw wrench]], ''заводной'' [[winder]]
-|es=[[llave de tuerca]]
-|it=[[chiave]] {{f}}
-|de=[[Schraubenschlüssel]] {{m}} -s, =
-|nl=[[sleutel]]
-|uk=ключ {{m}}
-|fr=[[clef]]
-|hr=[[ključ]] {{m}}
-|sv={{t|sv|nyckel|c}}, {{t|sv|skruvnyckel|c}}
-|eo={{term|boltilo|lang=eo}}
-|fr=[[clef à mollet]] {{f}}
 }}
 
 {{перев-блок|~ для настройки
 |uk=ключ {{m}}
-|hr=[[ključ]] {{m}}
-|eo=[[agordilo]]
 }}
 
 {{перев-блок|подсказка
 |en=[[clue]], [[key]]; [[hint]]
-|es=[[consejo]] ''el''
-|it=[[consiglio]] ''il'', [[suggerimento]] ''il''
-|de=[[Tip]] (''новое правоп.'' Tipp) {{m}} -s, -s
-|nl=[[tip]], [[aanwijzing]]
-|uk=ключ {{m}}
-|hr=[[ključ]] {{m}}
-|sv={{t|sv|nyckel|c}}, {{t|sv|ledtråd|c}}, {{t|sv|lösning|c}}
 }}<!-- |eo=[[ŝlosilo]]? -->
 
 {{перев-блок|музыкальный знак
 |en=[[clef]], [[key]]
-|es=[[clave]] ''la''
-|it=[[chiave]] {{f}}
-|de=[[Notenschlüssel]] {{m}} -s, =, ''скрипичный'' [[G-Schlüssel]] {{m}} -s, =, ''басовый'' [[F-Schlüssel]] {{m}} -s, =\
-|uk=ключ {{m}}
-|fi=[[nuottiavain]]
-|fr=[[clé]] {{f}}
-|hr=[[ključ]] {{m}}
-|nl=[[sleutel]]
-|sv={{t|sv|klav|c}}
 }}<!-- |eo=[[kleo]]? http://www.reta-vortaro.de/revo/art/kle.html -->
 
 {{перев-блок|~ иероглифа
 |en=[[radical]]
-|zh=[[部首]]
-|ko=[[부수]]
-|de=[[Radikal]]
-|pl=[[klucz]]
 |ja=[[部首]]
 }}
 
@@ -416,17 +144,6 @@
 === Родственные слова ===
 {{родств-блок
 |умласк=
-|уничиж=
-|увелич=
-|имена-собственные=
-|существительные=
-|прилагательные=ключевой
-|числительные=
-|местоимения=
-|глаголы=
-|наречия=
-|предикативы=
-|предлоги=
 |полн=
 }}
 
@@ -439,18 +156,6 @@
 === Перевод ===
 {{перев-блок|источник
 |en=[[spring]], [[source]]
-|es=[[fuente]] {{f}}, [[manantial]] {{f}}
-|it=[[sorgente]] {{f}}, fonte]] {{f}}
-|de=[[Quelle]] {{f}} =, -n
-|nl=[[bron]]
-|pt=[[fonte]]
-|tt=[[чишмә]], [[кизләү]]
-|uk=ключ {{m}}, [[джерело]] {{n}}
-|fi=[[lähde]]
-|fr=[[fontaine]] {{f}}, [[source]] {{f}}
-|hr=[[vrelo]] {{n}}
-|sv=[[källa]]
-|eo=[[fonto]]
 |ja=[[泉]] ([[いずみ]], izumi)
 }}
 

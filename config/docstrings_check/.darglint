@@ -1,0 +1,5 @@
+[darglint]
+docstring_style=sphinx
+
+[darglint]
+strictness=short

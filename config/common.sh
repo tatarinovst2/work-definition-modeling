@@ -20,6 +20,6 @@ check_if_failed() {
 }
 
 get_project_directories() {
-  local directories=()
+  local directories=('wiktionary_parser')
   echo ${directories[@]}
 }

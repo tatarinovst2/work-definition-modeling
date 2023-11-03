@@ -1,0 +1,79 @@
+{
+  "templates_to_remove":
+          ["ru", "помета", "семантика"],
+  "mappings": [
+    {
+      "title_index": 0,
+      "title": "соотн.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": "связанный, соотносящийся по значению со словом "
+    },
+    {
+      "title_index": 0,
+      "title": "аббр.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3
+    },
+    {
+      "title_index": 0,
+      "title": "аббр.",
+      "description_indexes": [
+        2, 3
+      ],
+      "arguments_count": 4
+    },
+    {
+      "title_index": 0,
+      "title": "помета",
+      "description_indexes": [
+        1
+      ]
+    },
+    {
+      "title_index": 1,
+      "title": "ru",
+      "description_indexes": [
+        0
+      ]
+    },
+    {
+      "title_index": 0,
+      "title": "t:=",
+      "description_indexes": [
+        1
+      ],
+      "starting_text": "то же, что "
+    },
+    {
+      "title_index": 0,
+      "title": "пример",
+      "description_indexes": [
+        1
+      ]
+    },
+    {
+      "title_index": 0,
+      "title": "-",
+      "description_indexes": [
+        0
+      ],
+      "starting_text": " ",
+      "ending_text": " ",
+      "arguments_count": 1
+    },
+    {
+      "title_index": 0,
+      "title": "действие",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": "действие по значению глагола "
+    }
+  ]
+}

@@ -23,3 +23,8 @@ disable_error_code = [
     'import-untyped',
     'import-not-found'
 ]
+
+[tool.mypy]
+exclude = [
+    'venv'
+]

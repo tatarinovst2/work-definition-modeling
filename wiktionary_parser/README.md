@@ -9,7 +9,8 @@ It extracts the following information from the XML dump:
 * Examples of usage for each meaning (e.g. "Девочка прыгает на дворе со скакалкой.")
 
 Example of the output for a page:
-```
+
+```json lines
 {
     "id": 1643, 
     "title": "прыгать",
@@ -36,18 +37,21 @@ You don't need to unpack it, the parser will do it for you.
 ### 3. Configure the `wiktionary_parser_config.py` file
 
 You can specify the following parameters:
-- `templates_to_remove` - templates to remove from the text.
-For example, if you want to remove the template `{{помета|...}}`, 
+
+* `templates_to_remove`- templates to remove from the text.
+
+For example, if you want to remove the template `{{помета|...}}`,
 you should add the following line: `"помета"`.
-- `mappings` - each dictionary in this list has instructions on how to parse a specific template.
+
+* `mappings` - each dictionary in this list has instructions on how to parse a specific template.
 
 Template is a string that could look like this: `{{template_name|argument1|argument2|...}}`.
 Each argument is separated by `|`.
 
-For example, if you want to parse the template `{{действие|...|плавать}}`, 
+For example, if you want to parse the template `{{действие|...|плавать}}`,
 you should add the following dictionary:
 
-```
+```json lines
 {
     "title_index": 0,
     "title": "действие",
@@ -61,7 +65,7 @@ you should add the following dictionary:
 
 where `title_index` is the index of the title argument (0 in this case),
 
-`title` is the title of the template, 
+`title` is the title of the template,
 
 `description_indexes` is the list of indexes of the description arguments,
 they will be concatenated to form the text representation of the template,
@@ -76,7 +80,8 @@ they will be concatenated to form the text representation of the template,
 
 Open the terminal or the command line in the root directory of the project
 and run the following command:
-```
+
+```bash
 python3 -m wiktionary_parser.run_parser
 ```
 

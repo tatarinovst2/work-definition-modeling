@@ -7,7 +7,7 @@ echo "Check requirements files"
 
 configure_script
 
-python config/requirements_check/requirements_check.py
+python3 config/requirements_check/requirements_check.py
 
 check_if_failed
 

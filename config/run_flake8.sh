@@ -8,12 +8,12 @@ echo 'Running flake8 check...'
 
 configure_script
 
-python3 -m flake8 --config ./config/flake8/.flake8 config
+python3 -m flake8 config
 
 directories=$(get_project_directories)
 
 for directory in $directories; do
-  python3 -m flake8 --config ./config/flake8/.flake8 "${directory}"
+  python3 -m flake8 "${directory}"
 
   check_if_failed
 done

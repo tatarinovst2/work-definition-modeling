@@ -8,12 +8,12 @@ echo 'Running pymarkdownlnt check...'
 
 configure_script
 
-python3 -m pymarkdown --config config/pymarkdownlnt/.pymarkdownlnt.json scan *.md
+python3 -m pymarkdown scan *.md
 
 directories=$(get_project_directories)
 
 for directory in $directories; do
-  python3 -m pymarkdown --config config/pymarkdownlnt/.pymarkdownlnt.json scan "${directory}"
+  python3 -m pymarkdown scan "${directory}"
   check_if_failed
 done
 

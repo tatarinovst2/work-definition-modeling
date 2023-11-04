@@ -6,8 +6,7 @@ from pathlib import Path
 
 import wikitextparser as wtp
 
-from wiktionary_parser.template_parsing import (load_config,
-                                                pop_templates_in_text,
+from wiktionary_parser.template_parsing import (load_config, pop_templates_in_text,
                                                 replace_templates_in_text)
 from wiktionary_parser.utils import clean_text
 

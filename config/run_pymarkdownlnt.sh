@@ -14,6 +14,7 @@ directories=$(get_project_directories)
 
 for directory in $directories; do
   python3 -m pymarkdown scan "${directory}"
+
   check_if_failed
 done
 

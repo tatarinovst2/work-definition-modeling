@@ -23,4 +23,5 @@ tokenizer
 wikitext
 wikitextparser
 wiktionary
+wordlist
 wtp

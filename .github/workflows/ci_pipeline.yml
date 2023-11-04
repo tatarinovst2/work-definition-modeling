@@ -102,7 +102,7 @@ jobs:
           bash config/venv_setup.sh
       - name: Flake8 check
         run: |
-          bash config/flake8/run_flake8.sh
+          bash config/run_flake8.sh
 
   pymarkdownlnt-checks:
     name: Pymarkdownlnt checks
@@ -147,7 +147,7 @@ jobs:
           bash config/venv_setup.sh
       - name: Docstring style checks
         run: |
-          bash config/docstrings_check/run_docstrings_check.sh
+          bash config/run_docstrings_check.sh
 
   newline-check:
     name: Newline check

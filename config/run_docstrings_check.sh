@@ -8,13 +8,13 @@ echo 'Running docstring style check...'
 
 configure_script
 
-pydocstyle --config ./config/docstrings_check/.pydocstyle config
+pydocstyle config
 darglint -s sphinx -z short config
 
 directories=$(get_project_directories)
 
 for directory in $directories; do
-  pydocstyle --config ./config/docstrings_check/.pydocstyle "${directory}"
+  pydocstyle "${directory}"
   check_if_failed
 
   darglint -s sphinx -z short "${directory}"

@@ -117,7 +117,7 @@ jobs:
           bash config/venv_setup.sh
       - name: Pymarkdownlnt check
         run: |
-          bash config/pymarkdownlnt/run_pymarkdownlnt.sh
+          bash config/run_pymarkdownlnt.sh
 
   requirements-check:
     name: Requirements check

@@ -41,6 +41,4 @@ matrix:
       comments: false
   sources:
     - 'config/*/*.py'
-#  - 'model_training/*.py'
-#  - 'wiktionary_parser/*.py'
   default_encoding: utf-8

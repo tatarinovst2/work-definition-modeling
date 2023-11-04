@@ -53,6 +53,29 @@ exclude = [
     'venv*',
     'build/'
 ]
-application_import_names = ['config', 'wiktionary_parser', 'model_training']
+application_import_names = [
+    'config',
+    'wiktionary_parser',
+    'model_training'
+]
 select = ['I']
 count = true
+
+[tool.pymarkdown]
+rules = [
+    "md013",
+    "md028",
+    "md033"
+]
+
+[tool.pymarkdown.plugins.md013]
+enabled = true
+line_length = 100
+heading_line_length = 100
+code_block_line_length = 100
+
+[tool.pymarkdown.plugins.md028]
+enabled = false
+
+[tool.pymarkdown.plugins.md033]
+enabled = false

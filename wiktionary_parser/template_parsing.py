@@ -15,6 +15,12 @@ class CustomMapping(TypedDict):
     arguments_count: int
 
 
+class IncorrectTemplateError(Exception):
+    """An exception for when a template can not be parsed."""
+
+    pass
+
+
 class Template:
     """A class for representing a template in wiki text."""
 
@@ -47,7 +53,12 @@ class Template:
             else:
                 argument += self.raw_text[index]
             index += 1
+
         self.arguments.append(argument)
+
+        # I saw this argument in every position, so I put it at the end for consistency
+        if "lang=ru" in self.arguments:
+            self.arguments.remove("lang=ru")
 
     def get_text(self, mappings: list[CustomMapping] | None = None) -> str:
         """
@@ -131,7 +142,8 @@ def get_templates(text: str, level: int = 0) -> list[Template]:
     Get the templates in the text.
 
     :param text: The text to get the templates from
-    :param level: The level of the current text (e.g. 1 inside one template, 2 if inside two, etc.)
+    :param level: The level of the current text
+    (e.g. 1 if inside one template, 2 if inside two templates, etc.)
     :return: A list of Template objects
     """
     templates = []
@@ -152,6 +164,8 @@ def get_templates(text: str, level: int = 0) -> list[Template]:
         elif text[index] == "}" and text[index + 1] == "}":
             level -= 1
             end_index = index + 2
+            if not current_templates_stack:
+                raise IncorrectTemplateError()
             current_template = current_templates_stack.pop()
             template = Template(current_template["level"],
                                 text[current_template["start_index"]+2:end_index-2],
@@ -163,8 +177,8 @@ def get_templates(text: str, level: int = 0) -> list[Template]:
     return templates
 
 
-def replace_templates_in_text(text: str, mappings: list[CustomMapping] | None = None,
-                              templates_to_remove: list[str] | None = None) -> str:
+def replace_templates_with_text(text: str, mappings: list[CustomMapping] | None = None,
+                                templates_to_remove: list[str] | None = None) -> str:
     """
     Replace the templates in the text with their values.
 

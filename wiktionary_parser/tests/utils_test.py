@@ -12,9 +12,9 @@ class UtilsTest(unittest.TestCase):
     @pytest.mark.wiktionary_parser
     def test_clean_text_ideal(self):
         """Clean_text should clean the text"""
-        text = " , также meaningful text"
+        text = "определение= , также meaningful text"
         expected = "meaningful text"
-        actual = clean_text(text, ["также"])
+        actual = clean_text(text, ["также"], ["определение="])
 
         self.assertEqual(expected, actual)
 

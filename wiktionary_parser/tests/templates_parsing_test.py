@@ -3,8 +3,9 @@ import unittest
 
 import pytest
 
-from wiktionary_parser.template_parsing import (get_templates, pop_templates_in_text,
-                                                replace_templates_in_text, Template)
+from wiktionary_parser.template_parsing import (Template, get_templates,
+                                                pop_templates_in_text,
+                                                replace_templates_with_text)
 
 
 class TemplateParsingTest(unittest.TestCase):
@@ -132,7 +133,7 @@ class TemplateParsingTest(unittest.TestCase):
         """Replace_templates_in_text should replace the templates in the text"""
         text = "Вот {{выдел|это}} {{выдел|пример}} {{выдел|текста}}"
         expected = "Вот"
-        actual = replace_templates_in_text(text, templates_to_remove=["выдел"])
+        actual = replace_templates_with_text(text, templates_to_remove=["выдел"])
 
         self.assertEqual(expected, actual.strip())
 
@@ -141,6 +142,6 @@ class TemplateParsingTest(unittest.TestCase):
         """Replace_templates_in_text should replace the templates in the text"""
         text = "{{разг.|ru}} лицо мужского пола"
         expected = "разг. лицо мужского пола"
-        actual = replace_templates_in_text(text, mappings=self.custom_mappings)
+        actual = replace_templates_with_text(text, mappings=self.custom_mappings)
 
         self.assertEqual(expected, actual.strip())

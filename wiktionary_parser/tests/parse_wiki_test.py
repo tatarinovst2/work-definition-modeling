@@ -132,7 +132,7 @@ class ParseWikiTest(unittest.TestCase):
         """
         Parse_wiki should not find anything here
         """
-        with mock.patch("wiktionary_parser.run_parser.replace_templates_in_text",
+        with mock.patch("wiktionary_parser.run_parser.replace_templates_with_text",
                         return_value=""):
             actual = parse_wiki(self.wiki_ideal, self.config)
         expected = {}

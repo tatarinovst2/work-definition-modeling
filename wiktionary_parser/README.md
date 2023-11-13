@@ -26,15 +26,30 @@ Example of the output for a page:
 
 ## How to run
 
-### 1. Download the latest XML dump
+### 1. Project set up
+
+Open the Terminal or Command Prompt in the root directory of this repository.
+
+```bash
+cd path/to/work-definition-modeling
+```
+
+Make sure you've installed the requirements.
+You can do it by running
+
+```bash
+pip3 install -r requirements.txt
+```
+
+### 2. Download the latest XML dump
 
 You can find it
 [here](https://dumps.wikimedia.org/ruwiktionary/latest/ruwiktionary-latest-pages-articles.xml.bz2).
 You don't need to unpack it, the parser will do it for you.
 
-### 2. Put it under the `data` directory
+### 3. Put it under the `wiktionary_parser/data` directory
 
-### 3. Configure the `wiktionary_parser_config.py` file
+### 4. Configure the `wiktionary_parser_config.py` file
 
 You can specify the following parameters:
 
@@ -76,7 +91,7 @@ they will be concatenated to form the text representation of the template,
 
 `ending_text` is the text that will be added after the description (optional).
 
-### 4. Run the parser
+### 5. Run the parser
 
 Open the terminal or the command line in the root directory of the project
 and run the following command:

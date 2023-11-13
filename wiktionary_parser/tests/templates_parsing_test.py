@@ -3,9 +3,8 @@ import unittest
 
 import pytest
 
-from wiktionary_parser.template_parsing import (Template, get_templates,
-                                                pop_templates_in_text,
-                                                replace_templates_with_text)
+from wiktionary_parser.template_parsing import (get_templates, pop_templates_in_text,
+                                                replace_templates_with_text, Template)
 
 
 class TemplateParsingTest(unittest.TestCase):
@@ -47,14 +46,12 @@ class TemplateParsingTest(unittest.TestCase):
     @pytest.mark.wiktionary_parser
     def test_create_template_ideal(self):
         """Create a Template object"""
-        template = Template(2, "выдел|это", 5, 15)
+        template = Template(2, "выдел|это", ["выдел", "это"])
 
         self.assertEqual(2, template.level)
         self.assertEqual("выдел|это", template.raw_text)
-        self.assertEqual(5, template.start_index)
-        self.assertEqual(15, template.end_index)
-
         self.assertEqual(["выдел", "это"], template.arguments)
+
         self.assertEqual("выдел", template.get_title())
         self.assertEqual("это", template.get_text_from_argument_indexes([1],
                                                                         ", "))
@@ -62,9 +59,9 @@ class TemplateParsingTest(unittest.TestCase):
     @pytest.mark.wiktionary_parser
     def test_create_template_representation(self):
         """Create a Template object with correct __str__ and __repr__ methods"""
-        template = Template(2, "выдел|это", 5, 15)
+        template = Template(2, "выдел|это", ["выдел", "это"])
 
-        expected = ("Template(level=2, raw_text=выдел|это, start_index=5, end_index=15, "
+        expected = ("Template(level=2, raw_text=выдел|это, "
                     "arguments=['выдел', 'это']")
         self.assertEqual(str(template), expected)
         self.assertEqual(repr(template), expected)
@@ -72,7 +69,7 @@ class TemplateParsingTest(unittest.TestCase):
     @pytest.mark.wiktionary_parser
     def test_template_get_text_with_custom_mapping(self):
         """Template.get_text should return the text of the template with the custom mapping"""
-        template = Template(2, "разг.|ru", 5, 15)
+        template = Template(2, "разг.|ru", ["разг.", "ru"])
 
         expected = "разг."
         actual = template.get_text(mappings=self.custom_mappings)
@@ -82,7 +79,7 @@ class TemplateParsingTest(unittest.TestCase):
     @pytest.mark.wiktionary_parser
     def test_template_get_text_no_mappings(self):
         """Template.get_text should return the text of the template"""
-        template = Template(2, "выдел|это", 5, 15)
+        template = Template(2, "выдел|это", ["выдел", "это"])
 
         expected = "это"
         actual = template.get_text()
@@ -92,7 +89,7 @@ class TemplateParsingTest(unittest.TestCase):
     @pytest.mark.wiktionary_parser
     def test_template_get_text_one_argument(self):
         """Template.get_text should return the text of the template"""
-        template = Template(2, "выдел", 5, 15)
+        template = Template(2, "выдел", ["выдел"])
 
         expected = "выдел"
         actual = template.get_text()

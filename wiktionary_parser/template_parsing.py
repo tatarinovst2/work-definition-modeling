@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 from typing import TypedDict
 
+import wikitextparser as wtp
+
 
 class CustomMapping(TypedDict):
     """A typed dictionary for representing a custom mapping for a template."""
@@ -15,50 +17,13 @@ class CustomMapping(TypedDict):
     arguments_count: int
 
 
-class IncorrectTemplateError(Exception):
-    """An exception for when a template can not be parsed."""
-
-    pass
-
-
 class Template:
     """A class for representing a template in wiki text."""
 
-    def __init__(self, level: int, raw_text: str, start_index: int, end_index: int):
+    def __init__(self, level: int, raw_text: str, arguments: list[str]):
         self.level = level
         self.raw_text = raw_text
-        self.start_index = start_index
-        self.end_index = end_index
-        self.arguments: list[str] = []
-
-        self._find_arguments()
-
-    def _find_arguments(self) -> None:
-        """Find the arguments of the template and stores them in self.arguments."""
-        self.arguments = []
-        argument = ""
-        index = 0
-        inside_template = False
-
-        while index < len(self.raw_text):
-            if self.raw_text[index] == "{":
-                argument += self.raw_text[index]
-                inside_template = True
-            elif self.raw_text[index] == "}":
-                argument += self.raw_text[index]
-                inside_template = False
-            elif self.raw_text[index] == "|" and not inside_template:
-                self.arguments.append(argument)
-                argument = ""
-            else:
-                argument += self.raw_text[index]
-            index += 1
-
-        self.arguments.append(argument)
-
-        # I saw this argument in every position, so I put it at the end for consistency
-        if "lang=ru" in self.arguments:
-            self.arguments.remove("lang=ru")
+        self.arguments: list[str] = arguments
 
     def get_text(self, mappings: list[CustomMapping] | None = None) -> str:
         """
@@ -130,7 +95,6 @@ class Template:
 
     def __str__(self) -> str:
         return (f"Template(level={self.level}, raw_text={self.raw_text}, "
-                f"start_index={self.start_index}, end_index={self.end_index}, "
                 f"arguments={self.arguments}")
 
     def __repr__(self) -> str:
@@ -143,35 +107,20 @@ def get_templates(text: str, level: int = 0) -> list[Template]:
 
     :param text: The text to get the templates from
     :param level: The level of the current text
-    (e.g. 1 if inside one template, 2 if inside two templates, etc.)
     :return: A list of Template objects
     """
     templates = []
-    skip_next = False
+    wiki_text = wtp.WikiText(text)
 
-    current_templates_stack = []
+    for wiki_template in wiki_text.templates:
+        arguments = ([wiki_template.name] +
+                     [argument.string[1:] for argument in wiki_template.arguments if
+                      argument.string != "|lang=ru"]) # lang=ru can be anywhere in the template
+        # so we remove it for consistency
 
-    for index in range(len(text) - 1):
-        if skip_next:
-            skip_next = False
-            continue
-
-        if text[index] == "{" and text[index + 1] == "{":
-            level += 1
-            start_index = index
-            current_templates_stack.append({"level": level, "start_index": start_index})
-            skip_next = True
-        elif text[index] == "}" and text[index + 1] == "}":
-            level -= 1
-            end_index = index + 2
-            if not current_templates_stack:
-                raise IncorrectTemplateError()
-            current_template = current_templates_stack.pop()
-            template = Template(current_template["level"],
-                                text[current_template["start_index"]+2:end_index-2],
-                                current_template["start_index"], end_index)
-            templates.append(template)
-            skip_next = True
+        template = Template(level + wiki_template.nesting_level, wiki_template.string[2:-2],
+                            arguments)
+        templates.append(template)
 
     templates = sorted(templates, key=lambda template: template.level, reverse=False)
     return templates

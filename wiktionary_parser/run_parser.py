@@ -6,9 +6,8 @@ from pathlib import Path
 
 import wikitextparser as wtp
 
-from wiktionary_parser.template_parsing import (load_config,
-                                                pop_templates_in_text,
-                                                replace_templates_with_text, IncorrectTemplateError)
+from wiktionary_parser.template_parsing import (load_config, pop_templates_in_text,
+                                                replace_templates_with_text)
 from wiktionary_parser.utils import clean_text
 
 WIKTIONARY_PARSER_DIR = Path(__file__).parent
@@ -70,12 +69,6 @@ def process_element(element: ET.Element, output_filepath: str | Path, parser_con
     title: str = title_element.text
     wiki: str = wiki_element.text
 
-    # if title != "гутарить":
-    #     return
-    #
-    # print(wiki)
-    # exit(0)
-
     definitions = parse_wiki(wiki, parser_config)
     if not definitions:
         element.clear()
@@ -133,14 +126,11 @@ def parse_wiki(wiki: str, parser_config: dict) -> dict[str, dict[str, list[str]]
         for definition_item in definitions_list[0].items:
             definition_wiki_text = wtp.WikiText(definition_item)
 
-            try:
-                definition, example_templates = pop_templates_in_text(
-                    definition_wiki_text.plain_text(
+            definition, example_templates = pop_templates_in_text(
+                definition_wiki_text.plain_text(
                     replace_templates=False).replace("\n", ""),
                     "пример",
                     mappings=parser_config["mappings"])
-            except IncorrectTemplateError:
-                return None
 
             definition = replace_templates_with_text(
                 definition, mappings=parser_config["mappings"],

@@ -1,6 +1,6 @@
 {
   "templates_to_remove":
-          ["ru", "помета", "семантика"],
+          ["ru", "помета", "семантика", "рег.", "обл.", "только ед. ч.", "ед. ч.", "мн."],
   "mappings": [
     {
       "title_index": 0,
@@ -10,6 +10,42 @@
       ],
       "arguments_count": 3,
       "starting_text": "связанный, соотносящийся по значению со словом "
+    },
+    {
+      "title_index": 0,
+      "title": "соотн.",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "связанный, соотносящийся по значению со словом "
+    },
+    {
+      "title_index": 0,
+      "title": "хим-элем",
+      "description_indexes": [
+            1, 2, 3, 4
+      ],
+      "arguments_count": 5,
+      "starting_text": "химический элемент с атомным номером "
+    },
+    {
+      "title_index": 0,
+      "title": "хим-элем",
+      "description_indexes": [
+            1, 2, 3
+      ],
+      "arguments_count": 4,
+      "starting_text": "химический элемент с атомным номером "
+    },
+    {
+      "title_index": 0,
+      "title": "хим-элем",
+      "description_indexes": [
+            1, 2
+      ],
+      "arguments_count": 3,
+      "starting_text": "химический элемент с атомным номером "
     },
     {
       "title_index": 0,
@@ -26,6 +62,30 @@
         2, 3
       ],
       "arguments_count": 4
+    },
+    {
+      "title_index": 0,
+      "title": "умласк.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": "уменьшительно-ласкательное к "
+    },
+    {
+      "title_index": 0,
+      "title": "умласк",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": "уменьшительно-ласкательное к "
+    },
+    {
+      "title_index": 0,
+      "title": "умласк",
+      "description_indexes": [],
+      "starting_text": "уменьшительно-ласкательное "
     },
     {
       "title_index": 0,
@@ -70,10 +130,53 @@
       "title_index": 0,
       "title": "действие",
       "description_indexes": [
+        2, 3
+      ],
+      "arguments_count": 4,
+      "starting_text": "действие по значению глагола "
+    },
+    {
+      "title_index": 0,
+      "title": "действие",
+      "description_indexes": [
         2
       ],
       "arguments_count": 3,
       "starting_text": "действие по значению глагола "
+    },
+    {
+      "title_index": 0,
+      "title": "действие",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "действие по значению глагола "
+    },
+    {
+      "title_index": 1,
+      "title": "состояние=1",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": "свойство или состояние по значению прилагательного "
+    },
+    {
+      "title_index": 0,
+      "title": "морфем",
+      "description_indexes": [
+        -1
+      ],
+      "starting_text": "при добавлении к разным частям речи образует слова со значением "
+    },
+    {
+      "title_index": 0,
+      "title": "морфема",
+      "description_indexes": [
+        -1
+      ],
+      "starting_text": "при добавлении к разным частям речи образует слова со значением "
     }
   ]
 }

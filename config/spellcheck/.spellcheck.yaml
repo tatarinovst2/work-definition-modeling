@@ -42,4 +42,7 @@ matrix:
   sources:
     - 'config/*/*.py'
     - 'wiktionary_parser/*.py'
+    - 'model_training/*.py'
+    - 'inference/*.py'
+    - 'evaluation/*.py'
   default_encoding: utf-8

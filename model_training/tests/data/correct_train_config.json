@@ -1,0 +1,7 @@
+{
+  "model_checkpoint": "cointegrated/ruT5-small",
+  "dataset_path": "wiktionary_parser/data/definitions.jsonl",
+  "learning_rate": 2e-5,
+  "batch_size": 4,
+  "num_train_epochs": 1
+}

@@ -1,0 +1,19 @@
+{
+  "model_checkpoint": "cointegrated/ruT5-small",
+  "dataset_path": "wiktionary_parser/data/definitions.jsonl",
+  "learning_rate": 2e-5,
+  "batch_size": 4,
+  "gradient_checkpointing": true,
+  "gradient_accumulation_steps": 4,
+  "weight_decay": 0.01,
+  "optimizer": "adafactor",
+  "save_total_limit": 3,
+  "evaluation_strategy": "epoch",
+  "save_strategy": "epoch",
+  "logging_strategy": "epoch",
+  "num_train_epochs": 10,
+  "predict_with_generate": true,
+  "fp16": false,
+  "push_to_hub": false,
+  "debug": true
+}

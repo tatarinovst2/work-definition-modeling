@@ -33,6 +33,7 @@ def evaluate_model_with_validation_dataset(dataset_path: str | Path, target_fiel
     :param dataset_path: The path to the JSON Lines dataset.
     :param target_field: The name of the field containing the target texts.
     :param pred_field: The name of the field containing the predicted texts.
+    :return: The scores.
     """
     target_texts, pred_texts = load_target_pred_dataset(dataset_path, target_field, pred_field)
 

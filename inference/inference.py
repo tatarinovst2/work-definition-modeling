@@ -5,6 +5,8 @@ from pathlib import Path
 import torch
 from transformers import AutoTokenizer, T5ForConditionalGeneration
 
+from utils import parse_path, get_current_torch_device
+
 
 def load_model(model_checkpoint: str | Path) -> tuple[T5ForConditionalGeneration, AutoTokenizer]:
     """
@@ -16,12 +18,7 @@ def load_model(model_checkpoint: str | Path) -> tuple[T5ForConditionalGeneration
     model = T5ForConditionalGeneration.from_pretrained(model_checkpoint)
     tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, eos_token='</s>')
 
-    if torch.cuda.is_available():
-        model.to("cuda")
-    elif torch.backends.mps.is_available():
-        model.to("mps")
-    else:
-        model.to("cpu")
+    model.to(get_current_torch_device())
 
     return model, tokenizer
 
@@ -86,15 +83,19 @@ def main():
     parser = argparse.ArgumentParser(
         description="Process prompts from the command line or a JSON lines file.")
 
-    parser.add_argument("model_checkpoint",
+    parser.add_argument("model-checkpoint",
                         type=str,
                         help="The path to the model checkpoint.")
-    parser.add_argument("--input_file",
+    parser.add_argument("--input-file", "-i",
                         type=str,
                         help="The input file of JSON Lines format.")
-    parser.add_argument("--output_file",
+    parser.add_argument("--output-file", "-o",
                         type=str,
                         help="The output file of JSON Lines format.")
+    parser.add_argument("--input-field",
+                        type=str,
+                        default="input_text",
+                        help="The name of the field in the dataset that contains the input text.")
 
     args = parser.parse_args()
 
@@ -102,13 +103,18 @@ def main():
 
     model, tokenizer = load_model(args.model_checkpoint)
 
+    input_file_path = parse_path(args.input_file)
+    output_file_path = parse_path(args.output_file)
+
     if args.input_file is not None:
-        with open(args.input_file, "r", encoding="utf-8") as input_file:
+        with open(input_file_path, "r", encoding="utf-8") as input_file:
             for line in input_file:
                 json_object = json.loads(line)
-                prompt = json_object["prompt"]
+                if args.input_field not in json_object:
+                    raise ValueError(f"Field {args.input_field} not found in JSON object.")
+                prompt = json_object[args.input_field]
                 output_text = run_inference(model, tokenizer, prompt)
-                save_output(output_text, args.output_file, json_object)
+                save_output(output_text, output_file_path, json_object)
     else:
         while True:
             prompt = input("Enter a prompt: ")
@@ -123,4 +129,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 from model_training.metrics import get_bleu_score, get_rouge_score, get_bert_score
+from utils import parse_path
 
 
 def load_target_pred_dataset(dataset_path: str | Path, target_field: str,
@@ -24,7 +25,8 @@ def load_target_pred_dataset(dataset_path: str | Path, target_field: str,
     return target_texts, pred_texts
 
 
-def evaluate_model(dataset_path: str | Path, target_field: str, pred_field: str) -> None:
+def evaluate_model(dataset_path: str | Path, target_field: str,
+                   pred_field: str) -> dict[str, float]:
     """
     Evaluate the model on a dataset.
 
@@ -38,7 +40,35 @@ def evaluate_model(dataset_path: str | Path, target_field: str, pred_field: str)
     rouge_score = get_rouge_score(target_texts, pred_texts)
     bert_score = get_bert_score(target_texts, pred_texts)
 
-    print(f"BLEU score: {bleu_score}")
-    print(f"ROUGE score: {rouge_score}")
-    print(f"Bert score: {bert_score}")
+    return {
+        "bleu": bleu_score,
+        "rougeL": rouge_score,
+        "bert-f1": bert_score
+    }
 
+
+if __name__ == "__main__":
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description="Evaluate the model on a dataset.")
+
+    parser.add_argument("dataset-path",
+                        type=str,
+                        help="The path to the dataset.")
+    parser.add_argument("--target-field",
+                        type=str,
+                        default="target_text",
+                        help="The name of the field containing the target texts.")
+    parser.add_argument("--pred-field",
+                        type=str,
+                        default="pred_text",
+                        help="The name of the field containing the predicted texts.")
+
+    args = parser.parse_args()
+
+    dataset_path = parse_path(args.dataset_path)
+
+    scores = evaluate_model(dataset_path, args.target_field, args.pred_field)
+
+    print(scores)

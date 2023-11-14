@@ -15,5 +15,6 @@
   "predict_with_generate": true,
   "fp16": false,
   "push_to_hub": false,
+  "test_dataset_output_path": "model_training/data/definitions_test.jsonl",
   "debug": true
 }

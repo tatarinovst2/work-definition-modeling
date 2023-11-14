@@ -1,10 +1,28 @@
 # Evaluation
 
 This is a module for evaluation of the model based on metrics such as BERT-F1, ROUGE-L, BLEU.
-You can run this on an already existing T5 checkpoint.
 
 ## How to run
 
-You have to have a `.jsonl` dataset that has a target and a prediction field.
+1. Dataset
 
+    You have to have a `.jsonl` dataset that has a target and a prediction field.
+    Usually that would be the dataset created after running the `inference` module.
 
+2. Requirements
+
+    Make sure you've installed the requirements and opened the Terminal or Command prompt
+    in the root directory of this repository.
+    If not, follow the instructions in [model_training](../model_training/README.md).
+
+3. Run
+
+    ```bash
+    python3 -m evaluation.evaluation path/to/dataset.jsonl
+    ```
+
+By default, the fields for input text and the generated one are called
+`input_text` and `generated_text`.
+You can set them manually using arguments `--target-field` and `--pred-field`.
+
+The resulting output will be printed to the console.

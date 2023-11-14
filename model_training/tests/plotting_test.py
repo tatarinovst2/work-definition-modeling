@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from model_training.utils import plot_metric, plot_training_and_test_loss
+from model_training.plot import plot_metric, plot_training_and_test_loss
 
 
 class PlotTrainingAndTestLossTest(unittest.TestCase):

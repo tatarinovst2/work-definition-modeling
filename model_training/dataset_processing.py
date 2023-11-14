@@ -19,11 +19,12 @@ def prepare_row(row: dict) -> dict:
     return {"input_text": input_text, "target_text": target_text}
 
 
-def prepare_dataset(filepath: str | Path) -> DatasetDict:
+def prepare_dataset(filepath: str | Path, test_dataset_output_path: str | Path) -> DatasetDict:
     """
     Load and create a dataset from a jsonl file.
 
     :param filepath: The path to the jsonl file.
+    :param test_dataset_output_path: The path to the output file for the test dataset.
     :return: The dataset with train, test and validation splits.
     """
     rows = []
@@ -53,7 +54,7 @@ def prepare_dataset(filepath: str | Path) -> DatasetDict:
         "validation": Dataset.from_pandas(val_df)
     })
 
-    save_test_dataset(created_dataset["test"], "test.jsonl")
+    save_test_dataset(created_dataset["test"], test_dataset_output_path)
 
     return created_dataset
 
@@ -65,6 +66,8 @@ def save_test_dataset(dataset: Dataset, output_file: str | Path) -> None:
     :param dataset: The dataset to save.
     :param output_file: The path to the output file.
     """
+    Path(output_file).parent.mkdir(parents=True, exist_ok=True)
+
     with open(output_file, "w", encoding="utf-8") as file:
         for row in dataset:
             file.write(json.dumps(row, ensure_ascii=False) + "\n")

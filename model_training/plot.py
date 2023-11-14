@@ -5,7 +5,7 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-from model_training.constants import ROOT_DIR
+from constants import ROOT_DIR
 
 
 def plot_graphs_based_on_log_history(log_history: list[dict], output_dir: str | Path,
@@ -132,7 +132,7 @@ def load_log_history_from_checkpoint(checkpoint_dir: str | Path) -> list[dict]:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Plot the graphs based on the log history.")
-    parser.add_argument("checkpoint_dir",
+    parser.add_argument("checkpoint-dir",
                         type=str,
                         help="The path to the checkpoint relative to the root directory.")
 

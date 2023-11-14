@@ -2,7 +2,6 @@
 from pathlib import Path
 
 import numpy as np
-import torch  # pylint: disable=import-error
 from datasets import DatasetDict
 from transformers import (  # pylint: disable=import-error
     AutoModelForSeq2SeqLM, AutoTokenizer, BatchEncoding,
@@ -10,11 +9,12 @@ from transformers import (  # pylint: disable=import-error
     Seq2SeqTrainingArguments, TrainerCallback, TrainerControl, TrainerState,
     TrainingArguments)
 
-from model_training.constants import ROOT_DIR
+from constants import ROOT_DIR
 from model_training.dataset_processing import prepare_dataset
-from model_training.metrics import get_bleu_score, get_rouge_score, get_bert_score
+from model_training.metrics import get_bleu_score, get_rouge_score
 from model_training.utils import load_train_config
 from model_training.plot import plot_graphs_based_on_log_history
+from utils import get_current_torch_device, parse_path
 
 
 def preprocess_function(examples: dict, tokenizer: PreTrainedTokenizer) -> BatchEncoding:
@@ -79,10 +79,13 @@ class LossLoggingCallback(TrainerCallback):  # pylint: disable=too-few-public-me
 if __name__ == "__main__":
     train_config = load_train_config(ROOT_DIR / "model_training" / "train_config.json")
 
-    loaded_tokenizer = AutoTokenizer.from_pretrained(train_config["model_checkpoint"])
+    checkpoint_path = parse_path(train_config["model_checkpoint"])
+
+    loaded_tokenizer = AutoTokenizer.from_pretrained(checkpoint_path)
     print(f"Using {type(loaded_tokenizer)}")
 
-    dataset_dict = prepare_dataset(ROOT_DIR / train_config["dataset_path"])
+    dataset_dict = prepare_dataset(parse_path(train_config["dataset_path"]),
+                                   parse_path(train_config["test_dataset_output_path"]))
 
     if train_config.get("debug", False):
         new_dataset_dict = {}
@@ -93,14 +96,8 @@ if __name__ == "__main__":
     tokenized_datasets = dataset_dict.map(
         lambda examples: preprocess_function(examples, loaded_tokenizer), batched=True)
 
-    model = AutoModelForSeq2SeqLM.from_pretrained(train_config["model_checkpoint"])
-
-    if torch.cuda.is_available():
-        model.to("cuda")
-    elif torch.backends.mps.is_available():
-        model.to("mps")
-    else:
-        model.to("cpu")
+    model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint_path)
+    model.to(get_current_torch_device())
 
     model_name = train_config["model_checkpoint"].rsplit('/', maxsplit=1)[-1]
     arguments = Seq2SeqTrainingArguments(

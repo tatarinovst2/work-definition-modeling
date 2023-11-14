@@ -33,7 +33,7 @@ Supply the path to the file as an argument to `inference.py`:
 
 ```bash
 python3 -m inference.inference path/to/checkpoint
---input_filepath path/to/dataset.jsonl --output_filepath path/to/output.jsonl
+--input_file path/to/dataset.jsonl --output_file path/to/output.jsonl
 ```
 
 In this case, the output will be a `.jsonl` file with the same format as the input file,
@@ -41,7 +41,7 @@ but with the `generated_text` field added to each line.
 
 ### On a single prompt
 
-Run `inference.py` without the `--input_filepath` argument:
+Run `inference.py` without the `--input_file` argument:
 
 ```bash
 python3 -m inference.inference path/to/checkpoint

@@ -78,7 +78,24 @@ def save_output(output_text: str, output_save_filepath: str | Path, initial_json
 
     with open(output_save_filepath, "a", encoding="utf-8") as output_save_file:
         initial_json["generated_text"] = output_text
-        output_save_file.write(json.dumps(initial_json) + "\n")
+        output_save_file.write(json.dumps(initial_json, ensure_ascii=False) + "\n")
+
+
+def validate_output_file(output_file_path: str | Path) -> None:
+    """
+    Validate the output file. If it exists, ask the user whether to remove it.
+
+    :param output_file_path: The path to the output file.
+    """
+    output_save_filepath = parse_path(output_file_path)
+
+    if output_save_filepath.exists():
+        remove_output = input("Output file already exists. Remove? (y/n) ")
+        if remove_output.lower() == "y":
+            output_save_filepath.unlink()
+        else:
+            print("Exiting...")
+            sys.exit(0)
 
 
 def main():
@@ -86,7 +103,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Process prompts from the command line or a JSON lines file.")
 
-    parser.add_argument("model-checkpoint",
+    parser.add_argument("model_checkpoint",
                         type=str,
                         help="The path to the model checkpoint.")
     parser.add_argument("--input-file", "-i",
@@ -110,6 +127,8 @@ def main():
     output_file_path = parse_path(args.output_file)
 
     if args.input_file is not None:
+        validate_output_file(output_file_path)
+
         with open(input_file_path, "r", encoding="utf-8") as input_file:
             for line in input_file:
                 json_object = json.loads(line)

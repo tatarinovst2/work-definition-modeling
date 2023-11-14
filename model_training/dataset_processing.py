@@ -20,7 +20,7 @@ def prepare_row(row: dict) -> dict:
 
 
 def prepare_dataset(filepath: str | Path, test_dataset_output_path: str | Path = "",
-                    random_state: int = 42) -> DatasetDict:
+                    random_state: int = 42, debug_mode: bool = False) -> DatasetDict:
     """
     Load and create a dataset from a jsonl file.
 
@@ -33,6 +33,9 @@ def prepare_dataset(filepath: str | Path, test_dataset_output_path: str | Path =
 
     df = pd.DataFrame(rows)
     df = df[df["word"].str.len() >= 3]
+
+    if debug_mode:
+        df = df.sample(100, random_state=random_state)
 
     new_df = pd.DataFrame([prepare_row(row.to_dict()) for _, row in df.iterrows()])
 

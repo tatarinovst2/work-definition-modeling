@@ -3,7 +3,7 @@ from pathlib import Path
 try:
     import torch  # pylint: disable=import-error
 except ImportError:
-    torch = None
+    torch = None  # type: ignore
 
 from constants import ROOT_DIR
 

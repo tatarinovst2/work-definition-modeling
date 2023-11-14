@@ -2,7 +2,6 @@
 from pathlib import Path
 
 import numpy as np
-from datasets import DatasetDict
 from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,  # pylint: disable=import-error
                           BatchEncoding, DataCollatorForSeq2Seq, PreTrainedTokenizer,
                           Seq2SeqTrainer, Seq2SeqTrainingArguments, TrainerCallback, TrainerControl,
@@ -56,6 +55,8 @@ def compute_metrics(eval_pred: tuple, tokenizer: PreTrainedTokenizer) -> dict[st
     results = {
         "rougeL": get_rouge_score(decoded_predictions, decoded_labels),
         "blue": get_bleu_score(decoded_predictions, decoded_labels),
+        # Battling "arrow::fs::FinalizeS3 was not called even though S3 was initialized.
+        # This could lead to a segmentation fault at exit", so commenting BERTScore out for now.
         # "bert-f1": get_bert_score(decoded_predictions, decoded_labels)
     }
 
@@ -71,30 +72,25 @@ class LossLoggingCallback(TrainerCallback):  # pylint: disable=too-few-public-me
         graphs_dir = Path(args.output_dir) / f"checkpoint-{state.global_step}" / "graphs"
         graphs_dir.mkdir(parents=True, exist_ok=True)
 
-        plot_graphs_based_on_log_history(state.log_history, graphs_dir, ["rougeL", "blue"])
+        plot_graphs_based_on_log_history(state.log_history,
+                                         graphs_dir,
+                                         ["eval_rougeL", "eval_blue"])
 
 
 if __name__ == "__main__":
     train_config = load_train_config(ROOT_DIR / "model_training" / "train_config.json")
 
-    checkpoint_path = parse_path(train_config["model_checkpoint"])
-
-    loaded_tokenizer = AutoTokenizer.from_pretrained(checkpoint_path)
+    loaded_tokenizer = AutoTokenizer.from_pretrained(train_config["model_checkpoint"])
     print(f"Using {type(loaded_tokenizer)}")
 
     dataset_dict = prepare_dataset(parse_path(train_config["dataset_path"]),
-                                   parse_path(train_config["test_dataset_output_path"]))
-
-    if train_config.get("debug", False):
-        new_dataset_dict = {}
-        for split in dataset_dict:
-            new_dataset_dict[split] = dataset_dict[split].select(range(100))
-        dataset_dict = DatasetDict(new_dataset_dict)
+                                   parse_path(train_config["test_dataset_output_path"]),
+                                   debug_mode=train_config.get("debug", False))
 
     tokenized_datasets = dataset_dict.map(
         lambda examples: preprocess_function(examples, loaded_tokenizer), batched=True)
 
-    model = AutoModelForSeq2SeqLM.from_pretrained(checkpoint_path)
+    model = AutoModelForSeq2SeqLM.from_pretrained(train_config["model_checkpoint"])
     model.to(get_current_torch_device())
 
     model_name = train_config["model_checkpoint"].rsplit('/', maxsplit=1)[-1]

@@ -18,7 +18,7 @@ This is a module for evaluation of the model based on metrics such as BERT-F1, R
 3. Run
 
     ```bash
-    python3 -m evaluation.evaluation path/to/dataset.jsonl
+    python3 -m evaluation.evaluate path/to/dataset.jsonl
     ```
 
 By default, the fields for input text and the generated one are called

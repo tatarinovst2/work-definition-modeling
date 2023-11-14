@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-from model_training.metrics import get_bert_score, get_bleu_score, get_rouge_score
+from model_training.metrics import get_bleu_score, get_rouge_score
 from utils import parse_path
 
 
@@ -38,12 +38,12 @@ def evaluate_model_with_validation_dataset(dataset_path: str | Path, target_fiel
 
     bleu_score = get_bleu_score(target_texts, pred_texts)
     rouge_score = get_rouge_score(target_texts, pred_texts)
-    bert_score = get_bert_score(target_texts, pred_texts)
+    # bert_score = get_bert_score(target_texts, pred_texts)
 
     return {
         "bleu": bleu_score,
         "rougeL": rouge_score,
-        "bert-f1": bert_score
+        # "bert-f1": bert_score
     }
 
 
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Evaluate the model on a dataset.")
 
-    parser.add_argument("dataset-path",
+    parser.add_argument("dataset_path",
                         type=str,
                         help="The path to the dataset.")
     parser.add_argument("--target-field",
@@ -62,7 +62,7 @@ if __name__ == "__main__":
                         help="The name of the field containing the target texts.")
     parser.add_argument("--pred-field",
                         type=str,
-                        default="pred_text",
+                        default="generated_text",
                         help="The name of the field containing the predicted texts.")
 
     args = parser.parse_args()

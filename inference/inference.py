@@ -71,7 +71,7 @@ def save_output(output_text: str, output_save_filepath: str | Path, initial_json
     Append generated text to the output file.
 
     :param output_text: The generated text.
-    :param output_save_file: The output file of JSON Lines format.
+    :param output_save_filepath: The output file of JSON Lines format.
     :param initial_json: The initial JSON object.
     """
     output_save_filepath = parse_path(output_save_filepath)

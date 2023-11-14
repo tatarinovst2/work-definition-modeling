@@ -1,6 +1,9 @@
 from pathlib import Path
 
-import torch  # pylint: disable=import-error
+try:
+    import torch  # pylint: disable=import-error
+except ImportError:
+    torch = None
 
 from constants import ROOT_DIR
 

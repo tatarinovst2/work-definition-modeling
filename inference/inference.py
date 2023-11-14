@@ -68,7 +68,7 @@ def validate_args(args: argparse.Namespace) -> None:
 
 def save_output(output_text: str, output_save_filepath: str | Path, initial_json: dict) -> None:
     """
-    Appends generated text to the output file.
+    Append generated text to the output file.
 
     :param output_text: The generated text.
     :param output_save_file: The output file of JSON Lines format.
@@ -83,7 +83,6 @@ def save_output(output_text: str, output_save_filepath: str | Path, initial_json
 
 def main():
     """Entry point."""
-
     parser = argparse.ArgumentParser(
         description="Process prompts from the command line or a JSON lines file.")
 

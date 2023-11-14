@@ -67,8 +67,10 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    dataset_path = parse_path(args.dataset_path)
+    parsed_dataset_path = parse_path(args.dataset_path)
 
-    scores = evaluate_model_with_validation_dataset(dataset_path, args.target_field, args.pred_field)
+    scores = evaluate_model_with_validation_dataset(parsed_dataset_path,
+                                                    args.target_field,
+                                                    args.pred_field)
 
     print(scores)

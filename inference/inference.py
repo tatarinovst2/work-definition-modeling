@@ -1,11 +1,13 @@
+"""A module for the inference of the model."""
 import argparse
 import json
+import sys
 from pathlib import Path
 
-import torch
-from transformers import AutoTokenizer, T5ForConditionalGeneration
+import torch  # pylint: disable=import-error
+from transformers import AutoTokenizer, T5ForConditionalGeneration  # pylint: disable=import-error
 
-from utils import parse_path, get_current_torch_device
+from utils import get_current_torch_device, parse_path
 
 
 def load_model(model_checkpoint: str | Path) -> tuple[T5ForConditionalGeneration, AutoTokenizer]:
@@ -64,17 +66,19 @@ def validate_args(args: argparse.Namespace) -> None:
         raise ValueError("model_checkpoint must be specified.")
 
 
-def save_output(output_text: str, output_file: str | Path, initial_json: dict) -> None:
+def save_output(output_text: str, output_save_file: str | Path, initial_json: dict) -> None:
     """
     Appends generated text to the output file.
 
     :param output_text: The generated text.
-    :param output_file: The output file of JSON Lines format.
+    :param output_save_file: The output file of JSON Lines format.
     :param initial_json: The initial JSON object.
     """
-    with open(output_file, "a", encoding="utf-8") as output_file:
+    output_save_file = parse_path(output_save_file)
+
+    with open(output_save_file, "a", encoding="utf-8") as output_save_file:
         initial_json["generated_text"] = output_text
-        output_file.write(json.dumps(initial_json) + "\n")
+        output_save_file.write(json.dumps(initial_json) + "\n")
 
 
 def main():
@@ -121,7 +125,7 @@ def main():
 
             if not prompt:
                 print("Exiting...")
-                exit(0)
+                sys.exit(0)
 
             output_text = run_inference(model, tokenizer, prompt)
             print(output_text, end="\n\n")

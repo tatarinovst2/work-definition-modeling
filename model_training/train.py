@@ -3,17 +3,16 @@ from pathlib import Path
 
 import numpy as np
 from datasets import DatasetDict
-from transformers import (  # pylint: disable=import-error
-    AutoModelForSeq2SeqLM, AutoTokenizer, BatchEncoding,
-    DataCollatorForSeq2Seq, PreTrainedTokenizer, Seq2SeqTrainer,
-    Seq2SeqTrainingArguments, TrainerCallback, TrainerControl, TrainerState,
-    TrainingArguments)
+from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,  # pylint: disable=import-error
+                          BatchEncoding, DataCollatorForSeq2Seq, PreTrainedTokenizer,
+                          Seq2SeqTrainer, Seq2SeqTrainingArguments, TrainerCallback, TrainerControl,
+                          TrainerState, TrainingArguments)
 
 from constants import ROOT_DIR
 from model_training.dataset_processing import prepare_dataset
 from model_training.metrics import get_bleu_score, get_rouge_score
-from model_training.utils import load_train_config
 from model_training.plot import plot_graphs_based_on_log_history
+from model_training.utils import load_train_config
 from utils import get_current_torch_device, parse_path
 
 
@@ -69,7 +68,6 @@ class LossLoggingCallback(TrainerCallback):  # pylint: disable=too-few-public-me
     def on_evaluate(self, args: TrainingArguments, state: TrainerState,
                     control: TrainerControl, **kwargs):
         """Event called after an evaluation phase."""
-
         graphs_dir = Path(args.output_dir) / f"checkpoint-{state.global_step}" / "graphs"
         graphs_dir.mkdir(parents=True, exist_ok=True)
 

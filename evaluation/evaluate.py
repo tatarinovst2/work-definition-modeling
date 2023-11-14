@@ -2,7 +2,7 @@
 import json
 from pathlib import Path
 
-from model_training.metrics import get_bleu_score, get_rouge_score, get_bert_score
+from model_training.metrics import get_bert_score, get_bleu_score, get_rouge_score
 from utils import parse_path
 
 
@@ -25,8 +25,8 @@ def load_target_pred_dataset(dataset_path: str | Path, target_field: str,
     return target_texts, pred_texts
 
 
-def evaluate_model(dataset_path: str | Path, target_field: str,
-                   pred_field: str) -> dict[str, float]:
+def evaluate_model_with_validation_dataset(dataset_path: str | Path, target_field: str,
+                                           pred_field: str) -> dict[str, float]:
     """
     Evaluate the model on a dataset.
 
@@ -69,6 +69,6 @@ if __name__ == "__main__":
 
     dataset_path = parse_path(args.dataset_path)
 
-    scores = evaluate_model(dataset_path, args.target_field, args.pred_field)
+    scores = evaluate_model_with_validation_dataset(dataset_path, args.target_field, args.pred_field)
 
     print(scores)

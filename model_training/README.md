@@ -43,7 +43,7 @@ This is a module for training the FRED-T5-1.7B model.
     [Trainer](https://huggingface.co/transformers/main_classes/trainer.html#trainingarguments)
     class of the `transformers` library.
 
-    The exception are `debug`. 
+    The exception are `debug`.
     If set to `True`, the training will run on a small subset of the data.
     Also, `test_dataset_output_path` is the path of the future test split of the dataset.
 
@@ -57,7 +57,7 @@ This is a module for training the FRED-T5-1.7B model.
 
 ## Plots
 
-The plots are generated automatically based on log history from trainer state 
+The plots are generated automatically based on log history from trainer state
 when each checkpoint and are saved under `path/to/checkpoint/graphs` directory.
 
 But you can also generate them manually by running `plot.py` with the following command.

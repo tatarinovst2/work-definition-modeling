@@ -5,28 +5,30 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-from constants import ROOT_DIR
+from utils import parse_path
 
 
 def plot_graphs_based_on_log_history(log_history: list[dict], output_dir: str | Path,
                                      metrics: list[str]) -> None:
     """
-    Plots the graphs based on the log_history.
+    Plot the graphs based on the log_history.
 
     :param log_history: The list of all logs from the Trainer.
     :param output_dir: The directory in which the plots will be created.
     :param metrics: The metrics which to create apart from training and test loss.
     """
-    plot_training_and_test_loss(log_history, output_dir / "loss-plot-epoch.png",
+    parsed_output_directory = parse_path(output_dir)
+
+    plot_training_and_test_loss(log_history, parsed_output_directory / "loss-plot-epoch.png",
                                 plot_epochs=True)
-    plot_training_and_test_loss(log_history, output_dir / "loss-plot-step.png",
+    plot_training_and_test_loss(log_history, parsed_output_directory / "loss-plot-step.png",
                                 plot_epochs=False)
 
     for metric in metrics:
         plot_metric(metric, log_history,
-                    output_dir / f"{metric}-plot-epoch.png", plot_epochs=True)
+                    parsed_output_directory / f"{metric}-plot-epoch.png", plot_epochs=True)
         plot_metric(metric, log_history,
-                    output_dir / f"{metric}-plot-step.png", plot_epochs=False)
+                    parsed_output_directory / f"{metric}-plot-step.png", plot_epochs=False)
 
 
 def plot_metric(metric: str, log_history: list[dict], output_path: str | Path,
@@ -111,7 +113,7 @@ def plot_training_and_test_loss(log_history: list[dict], output_path: str | Path
     plt.ylabel('Loss')
     plt.legend()
     plt.grid(True)
-    plt.savefig(output_path)
+    plt.savefig(parse_path(output_path))
 
 
 def load_log_history_from_checkpoint(checkpoint_dir: str | Path) -> list[dict]:
@@ -122,7 +124,7 @@ def load_log_history_from_checkpoint(checkpoint_dir: str | Path) -> list[dict]:
     :return: The log history.
     """
     log_history = []
-    with open(checkpoint_dir / "trainer_state.json", "r", encoding="utf-8") as file:
+    with open(parse_path(checkpoint_dir) / "trainer_state.json", "r", encoding="utf-8") as file:
         trainer_state = json.load(file)
         for log in trainer_state['log_history']:
             log_history.append(log)
@@ -144,12 +146,14 @@ if __name__ == "__main__":
                         help="The metrics to plot.")
     args = parser.parse_args()
 
-    log_history = load_log_history_from_checkpoint(ROOT_DIR / Path(args.checkpoint_dir))
+    checkpoint_path = parse_path(args.checkpoint_dir)
 
-    graphs_directory = Path(args.checkpoint_dir) / "graphs"
+    checkpoint_log_history = load_log_history_from_checkpoint(checkpoint_path)
+
+    graphs_directory = checkpoint_path / "graphs"
 
     if not graphs_directory.exists():
         graphs_directory.mkdir(parents=True, exist_ok=True)
 
-    plot_graphs_based_on_log_history(log_history, Path(args.checkpoint_dir) / "graphs",
-                                        args.metrics)
+    plot_graphs_based_on_log_history(checkpoint_log_history, checkpoint_path / "graphs",
+                                     args.metrics)

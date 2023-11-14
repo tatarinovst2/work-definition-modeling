@@ -27,6 +27,7 @@ def prepare_dataset(filepath: str | Path, test_dataset_output_path: str | Path =
     :param filepath: The path to the jsonl file.
     :param test_dataset_output_path: The path to the output file for the test dataset.
     :param random_state: The random state for the train/test/validation split.
+    :param debug_mode: Whether to run in debug mode, i.e. use only a small subset of the dataset.
     :return: The dataset with train, test and validation splits.
     """
     rows = load_dataset(filepath)

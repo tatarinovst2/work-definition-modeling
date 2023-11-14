@@ -66,7 +66,7 @@ def validate_args(args: argparse.Namespace) -> None:
         raise ValueError("model_checkpoint must be specified.")
 
 
-def save_output(output_text: str, output_save_file: str | Path, initial_json: dict) -> None:
+def save_output(output_text: str, output_save_filepath: str | Path, initial_json: dict) -> None:
     """
     Appends generated text to the output file.
 
@@ -74,9 +74,9 @@ def save_output(output_text: str, output_save_file: str | Path, initial_json: di
     :param output_save_file: The output file of JSON Lines format.
     :param initial_json: The initial JSON object.
     """
-    output_save_file = parse_path(output_save_file)
+    output_save_filepath = parse_path(output_save_filepath)
 
-    with open(output_save_file, "a", encoding="utf-8") as output_save_file:
+    with open(output_save_filepath, "a", encoding="utf-8") as output_save_file:
         initial_json["generated_text"] = output_text
         output_save_file.write(json.dumps(initial_json) + "\n")
 

@@ -10,5 +10,8 @@ definitions" by [Maxim Tatarinov](https://github.com/tatarinovst2)
 The repository consists of the following components:
 
 * [wiktionary_parser](wiktionary_parser) - a parser for Wiktionary dump files
+* [model_training](model_training) - a module for training the FRED-T5-1.7B model
+* [inference](inference) - a module for inference with the FRED-T5-1.7B model
+* [evaluation](evaluation) - a module for evaluation of the dataset created by inference
 
 TBD

@@ -14,7 +14,7 @@ This directory contains the code for inference.
 2. Make sure you have the checkpoint.
 
     It is a folder containing `pytorch_model.bin` and other files.
-    
+
     If not, follow the other instructions in [model_training](../model_training/README.md).
 
 ## Two ways to run inference

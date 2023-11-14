@@ -76,6 +76,7 @@ def plot_training_and_test_loss(log_history: list[dict], output_path: str | Path
     :param log_history: The log history from the trainer.
     :param output_path: The path to save the plot to.
     :param plot_epochs: Whether to plot epochs or steps on the x-axis.
+    :raises ValueError: If the train losses and test losses have different lengths.
     """
     train_losses = []
     test_losses = []

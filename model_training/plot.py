@@ -46,7 +46,7 @@ def plot_metric(metric: str, log_history: list[dict], output_path: str | Path,
     epochs = []
 
     for entry in log_history:
-        if metric in entry:
+        if metric.strip() in entry:
             metric_values.append(entry[metric])
             steps.append(entry['step'])
             epochs.append(entry['epoch'])
@@ -135,7 +135,7 @@ def load_log_history_from_checkpoint(checkpoint_dir: str | Path) -> list[dict]:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Plot the graphs based on the log history.")
-    parser.add_argument("checkpoint-dir",
+    parser.add_argument("checkpoint_dir",
                         type=str,
                         help="The path to the checkpoint relative to the root directory.")
 
@@ -143,8 +143,8 @@ if __name__ == "__main__":
                         "-m",
                         type=str,
                         nargs="+",
-                        default=["rougeL", "blue"],
-                        help="The metrics to plot.")
+                        default=["eval_rougeL", "eval_blue"],
+                        help="The metrics to plot. i.e. eval_rougeL, eval_bleu.")
     args = parser.parse_args()
 
     checkpoint_path = parse_path(args.checkpoint_dir)

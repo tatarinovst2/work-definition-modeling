@@ -60,7 +60,7 @@ This is a module for training the FRED-T5-1.7B model.
 The plots are generated automatically based on log history from trainer state
 when each checkpoint and are saved under `path/to/checkpoint/graphs` directory.
 
-But you can also generate them manually by running `plot.py` with the following command.
+But you can also regenerate them manually by running `plot.py` with the following command.
 
 ```bash
 python3 -m model_training.plot path/to/checkpoint
@@ -69,5 +69,5 @@ python3 -m model_training.plot path/to/checkpoint
 You can also specify the metrics you want to plot by passing them as arguments.
 
 ```bash
-python3 -m model_training.plot path/to/checkpoint --metrics rougeL
+python3 -m model_training.plot path/to/checkpoint --metrics eval_rougeL
 ```

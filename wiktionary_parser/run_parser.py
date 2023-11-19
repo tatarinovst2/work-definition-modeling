@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import wikitextparser as wtp
+
 from template_parsing import (load_config, ParserConfig, pop_templates_in_text,
                               replace_templates_with_text)
 from utils import clean_text
@@ -38,7 +39,8 @@ def parse_dump(input_filepath: str | Path, output_filepath: str | Path,
             print(f"\rProcessed {index} XML elements...", end="")
 
 
-def process_element(element: ET.Element, output_filepath: str | Path, parser_config: ParserConfig) -> None:
+def process_element(element: ET.Element, output_filepath: str | Path,
+                    parser_config: ParserConfig) -> None:
     """
     Check if the XML element is an article and extract its id, title and definitions.
 
@@ -195,4 +197,4 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-   main()
+    main()

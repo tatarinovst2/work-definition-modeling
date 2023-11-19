@@ -1,6 +1,5 @@
 """Tests for the parse_dump function"""
 import json
-import traceback
 import unittest
 from pathlib import Path
 

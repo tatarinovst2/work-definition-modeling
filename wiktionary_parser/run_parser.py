@@ -5,15 +5,14 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import wikitextparser as wtp
-
-from wiktionary_parser.template_parsing import (load_config, pop_templates_in_text,
-                                                replace_templates_with_text)
-from wiktionary_parser.utils import clean_text
+from template_parsing import (load_config, ParserConfig, pop_templates_in_text,
+                              replace_templates_with_text)
+from utils import clean_text
 
 WIKTIONARY_PARSER_DIR = Path(__file__).parent
 ROOT_XML_TAG = "{http://www.mediawiki.org/xml/export-0.10/}"
 
-TAGS: dict[str, str] = {
+TAGS = {
     "text": ROOT_XML_TAG + "revision//" + ROOT_XML_TAG + "text",
     "title": ROOT_XML_TAG + "title",
     "redirect": ROOT_XML_TAG + "redirect",
@@ -21,11 +20,11 @@ TAGS: dict[str, str] = {
     "id": ROOT_XML_TAG + "id"
 }
 
-ARTICLE_NAMESPACE: str = "0"
+ARTICLE_NAMESPACE = "0"
 
 
 def parse_dump(input_filepath: str | Path, output_filepath: str | Path,
-               parser_config: dict) -> None:
+               parser_config: ParserConfig) -> None:
     """
     Parse the Wiktionary xml.bz2 dump file and extract articles.
 
@@ -39,7 +38,7 @@ def parse_dump(input_filepath: str | Path, output_filepath: str | Path,
             print(f"\rProcessed {index} XML elements...", end="")
 
 
-def process_element(element: ET.Element, output_filepath: str | Path, parser_config: dict) -> None:
+def process_element(element: ET.Element, output_filepath: str | Path, parser_config: ParserConfig) -> None:
     """
     Check if the XML element is an article and extract its id, title and definitions.
 
@@ -100,7 +99,7 @@ def get_sections(wiki_text: wtp.WikiText, section_title: str) -> list[wtp.Sectio
     return result_sections
 
 
-def parse_wiki(wiki: str, parser_config: dict) -> dict[str, dict[str, list[str]]] | None:
+def parse_wiki(wiki: str, parser_config: ParserConfig) -> dict[str, dict[str, list[str]]] | None:
     """
     Parse the wiki text of an article and extract definitions.
 
@@ -130,11 +129,11 @@ def parse_wiki(wiki: str, parser_config: dict) -> dict[str, dict[str, list[str]]
                 definition_wiki_text.plain_text(
                     replace_templates=False).replace("\n", ""),
                     "пример",
-                    mappings=parser_config["mappings"])
+                    mappings=parser_config.mappings)
 
             definition = replace_templates_with_text(
-                definition, mappings=parser_config["mappings"],
-                templates_to_remove=parser_config["templates_to_remove"])
+                definition, mappings=parser_config.mappings,
+                templates_to_remove=parser_config.templates_to_remove)
             definition = clean_text(definition, words_to_remove=["также", "и", "или"],
                                     sequences_to_remove=["знач=", "определение="])
             if not definition:
@@ -144,9 +143,9 @@ def parse_wiki(wiki: str, parser_config: dict) -> dict[str, dict[str, list[str]]
 
             for example_template in example_templates:
                 example_text = replace_templates_with_text(
-                    example_template.get_text(mappings=parser_config["mappings"]),
-                    mappings=parser_config["mappings"],
-                    templates_to_remove=parser_config["templates_to_remove"])
+                    example_template.get_text(mappings=parser_config.mappings),
+                    mappings=parser_config.mappings,
+                    templates_to_remove=parser_config.templates_to_remove)
                 example_text = clean_text(example_text, words_to_remove=["также", "и", "или"],
                                     sequences_to_remove=["текст="])
                 if not example_text or example_text == "пример":
@@ -182,7 +181,8 @@ def validate_filepaths(input_filepath: str | Path, output_filepath: str | Path) 
         output_filepath.unlink()
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """Parse the Wiktionary dump file and extract articles."""
     dump_filepath = WIKTIONARY_PARSER_DIR / "data" / "ruwiktionary-latest-pages-articles.xml.bz2"
     output_definitions_filepath = WIKTIONARY_PARSER_DIR / "data" / "definitions.jsonl"
     config_filepath = WIKTIONARY_PARSER_DIR / "wiktionary_parser_config.json"
@@ -192,3 +192,7 @@ if __name__ == "__main__":
     validate_filepaths(dump_filepath, output_definitions_filepath)
 
     parse_dump(dump_filepath, output_definitions_filepath, config)
+
+
+if __name__ == "__main__":
+   main()

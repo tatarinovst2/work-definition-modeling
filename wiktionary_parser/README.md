@@ -34,11 +34,27 @@ Open the Terminal or Command Prompt in the root directory of this repository.
 cd path/to/work-definition-modeling
 ```
 
+Activate the virtual environment.
+
+For Windows:
+
+```bash
+python3 -m venv venv
+venv\Scripts\activate
+```
+
+For Linux and macOS:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
 Make sure you've installed the requirements.
 You can do it by running
 
 ```bash
-pip3 install -r requirements.txt
+python3 -m pip install -r requirements.txt
 ```
 
 ### 2. Download the latest XML dump
@@ -97,7 +113,7 @@ Open the terminal or the command line in the root directory of the project
 and run the following command:
 
 ```bash
-python3 -m wiktionary_parser.run_parser
+python3 wiktionary_parser/run_parser.py
 ```
 
 The parser will create a `definitions.jsonl` file in the `data` directory.

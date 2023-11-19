@@ -1,13 +1,14 @@
 """A module for processing templates in wiki text."""
 import json
+from dataclasses import dataclass
 from pathlib import Path
-from typing import TypedDict
 
 import wikitextparser as wtp
 
 
-class CustomMapping(TypedDict):
-    """A typed dictionary for representing a custom mapping for a template."""
+@dataclass
+class CustomMapping:
+    """A data class for representing a custom mapping for a template."""
 
     title_index: int
     title: str
@@ -15,6 +16,41 @@ class CustomMapping(TypedDict):
     starting_text: str
     ending_text: str
     arguments_count: int
+
+
+@dataclass
+class ParserConfig:
+    """A data class for representing the parser config."""
+
+    mappings: list[CustomMapping]
+    templates_to_remove: list[str]
+
+
+def load_config(filepath: str | Path) -> ParserConfig:
+    """
+    Load the config from the given filepath.
+
+    :param filepath: The filepath to load the config from
+    :return: The config
+    """
+    mappings = []
+
+    with open(filepath, "r", encoding="utf-8") as json_file:
+        mappings_dict = json.load(json_file)
+
+    for custom_mapping in mappings_dict.get("mappings", []):
+        mapping = CustomMapping(title_index=custom_mapping["title_index"],
+                                title=custom_mapping["title"],
+                                description_indexes=custom_mapping["description_indexes"],
+                                starting_text=custom_mapping.get("starting_text", ""),
+                                ending_text=custom_mapping.get("ending_text", ""),
+                                arguments_count=custom_mapping.get("arguments_count", -1))
+
+        mappings.append(mapping)
+
+    templates_to_remove = mappings_dict.get("templates_to_remove", [])
+
+    return ParserConfig(mappings=mappings, templates_to_remove=templates_to_remove)
 
 
 class Template:
@@ -36,28 +72,26 @@ class Template:
             mappings = []
 
         for custom_mapping in mappings:
-            title_index = custom_mapping["title_index"]
-
-            if title_index >= len(self.arguments):
+            if custom_mapping.title_index >= len(self.arguments):
                 continue
 
-            if (custom_mapping["arguments_count"] != -1 and
-                    len(self.arguments) != custom_mapping["arguments_count"]):
+            if (custom_mapping.arguments_count != -1 and
+                    len(self.arguments) != custom_mapping.arguments_count):
                 continue
 
             description_index_out_of_range = False
-            for description_index in custom_mapping["description_indexes"]:
+            for description_index in custom_mapping.description_indexes:
                 if description_index >= len(self.arguments):
                     description_index_out_of_range = True
                     break
             if description_index_out_of_range:
                 continue
 
-            if custom_mapping["title"] == self.arguments[title_index]:
-                return (custom_mapping["starting_text"] +
+            if custom_mapping.title == self.arguments[custom_mapping.title_index]:
+                return (custom_mapping.starting_text +
                         self.get_text_from_argument_indexes(
-                            custom_mapping["description_indexes"], ", ") +
-                        custom_mapping["ending_text"])
+                            custom_mapping.description_indexes, ", ") +
+                        custom_mapping.ending_text)
 
         if len(self.arguments) == 1:
             return self.arguments[0]
@@ -75,11 +109,11 @@ class Template:
             mappings = []
 
         for custom_mapping in mappings:
-            title_index = custom_mapping.get("title_index", 0)
+            title_index = custom_mapping.title_index
             if title_index >= len(self.arguments):
                 continue
-            if custom_mapping["title"] == self.arguments[title_index]:
-                return self.arguments[custom_mapping.get("title_index", 0)]
+            if custom_mapping.title == self.arguments[title_index]:
+                return self.arguments[custom_mapping.title_index]
 
         return self.arguments[0]
 
@@ -175,31 +209,3 @@ def pop_templates_in_text(text: str, title_to_pop: str,
             popped_templates.append(template)
 
     return text, popped_templates
-
-
-def load_config(filepath: str | Path) -> dict[str, list[CustomMapping] | list[str]]:
-    """
-    Load the config from the given filepath.
-
-    :param filepath: The filepath to load the config from
-    :return: The config
-    """
-    mappings = []
-
-    with open(filepath, "r", encoding="utf-8") as json_file:
-        mappings_dict = json.load(json_file)
-
-    for custom_mapping in mappings_dict.get("mappings", []):
-        mapping = CustomMapping(title_index=custom_mapping["title_index"],
-                                title=custom_mapping["title"],
-                                description_indexes=custom_mapping["description_indexes"],
-                                starting_text=custom_mapping.get("starting_text", ""),
-                                ending_text=custom_mapping.get("ending_text", ""),
-                                arguments_count=custom_mapping.get("arguments_count", -1))
-
-        mappings.append(mapping)
-
-    return {
-        "mappings": mappings,
-        "templates_to_remove": mappings_dict.get("templates_to_remove", [])
-    }

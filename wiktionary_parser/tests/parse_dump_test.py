@@ -1,6 +1,5 @@
 """Tests for the parse_dump function"""
 import json
-import traceback
 import unittest
 from pathlib import Path
 
@@ -33,11 +32,7 @@ class ParseDumpTest(unittest.TestCase):
         """
         Parse_dump should not raise any errors with ideal input
         """
-        try:
-            parse_dump(self.test_articles_path, self.test_definitions_path, self.config)
-        except Exception:
-            print(traceback.format_exc())
-            self.fail("parse_dump raised an error unexpectedly!")
+        parse_dump(self.test_articles_path, self.test_definitions_path, self.config)
 
         self.assertTrue(self.test_definitions_path.exists())
 

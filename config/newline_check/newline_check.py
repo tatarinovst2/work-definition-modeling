@@ -25,6 +25,7 @@ def filter_paths_to_check(paths: list[Path]) -> list[Path]:
     extensions_to_check = [
         ".py",
         ".json",
+        ".jsonl",
         ".md",
         ".sh",
         ".yaml",

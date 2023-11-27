@@ -19,15 +19,22 @@ def main() -> None:
                         help="The proportion of the dataset to use for training.")
     parser.add_argument("--output-dir", "-o",
                         type=str,
-                        default="data/splits",
+                        default="model/data/splits",
                         help="The directory to save the splits to.")
+    parser.add_argument("--seed", "-s",
+                        type=int,
+                        default=42,
+                        help="The random state provided to split the dataset. "
+                             "The same seed results in the same splits.")
 
     args = parser.parse_args()
 
     parsed_raw_dataset_path = parse_path(args.raw_dataset_path)
     parsed_output_dir = parse_path(args.output_dir)
 
-    prepare_dataset(parsed_raw_dataset_path, parsed_output_dir, train_size=args.train_split)
+    prepare_dataset(parsed_raw_dataset_path, parsed_output_dir,
+                    train_size=args.train_split,
+                    random_state=args.seed)
 
 
 if __name__ == "__main__":

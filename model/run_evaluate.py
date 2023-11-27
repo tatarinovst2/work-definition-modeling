@@ -1,9 +1,10 @@
 """A module for evaluation of the model."""
+import argparse
 import json
 from pathlib import Path
 
-from model_training.metrics import get_bleu_score, get_rouge_score
-from utils import parse_path
+from src.metrics import get_bleu_score, get_rouge_score
+from src.utils import parse_path
 
 
 def load_target_pred_dataset(dataset_path: str | Path, target_field: str,
@@ -48,9 +49,8 @@ def evaluate_model_with_validation_dataset(dataset_path: str | Path, target_fiel
     }
 
 
-if __name__ == "__main__":
-    import argparse
-
+def main() -> None:
+    """Evaluate the model."""
     parser = argparse.ArgumentParser(
         description="Evaluate the model on a dataset.")
 
@@ -75,3 +75,7 @@ if __name__ == "__main__":
                                                     args.pred_field)
 
     print(scores)
+
+
+if __name__ == "__main__":
+    main()

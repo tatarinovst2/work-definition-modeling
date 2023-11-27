@@ -3,7 +3,7 @@ import unittest
 
 import pytest
 
-from model_training.metrics import get_bleu_score, get_rouge_score
+from model.src.metrics import get_bleu_score, get_rouge_score
 
 
 class TestComputeMetrics(unittest.TestCase):
@@ -16,7 +16,7 @@ class TestComputeMetrics(unittest.TestCase):
         self.decoded_predictions = ["Ася лежит на подоконнике, греется на солнышке и вылизывается.",
                                     "Ася залезла в коробку и спит."]
 
-    @pytest.mark.model_training
+    @pytest.mark.model
     def test_get_bleu_score_ideal(self):
         """
         get_bleu_score should return the correct BLEU score
@@ -26,7 +26,7 @@ class TestComputeMetrics(unittest.TestCase):
 
         self.assertAlmostEqual(actual / 100, expected, places=2)
 
-    @pytest.mark.model_training
+    @pytest.mark.model
     def test_get_rouge_score_ideal(self):
         """
         get_rouge_score should return the correct ROUGE score

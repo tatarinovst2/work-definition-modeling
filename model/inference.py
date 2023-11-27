@@ -5,9 +5,8 @@ import sys
 from pathlib import Path
 
 import torch  # pylint: disable=import-error
+from src.utils import get_current_torch_device, parse_path
 from transformers import AutoTokenizer, T5ForConditionalGeneration  # pylint: disable=import-error
-
-from utils import get_current_torch_device, parse_path
 
 
 def load_model(model_checkpoint: str | Path) -> tuple[T5ForConditionalGeneration, AutoTokenizer]:

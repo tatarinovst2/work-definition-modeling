@@ -13,12 +13,12 @@ This is a module for evaluation of the model based on metrics such as BERT-F1, R
 
     Make sure you've installed the requirements and opened the Terminal or Command prompt
     in the root directory of this repository.
-    If not, follow the instructions in [model_training](../model_training/README.md).
+    If not, follow the instructions in [Model training](Model%20training.md).
 
 3. Run
 
     ```bash
-    python3 -m evaluation.evaluate path/to/dataset.jsonl
+    python3 model/run_evaluate.py path/to/dataset.jsonl
     ```
 
 By default, the fields for input text and the generated one are called

@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from model_training.utils import load_train_config
+from model.src.utils import load_train_config
 
 
 class TestLoadConfig(unittest.TestCase):
@@ -14,7 +14,7 @@ class TestLoadConfig(unittest.TestCase):
         self.correct_config_path = self.tests_dir / "data" / "correct_train_config.json"
         self.incorrect_config_path = self.tests_dir / "data" / "incorrect_train_config.json"
 
-    @pytest.mark.model_training
+    @pytest.mark.model
     def test_load_config_correct(self):
         """
         load_train_config should return the correct config
@@ -30,7 +30,7 @@ class TestLoadConfig(unittest.TestCase):
 
         self.assertEqual(actual, expected)
 
-    @pytest.mark.model_training
+    @pytest.mark.model
     def test_load_config_incorrect(self):
         """
         load_train_config should raise a ValueError if the config is incorrect

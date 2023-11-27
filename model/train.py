@@ -2,17 +2,15 @@
 from pathlib import Path
 
 import numpy as np
+from plot import plot_graphs_based_on_log_history
+from src.constants import ROOT_DIR
+from src.dataset_processing import load_dataset_split
+from src.metrics import get_bleu_score, get_rouge_score
+from src.utils import get_current_torch_device, load_train_config, parse_path
 from transformers import (AutoModelForSeq2SeqLM, AutoTokenizer,  # pylint: disable=import-error
                           BatchEncoding, DataCollatorForSeq2Seq, PreTrainedTokenizer,
                           Seq2SeqTrainer, Seq2SeqTrainingArguments, TrainerCallback, TrainerControl,
                           TrainerState, TrainingArguments)
-
-from constants import ROOT_DIR
-from model_training.dataset_processing import prepare_dataset
-from model_training.metrics import get_bleu_score, get_rouge_score
-from model_training.plot import plot_graphs_based_on_log_history
-from model_training.utils import load_train_config
-from utils import get_current_torch_device, parse_path
 
 
 def preprocess_function(examples: dict, tokenizer: PreTrainedTokenizer) -> BatchEncoding:
@@ -77,15 +75,15 @@ class LossLoggingCallback(TrainerCallback):  # pylint: disable=too-few-public-me
                                          ["eval_rougeL", "eval_blue"])
 
 
-if __name__ == "__main__":
-    train_config = load_train_config(ROOT_DIR / "model_training" / "train_config.json")
+def main() -> None:
+    """Train the model."""
+    train_config = load_train_config(ROOT_DIR / "model" / "train_config.json")
 
     loaded_tokenizer = AutoTokenizer.from_pretrained(train_config["model_checkpoint"])
     print(f"Using {type(loaded_tokenizer)}")
 
-    dataset_dict = prepare_dataset(parse_path(train_config["dataset_path"]),
-                                   parse_path(train_config["test_dataset_output_path"]),
-                                   debug_mode=train_config.get("debug", False))
+    dataset_dict = load_dataset_split(parse_path(train_config["dataset_split_path"]),
+                                      debug_mode=train_config.get("debug", False))
 
     tokenized_datasets = dataset_dict.map(
         lambda examples: preprocess_function(examples, loaded_tokenizer), batched=True)
@@ -114,6 +112,8 @@ if __name__ == "__main__":
         max_steps=train_config.get("max_steps", -1),
         predict_with_generate=train_config.get("predict_with_generate", False),
         fp16=train_config.get("fp16", False),
+        load_best_model_at_end=train_config.get("load_best_model_at_end", True),
+        metric_for_best_model=train_config.get("metric_for_best_model", "eval_rougeL"),
         push_to_hub=train_config.get("push_to_hub", False)
     )
 
@@ -131,3 +131,7 @@ if __name__ == "__main__":
     )
 
     trainer.train()
+
+
+if __name__ == "__main__":
+    main()

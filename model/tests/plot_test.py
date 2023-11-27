@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from model_training.plot import plot_metric, plot_training_and_test_loss
+from model.plot import plot_metric, plot_training_and_test_loss
 
 
 class PlotTrainingAndTestLossTest(unittest.TestCase):
@@ -72,7 +72,7 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
         if self.test_metric_step_filepath.exists():
             self.test_metric_step_filepath.unlink()
 
-    @pytest.mark.model_training
+    @pytest.mark.model
     def test_plot_training_and_test_loss_with_epochs_ideal(self):
         """
         Plot_training_and_test_loss should create a png file with the correct plot
@@ -89,7 +89,7 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
-    @pytest.mark.model_training
+    @pytest.mark.model
     def test_plot_training_and_test_loss_with_steps_ideal(self):
         """
         Plot_training_and_test_loss should create a png file with the correct plot
@@ -107,7 +107,7 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
-    @pytest.mark.model_training
+    @pytest.mark.model
     def test_plot_metric_with_epochs_ideal(self):
         """
         Plot_metric should create a png file with the correct plot
@@ -125,7 +125,7 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
-    @pytest.mark.model_training
+    @pytest.mark.model
     def test_plot_metric_with_steps_ideal(self):
         """
         Plot_metric should create a png file with the correct plot

@@ -2,6 +2,13 @@
 import json
 from pathlib import Path
 
+try:
+    import torch  # pylint: disable=import-error
+except ImportError:
+    torch = None  # type: ignore
+
+from .constants import ROOT_DIR
+
 
 def load_train_config(config_path: str | Path) -> dict:
     """
@@ -39,3 +46,30 @@ def load_train_config(config_path: str | Path) -> dict:
                          "other than 'steps'")
 
     return config
+
+def parse_path(path: str | Path) -> Path:
+    """
+    Ensure that the path is absolute and is in a pathlib.Path format.
+
+    :param path: The path to parse.
+    :return: The parsed path.
+    """
+    path = Path(path)
+    if not path.is_absolute():
+        path = ROOT_DIR / path
+    return path
+
+
+def get_current_torch_device() -> str:
+    """
+    Get the current torch device.
+
+    :return: The current torch device.
+    """
+    if torch.cuda.is_available():
+        return "cuda"
+
+    if torch.backends.mps.is_available():
+        return "mps"
+
+    return "cpu"

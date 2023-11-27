@@ -9,13 +9,13 @@ This directory contains the code for inference.
     Make sure you've installed the requirements and opened the Terminal or Command prompt
     in the root directory of this repository.
 
-    If not, follow the first two instructions in [model_training](../model_training/README.md).
+    If not, follow the first two instructions in [Model training](Model%20training.md).
 
 2. Make sure you have the checkpoint.
 
     It is a folder containing `pytorch_model.bin` and other files.
 
-    If not, follow the other instructions in [model_training](../model_training/README.md).
+    If not, follow the other instructions in [Model training](Model%20training.md).
 
 ## Two ways to run inference
 
@@ -26,13 +26,13 @@ There are two ways to run inference:
 You must have a `.jsonl` file with a input field in each line.
 By default, it is `input_text` field.
 
-Such a dataset is created by the `model_training.train` module. It corresponds
+Such a dataset is created by the `model.train` module. It corresponds
 to the test split of the dataset.
 
 Supply the path to the file as an argument to `inference.py`:
 
 ```bash
-python3 -m inference.inference path/to/checkpoint
+python3 model/inference.py path/to/checkpoint
 --input_file path/to/dataset.jsonl --output_file path/to/output.jsonl
 ```
 
@@ -44,7 +44,7 @@ but with the `generated_text` field added to each line.
 Run `inference.py` without the `--input_file` argument:
 
 ```bash
-python3 -m inference.inference path/to/checkpoint
+python3 model/inference.py path/to/checkpoint
 ```
 
 Then, you will have to enter a prompt.

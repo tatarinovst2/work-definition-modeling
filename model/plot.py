@@ -4,8 +4,7 @@ import json
 from pathlib import Path
 
 import matplotlib.pyplot as plt
-
-from utils import parse_path
+from src.utils import parse_path
 
 
 def plot_graphs_based_on_log_history(log_history: list[dict], output_dir: str | Path,
@@ -133,7 +132,8 @@ def load_log_history_from_checkpoint(checkpoint_dir: str | Path) -> list[dict]:
     return log_history
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """Plot the graphs."""
     parser = argparse.ArgumentParser(description="Plot the graphs based on the log history.")
     parser.add_argument("checkpoint_dir",
                         type=str,
@@ -158,3 +158,6 @@ if __name__ == "__main__":
 
     plot_graphs_based_on_log_history(checkpoint_log_history, checkpoint_path / "graphs",
                                      args.metrics)
+
+if __name__ == "__main__":
+    main()

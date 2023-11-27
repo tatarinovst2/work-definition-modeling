@@ -7,10 +7,6 @@ pythonpath = [
     "wiktionary_parser",
     "model"
 ]
-pythonpath = [
-  "wiktionary_parser",
-  "model_training"
-]
 
 [tool.coverage.run]
 omit = [
@@ -26,7 +22,7 @@ omit = [
 ]
 
 [[tool.mypy.overrides]]
-module = ["wiktionary_parser/*", "model/*", "evaluation/*", "inference/*"]
+module = ["wiktionary_parser/*", "model/*"]
 disable_error_code = [
     'import-untyped',
     'import-not-found'

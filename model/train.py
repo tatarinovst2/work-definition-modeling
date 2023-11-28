@@ -93,6 +93,7 @@ def main() -> None:
     arguments = Seq2SeqTrainingArguments(
         ROOT_DIR / "models" / f"{model_name}-definition-modeling",
         learning_rate=train_config.learning_rate,
+        lr_scheduler_type=train_config.lr_scheduler_type or "linear",
         per_device_train_batch_size=train_config.batch_size,
         per_device_eval_batch_size=train_config.batch_size,
         gradient_checkpointing=train_config.gradient_checkpointing or False,

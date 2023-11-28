@@ -4,10 +4,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
-try:
-    import torch  # pylint: disable=import-error
-except ImportError:
-    torch = None  # type: ignore
+import torch
 
 from .constants import ROOT_DIR
 
@@ -20,6 +17,7 @@ class TrainConfigDTO:  # pylint: disable=too-many-instance-attributes
     dataset_split_directory: str
     learning_rate: float
     batch_size: int
+    lr_scheduler_type: Optional[str] = None
     gradient_checkpointing: Optional[bool] = None
     gradient_accumulation_steps: Optional[int] = None
     weight_decay: Optional[float] = None

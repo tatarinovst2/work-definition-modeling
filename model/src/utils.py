@@ -68,7 +68,6 @@ def load_train_config(config_path: str | Path) -> TrainConfigDTO:
 
     :param config_path: The path to the config.
     :return: The config.
-    :raises ValueError: If the config is invalid.
     """
     with open(config_path, "r", encoding="utf-8") as json_file:
         config = json.load(json_file)

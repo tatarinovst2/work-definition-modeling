@@ -118,6 +118,7 @@ def load_dataset_for_inference(input_file_path: str | Path, input_field: str,
     :param input_field: The name of the field in the dataset that contains the input text.
     :param debug: Whether to load only a small subset of the dataset.
     :return: The dataset.
+    :raises ValueError: If the input field is not found in the JSON object.
     """
     data = []
 

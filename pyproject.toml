@@ -11,14 +11,16 @@ pythonpath = [
 [tool.coverage.run]
 omit = [
     "*__init__.py",
-    "*_test.py"
+    "*_test.py",
+    "/tmp/*"
 ]
 
 [tool.coverage.report]
 fail_under=85
 omit = [
     "*/.cache/*",
-    "*/var/folders/*"
+    "*/var/folders/*",
+    "/tmp/*"
 ]
 
 [[tool.mypy.overrides]]

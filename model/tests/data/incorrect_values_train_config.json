@@ -3,5 +3,7 @@
   "dataset_split_directory": "model/data/splits",
   "learning_rate": 2e-5,
   "batch_size": 4,
-  "num_train_epochs": 1
+  "num_train_epochs": 1,
+  "evaluation_strategy": "epoch",
+  "eval_steps": 100
 }

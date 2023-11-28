@@ -36,18 +36,21 @@ def get_rouge_score(predictions: list[str], labels: list[str]) -> float:
     return rouge_results["rougeL"]
 
 
-def get_bert_score(predictions: list[str], labels: list[str]) -> float:
+def get_bert_score(predictions: list[str], labels: list[str],
+                   device: str = "cpu") -> float:
     """
     Compute the BERT score for a list of predictions and labels.
 
     :param predictions: The list of predictions.
     :param labels: The list of labels.
+    :param device: The PyTorch device to use (e.g. "cuda", "mps" or "cpu")
     :return: The score F1.
     """
     bert_metric = load("bertscore")
 
     bert_results = bert_metric.compute(predictions=predictions,
                                        references=labels,
-                                       lang="ru")
+                                       lang="ru",
+                                       device=device)
 
-    return bert_results["f1"]
+    return sum(bert_results["f1"]) / len(bert_results["f1"])

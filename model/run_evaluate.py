@@ -3,8 +3,8 @@ import argparse
 import json
 from pathlib import Path
 
-from src.metrics import get_bleu_score, get_rouge_score
-from src.utils import parse_path
+from src.metrics import get_bert_score, get_bleu_score, get_rouge_score
+from src.utils import get_current_torch_device, parse_path
 
 
 def load_target_pred_dataset(dataset_path: str | Path, target_field: str,
@@ -40,12 +40,12 @@ def evaluate_model_with_validation_dataset(dataset_path: str | Path, target_fiel
 
     bleu_score = get_bleu_score(target_texts, pred_texts)
     rouge_score = get_rouge_score(target_texts, pred_texts)
-    # bert_score = get_bert_score(target_texts, pred_texts)
+    bert_score = get_bert_score(target_texts, pred_texts, get_current_torch_device())
 
     return {
         "bleu": bleu_score,
         "rougeL": rouge_score,
-        # "bert-f1": bert_score
+        "bert-f1": bert_score
     }
 
 

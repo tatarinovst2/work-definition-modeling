@@ -48,6 +48,35 @@ def run_inference(model: T5ForConditionalGeneration, tokenizer: AutoTokenizer,
     return output_text
 
 
+def run_inference_over_dataset(  # pylint: disable=too-many-arguments
+        model: T5ForConditionalGeneration,
+        tokenizer: AutoTokenizer,
+        data: list[dict[str, str]],
+        input_field: str,
+        output_file_path: str | Path,
+        max_length: int = 100) -> None:
+    """
+    Run inference over a dataset.
+
+    :param model: The model.
+    :param tokenizer: The tokenizer.
+    :param data: The dataset.
+    :param input_field: The name of the field in the dataset that contains the input text.
+    :param output_file_path: The path to the output file.
+    :param output_field: The name of the field in the dataset that contains the generated text.
+    :param max_length: The maximum length of the output.
+    """
+    entries_inferred = 0
+    total_entries = len(data)
+
+    for entry in data:
+        prompt = entry[input_field]
+        output_text = run_inference(model, tokenizer, prompt, max_length=max_length)
+        save_output(output_text, output_file_path, entry)
+        entries_inferred += 1
+        print(f"\rInferred {entries_inferred} out of {total_entries}.", end="")
+
+
 def validate_args(args: argparse.Namespace) -> None:
     """
     Validate the arguments.
@@ -78,6 +107,31 @@ def save_output(output_text: str, output_save_filepath: str | Path, initial_json
     with open(output_save_filepath, "a", encoding="utf-8") as output_save_file:
         initial_json["generated_text"] = output_text
         output_save_file.write(json.dumps(initial_json, ensure_ascii=False) + "\n")
+
+
+def load_dataset_for_inference(input_file_path: str | Path, input_field: str,
+                               debug: bool = False) -> list[dict[str, str]]:
+    """
+    Load the dataset for inference.
+
+    :param input_file_path: The path to the input file.
+    :param input_field: The name of the field in the dataset that contains the input text.
+    :param debug: Whether to load only a small subset of the dataset.
+    :return: The dataset.
+    """
+    data = []
+
+    with open(input_file_path, "r", encoding="utf-8") as input_file:
+        for line in input_file:
+            json_object = json.loads(line)
+            if input_field not in json_object:
+                raise ValueError(f"Field {input_field} not found in JSON object.")
+            data.append(json_object)
+
+            if debug and len(data) == 100:
+                break
+
+    return data
 
 
 def validate_output_file(output_file_path: str | Path) -> None:
@@ -115,6 +169,9 @@ def main():
                         type=str,
                         default="input_text",
                         help="The name of the field in the dataset that contains the input text.")
+    parser.add_argument("--debug", "-d",
+                        action="store_true",
+                        help="Run in debug mode. (default: False)")
 
     args = parser.parse_args()
 
@@ -125,17 +182,13 @@ def main():
     input_file_path = parse_path(args.input_file)
     output_file_path = parse_path(args.output_file)
 
-    if args.input_file is not None:
-        validate_output_file(output_file_path)
+    validate_output_file(output_file_path)
 
-        with open(input_file_path, "r", encoding="utf-8") as input_file:
-            for line in input_file:
-                json_object = json.loads(line)
-                if args.input_field not in json_object:
-                    raise ValueError(f"Field {args.input_field} not found in JSON object.")
-                prompt = json_object[args.input_field]
-                output_text = run_inference(model, tokenizer, prompt)
-                save_output(output_text, output_file_path, json_object)
+    if args.input_file is not None:
+        data = load_dataset_for_inference(input_file_path, args.input_field, args.debug)
+
+        run_inference_over_dataset(model, tokenizer, data, args.input_field,
+                                   output_file_path)
     else:
         while True:
             prompt = input("Enter a prompt: ")

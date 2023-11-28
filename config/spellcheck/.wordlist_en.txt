@@ -3,6 +3,7 @@ bleu
 bool
 bz
 config
+cuda
 dataset
 datasetdict
 entrypoint
@@ -11,6 +12,7 @@ filenotfounderror
 filepath
 json
 jsonl
+mps
 param
 pathlib
 png

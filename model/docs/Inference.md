@@ -26,14 +26,14 @@ There are two ways to run inference:
 You must have a `.jsonl` file with a input field in each line.
 By default, it is `input_text` field.
 
-Such a dataset is created by the `model.train` module. It corresponds
+Such a dataset is created by the `model/train.py` script. It corresponds
 to the test split of the dataset.
 
 Supply the path to the file as an argument to `inference.py`:
 
 ```bash
 python3 model/inference.py path/to/checkpoint
---input_file path/to/dataset.jsonl --output_file path/to/output.jsonl
+--input-file path/to/dataset.jsonl --output-file path/to/output.jsonl
 ```
 
 In this case, the output will be a `.jsonl` file with the same format as the input file,

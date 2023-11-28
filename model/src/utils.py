@@ -1,6 +1,8 @@
 """A script for supporting functions."""
 import json
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional
 
 try:
     import torch  # pylint: disable=import-error
@@ -10,7 +12,57 @@ except ImportError:
 from .constants import ROOT_DIR
 
 
-def load_train_config(config_path: str | Path) -> dict:
+@dataclass
+class TrainConfigDTO:  # pylint: disable=too-many-instance-attributes
+    """A data class for representing the train config."""
+
+    model_checkpoint: str
+    dataset_split_directory: str
+    learning_rate: float
+    batch_size: int
+    gradient_checkpointing: Optional[bool] = None
+    gradient_accumulation_steps: Optional[int] = None
+    weight_decay: Optional[float] = None
+    optimizer: Optional[str] = None
+    max_steps: Optional[int] = None
+    num_train_epochs: Optional[int] = None
+    save_total_limit: Optional[int] = None
+    predict_with_generate: Optional[bool] = None
+    save_steps: Optional[int] = None
+    save_strategy: Optional[str] = None
+    logging_steps: Optional[int] = None
+    logging_strategy: Optional[str] = None
+    eval_steps: Optional[int] = None
+    evaluation_strategy: Optional[str] = None
+    fp16: Optional[bool] = None
+    load_best_model_at_end: Optional[bool] = None
+    metric_for_best_model: Optional[str] = None
+    push_to_hub: Optional[bool] = None
+    debug: Optional[bool] = None
+
+    def __post_init__(self):
+        if self.max_steps is None and self.num_train_epochs is None:
+            raise ValueError("TrainConfigDTO must contain either 'max_steps' or "
+                             "'num_train_epochs'")
+
+        if self.max_steps is not None and self.num_train_epochs is not None:
+            raise ValueError("TrainConfigDTO must not contain both 'max_steps' and "
+                             "'num_train_epochs'")
+
+        if self.save_steps is not None and self.save_strategy != "steps":
+            raise ValueError("TrainConfigDTO must not contain 'save_steps' and "
+                             "'save_strategy' other than 'steps'")
+
+        if self.logging_steps is not None and self.logging_strategy != "steps":
+            raise ValueError("TrainConfigDTO must not contain 'logging_steps' and "
+                             "'logging_strategy' other than 'steps'")
+
+        if self.eval_steps is not None and self.evaluation_strategy != "steps":
+            raise ValueError("TrainConfigDTO must not contain 'eval_steps' and "
+                             "'evaluation_strategy' other than 'steps'")
+
+
+def load_train_config(config_path: str | Path) -> TrainConfigDTO:
     """
     Load a config from a JSON file.
 
@@ -21,31 +73,8 @@ def load_train_config(config_path: str | Path) -> dict:
     with open(config_path, "r", encoding="utf-8") as json_file:
         config = json.load(json_file)
 
-    required_keys = ["model_checkpoint", "dataset_path", "batch_size"]
+    return TrainConfigDTO(**config)
 
-    for key in required_keys:
-        if key not in config:
-            raise ValueError(f"Config must contain the key '{key}'")
-
-    if "max_steps" not in config and "num_train_epochs" not in config:
-        raise ValueError("Config must contain either 'max_steps' or 'num_train_epochs'")
-
-    if "max_steps" in config and "num_train_epochs" in config:
-        raise ValueError("Config must not contain both 'max_steps' and 'num_train_epochs'")
-
-    if "save_steps" in config and config.get("save_strategy", "epoch") != "steps":
-        raise ValueError("Config must not contain 'save_steps' and 'save_strategy' "
-                         "other than 'steps'")
-
-    if "logging_steps" in config and config.get("logging_strategy", "epoch") != "steps":
-        raise ValueError("Config must not contain 'logging_steps' and 'logging_strategy' "
-                         "other than 'steps'")
-
-    if "eval_steps" in config and config.get("evaluation_strategy", "epoch") != "steps":
-        raise ValueError("Config must not contain 'eval_steps' and 'evaluation_strategy' "
-                         "other than 'steps'")
-
-    return config
 
 def parse_path(path: str | Path) -> Path:
     """

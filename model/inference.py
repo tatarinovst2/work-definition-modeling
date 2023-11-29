@@ -16,8 +16,8 @@ def load_model(model_checkpoint: str | Path) -> tuple[T5ForConditionalGeneration
     :param model_checkpoint: The path to the checkpoint.
     :return: The model and the tokenizer.
     """
-    model = T5ForConditionalGeneration.from_pretrained(model_checkpoint)
-    tokenizer = AutoTokenizer.from_pretrained(model_checkpoint, eos_token='</s>')
+    model = T5ForConditionalGeneration.from_pretrained(model_checkpoint, torch_dtype=torch.float16)
+    tokenizer = AutoTokenizer.from_pretrained(model_checkpoint)
 
     model.to(get_current_torch_device())
 

@@ -30,7 +30,7 @@ jobs:
   code-style:
     name: Code Style
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     needs: [ install-dependencies ]
 
     steps:
@@ -75,7 +75,7 @@ jobs:
   spellcheck:
     name: Spellcheck
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     needs: [ install-dependencies ]
     steps:
       - uses: actions/checkout@master
@@ -92,7 +92,7 @@ jobs:
   flake8-checks:
     name: Import style checks
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     needs: [ install-dependencies ]
 
     steps:
@@ -107,7 +107,7 @@ jobs:
   pymarkdownlnt-checks:
     name: Pymarkdownlnt checks
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     needs: [ install-dependencies ]
 
     steps:
@@ -122,7 +122,7 @@ jobs:
   requirements-check:
     name: Requirements check
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     needs: [ install-dependencies ]
 
     steps:
@@ -137,7 +137,7 @@ jobs:
   docstring-style-checks:
     name: Docstring style checks
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     needs: [ install-dependencies ]
 
     steps:
@@ -152,7 +152,7 @@ jobs:
   newline-check:
     name: Newline check
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     needs: [ install-dependencies ]
 
     steps:

@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: 3.11
       - name: Install dependencies
-        run: bash config/venv_setup.sh
+        run: bash config/venv_setup_with_train.sh
 
   code-style:
     name: Code Style
@@ -37,7 +37,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup environment
         run: |
-          bash config/venv_setup.sh
+          bash config/venv_setup_with_train.sh
       - name: Code Style
         run: |
           bash config/pylint/run_pylint.sh
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup environment
         run: |
-          bash config/venv_setup.sh
+          bash config/venv_setup_with_train.sh
       - name: MyPy check
         run: |
           bash config/run_mypy.sh
@@ -67,7 +67,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup environment
         run: |
-          bash config/venv_setup.sh
+          bash config/venv_setup_with_train.sh
       - name: Run tests
         run: |
           bash config/run_tests.sh
@@ -176,7 +176,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Setup environment
         run: |
-          bash config/venv_setup.sh
+          bash config/venv_setup_with_train.sh
       - name: Run start
         run: |
           bash config/run_coverage.sh

@@ -15,7 +15,7 @@ def main() -> None:
                         help="The path to the raw dataset.")
     parser.add_argument("--train-split", "-t",
                         type=float,
-                        default=0.8,
+                        default=0.9,
                         help="The proportion of the dataset to use for training.")
     parser.add_argument("--output-dir", "-o",
                         type=str,

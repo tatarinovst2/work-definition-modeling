@@ -63,7 +63,6 @@ def run_inference_over_dataset(  # pylint: disable=too-many-arguments
     :param data: The dataset.
     :param input_field: The name of the field in the dataset that contains the input text.
     :param output_file_path: The path to the output file.
-    :param output_field: The name of the field in the dataset that contains the generated text.
     :param max_length: The maximum length of the output.
     """
     entries_inferred = 0

@@ -174,3 +174,4 @@ wiktionary_parser/data/*xml.bz2
 wiktionary_parser/data/*.jsonl
 model/data/
 wiktionary_parser/data/
+tmp/

@@ -45,7 +45,8 @@ def compute_metrics(eval_pred: tuple, tokenizer: PreTrainedTokenizer) -> dict[st
     """
     predictions, labels = eval_pred
 
-    # Replace -100 in the labels as we can't decode them.
+    # Replace -100 as we can't decode them.
+    predictions = np.where(predictions != -100, predictions, tokenizer.pad_token_id)
     labels = np.where(labels != -100, labels, tokenizer.pad_token_id)
     decoded_labels = tokenizer.batch_decode(labels, skip_special_tokens=True)
     decoded_predictions = tokenizer.batch_decode(predictions, skip_special_tokens=True)
@@ -110,7 +111,9 @@ def main() -> None:
         num_train_epochs=train_config.num_train_epochs or 3,
         max_steps=train_config.max_steps or -1,
         predict_with_generate=train_config.predict_with_generate or False,
+        generation_max_length=train_config.generation_max_length or 128,
         fp16=train_config.fp16 or False,
+        bf16=train_config.bf16 or False,
         load_best_model_at_end=train_config.load_best_model_at_end or True,
         metric_for_best_model=train_config.metric_for_best_model or "eval_rougeL",
         push_to_hub=train_config.push_to_hub or False

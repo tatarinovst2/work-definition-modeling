@@ -65,6 +65,7 @@ def plot_metric(metric: str, log_history: list[dict], output_path: str | Path,
     plt.legend()
     plt.grid(True)
     plt.savefig(output_path)
+    plt.close()
 
 
 def plot_training_and_test_loss(log_history: list[dict], output_path: str | Path,
@@ -143,7 +144,7 @@ def main() -> None:
                         "-m",
                         type=str,
                         nargs="+",
-                        default=["eval_rougeL", "eval_blue"],
+                        default=["eval_rougeL", "eval_blue", "eval_bert-f1"],
                         help="The metrics to plot. i.e. eval_rougeL, eval_bleu.")
     args = parser.parse_args()
 

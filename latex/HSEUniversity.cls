@@ -53,7 +53,7 @@
 	language=russian,
 	babel=other,
 	backend=biber,
-	defernumbers=true,% Нумерация начинается как только встречается группа.
+%	defernumbers=true,% Нумерация начинается как только встречается группа.
 	sorting=none,
 	url=false,
 	doi=false,
@@ -167,7 +167,7 @@
 \DeclareVoidOption{LI}{
 	\def\@facultyString{Факультет гуманитарных наук}
 	\def\@specName{Фундаментальная и прикладная лингвистика}
-	\def\@specCode{45.03.03. Фундаментальная и прикладная лингвистика}
+	\def\@specCode{45.03.03. Фундаментальная и прикладная лингвистика}
 }
 % Available options for the type
 \DeclareVoidOption{KR}{

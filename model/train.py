@@ -24,10 +24,11 @@ def preprocess_function(examples: dict, tokenizer: PreTrainedTokenizer) -> Batch
     max_input_length = 1024
     max_target_length = 128
 
-    inputs = list(examples["input_text"])
-    model_inputs = tokenizer(inputs, max_length=max_input_length, truncation=True)
+    model_inputs = tokenizer(examples["input_text"], max_length=max_input_length, truncation=True)
 
-    labels = tokenizer(text_target=examples["target_text"],
+    targets = [text + tokenizer.eos_token for text in examples["target_text"]]
+
+    labels = tokenizer(text_target=targets,
                        max_length=max_target_length,
                        truncation=True)
 

@@ -1,29 +1,30 @@
 """A module for processing templates in wiki text."""
 import json
-from dataclasses import dataclass
+from dataclasses import field
 from pathlib import Path
 
 import wikitextparser as wtp
+from pydantic.dataclasses import dataclass
 
 
 @dataclass
-class CustomMapping:
-    """A data class for representing a custom mapping for a template."""
+class TemplateMapping:
+    """A data class for representing how a template should be parsed."""
 
     title_index: int
     title: str
     description_indexes: list[int]
-    starting_text: str
-    ending_text: str
-    arguments_count: int
+    starting_text: str = ""
+    ending_text: str = ""
+    arguments_count: int = -1
 
 
 @dataclass
 class ParserConfig:
     """A data class for representing the parser config."""
 
-    mappings: list[CustomMapping]
-    templates_to_remove: list[str]
+    mappings: list[TemplateMapping]
+    templates_to_remove: list[str] = field(default_factory=list[str])
 
 
 def load_config(filepath: str | Path) -> ParserConfig:
@@ -39,14 +40,7 @@ def load_config(filepath: str | Path) -> ParserConfig:
         mappings_dict = json.load(json_file)
 
     for custom_mapping in mappings_dict.get("mappings", []):
-        mapping = CustomMapping(title_index=custom_mapping["title_index"],
-                                title=custom_mapping["title"],
-                                description_indexes=custom_mapping["description_indexes"],
-                                starting_text=custom_mapping.get("starting_text", ""),
-                                ending_text=custom_mapping.get("ending_text", ""),
-                                arguments_count=custom_mapping.get("arguments_count", -1))
-
-        mappings.append(mapping)
+        mappings.append(TemplateMapping(**custom_mapping))
 
     templates_to_remove = mappings_dict.get("templates_to_remove", [])
 
@@ -61,7 +55,7 @@ class Template:
         self.raw_text = raw_text
         self.arguments: list[str] = arguments
 
-    def get_text(self, mappings: list[CustomMapping] | None = None) -> str:
+    def get_text(self, mappings: list[TemplateMapping] | None = None) -> str:
         """
         Get the text of the template.
 
@@ -98,7 +92,7 @@ class Template:
 
         return self.get_text_from_argument_indexes([1], ", ")
 
-    def get_title(self, mappings: list[CustomMapping] | None = None) -> str:
+    def get_title(self, mappings: list[TemplateMapping] | None = None) -> str:
         """
         Get the title of the template.
 
@@ -160,7 +154,7 @@ def get_templates(text: str, level: int = 0) -> list[Template]:
     return templates
 
 
-def replace_templates_with_text(text: str, mappings: list[CustomMapping] | None = None,
+def replace_templates_with_text(text: str, mappings: list[TemplateMapping] | None = None,
                                 templates_to_remove: list[str] | None = None) -> str:
     """
     Replace the templates in the text with their values.
@@ -188,7 +182,7 @@ def replace_templates_with_text(text: str, mappings: list[CustomMapping] | None 
 
 
 def pop_templates_in_text(text: str, title_to_pop: str,
-                          mappings: list[CustomMapping] | None = None)\
+                          mappings: list[TemplateMapping] | None = None)\
         -> tuple[str, list[Template]]:
     """
     Pops the templates in the text with the given title.

@@ -3,9 +3,9 @@ import unittest
 
 import pytest
 
-from wiktionary_parser.template_parsing import (TemplateMapping, get_templates,
-                                                pop_templates_in_text, replace_templates_with_text,
-                                                Template)
+from wiktionary_parser.template_parsing import (get_templates, pop_templates_in_text,
+                                                replace_templates_with_text, Template,
+                                                TemplateMapping)
 
 
 class TemplateParsingTest(unittest.TestCase):

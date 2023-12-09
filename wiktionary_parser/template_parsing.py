@@ -1,11 +1,10 @@
 """A module for processing templates in wiki text."""
 import json
 from dataclasses import field
-
-from pydantic.dataclasses import dataclass
 from pathlib import Path
 
 import wikitextparser as wtp
+from pydantic.dataclasses import dataclass
 
 
 @dataclass

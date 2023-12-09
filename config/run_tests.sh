@@ -10,6 +10,10 @@ configure_script
 
 directories=$(get_project_directories)
 
+for directory in $directories; do
+  export PYTHONPATH="${PYTHONPATH}:$(pwd)/${directory}"
+done
+
 if [[ -z "${directories}" ]]; then
   echo "No tests to run currently."
   exit 0

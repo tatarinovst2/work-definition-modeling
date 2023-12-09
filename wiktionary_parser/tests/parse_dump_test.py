@@ -13,7 +13,7 @@ class ParseDumpTest(unittest.TestCase):
     Tests for the parse_dump function
     """
     def setUp(self) -> None:
-        self.test_data_dir = Path(__file__).resolve().parent / "data"
+        self.test_data_dir = Path(__file__).parent / "data"
         self.test_articles_path = self.test_data_dir / "test_articles.xml.bz2"
         self.test_definitions_path = self.test_data_dir / "test_definitions.jsonl"
         self.test_config_path = self.test_data_dir / "test_config.json"

@@ -12,24 +12,24 @@ from wiktionary_parser.template_parsing import load_config
 class ParseWikiTest(unittest.TestCase):
     """Tests for parse_wiki function"""
     def setUp(self):
-        self.test_data_dir = Path(__file__).resolve().parent / "data"
+        self.test_data_dir = Path(__file__).parent / "data"
         self.test_config_path = self.test_data_dir / "test_config.json"
 
         self.config = load_config(self.test_config_path)
 
-        with open(self.test_data_dir / "wiki_ideal.txt", "r", encoding="utf-8") as file:
-            self.wiki_ideal = file.read()
+        self.wiki_ideal = (self.test_data_dir / "wiki_ideal.txt").open(
+            "r", encoding="utf-8").read()
 
-        with open(self.test_data_dir / "wiki_multiple_articles_per_word.txt", "r",
-                  encoding="utf-8") as file:
-            self.wiki_multiple_articles_per_word = file.read()
+        self.wiki_multiple_articles_per_word = (self.test_data_dir /
+                                                "wiki_multiple_articles_per_word.txt").open(
+            "r", encoding="utf-8").read()
 
-        with open(self.test_data_dir / "wiki_en.txt", "r", encoding="utf-8") as file:
-            self.wiki_en = file.read()
+        self.wiki_en = (self.test_data_dir / "wiki_en.txt").open(
+            "r", encoding="utf-8").read()
 
-        with open(self.test_data_dir / "wiki_no_definitions_section.txt", "r",
-                  encoding="utf-8") as file:
-            self.wiki_no_definitions_section = file.read()
+        self.wiki_no_definitions_section = (self.test_data_dir /
+                                            "wiki_no_definitions_section.txt").open(
+            "r", encoding="utf-8").read()
 
 
     @pytest.mark.wiktionary_parser

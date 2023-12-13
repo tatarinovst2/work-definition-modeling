@@ -69,7 +69,9 @@ You don't need to unpack it, the parser will do it for you.
 
 You can specify the following parameters:
 
-* `templates_to_remove`- templates to remove from the text.
+* `keep_entries_without_examples` - will not skip definitions without examples.
+
+* `templates_to_remove` - templates to remove from the text.
 
 For example, if you want to remove the template `{{помета|...}}`,
 you should add the following line: `"помета"`.

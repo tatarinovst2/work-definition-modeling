@@ -1,4 +1,5 @@
 {
+  "keep_entries_without_examples": true,
   "templates_to_remove":
           ["ru", "помета", "семантика", "рег.", "обл.", "только ед. ч.", "ед. ч.", "мн."],
   "mappings": [

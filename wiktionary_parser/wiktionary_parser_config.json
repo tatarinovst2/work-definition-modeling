@@ -1,8 +1,27 @@
 {
   "keep_entries_without_examples": true,
   "templates_to_remove":
-          ["ru", "помета", "семантика", "рег.", "обл.", "только ед. ч.", "ед. ч.", "мн."],
+          ["ru", "помета", "семантика", "рег.", "обл.", "только ед. ч.", "ед. ч.", "мн.", "местн.",
+            "наречие"],
   "mappings": [
+    {
+      "title_index": 0,
+      "title": "уничиж.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": "уничижительное к "
+    },
+    {
+      "title_index": 0,
+      "title": "наречие",
+      "description_indexes": [
+        0
+      ],
+      "arguments_count": 1,
+      "starting_text": ""
+    },
     {
       "title_index": 0,
       "title": "соотн.",
@@ -75,6 +94,13 @@
     },
     {
       "title_index": 0,
+      "title": "умласк.",
+      "description_indexes": [],
+      "arguments_count": 2,
+      "starting_text": "уменьшительно-ласкательное"
+    },
+    {
+      "title_index": 0,
       "title": "умласк",
       "description_indexes": [
         2
@@ -108,7 +134,17 @@
       "description_indexes": [
         1
       ],
+      "arguments_count": 2,
       "starting_text": "то же, что "
+    },
+    {
+      "title_index": 0,
+      "title": "t:=",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": ""
     },
     {
       "title_index": 0,

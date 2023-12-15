@@ -1,4 +1,5 @@
 """Tests for the get_section function"""
+import json
 import unittest
 from pathlib import Path
 
@@ -12,7 +13,11 @@ class CleanDatasetTest(unittest.TestCase):
     def setUp(self):
         self.test_data_dir = Path(__file__).parent / "data"
         self.dataset_to_clean = self.test_data_dir / "dataset_to_clean.jsonl"
-        self.output_dataset = self.test_data_dir / "cleaned_test_dataset.jsonl"
+        self.dataset_expected = self.test_data_dir / "dataset_expected_after_cleaning.json"
+        self.output_dataset = self.test_data_dir / "dumped_dataset.jsonl"
+
+        if self.output_dataset.exists():
+            self.output_dataset.unlink()
 
     @pytest.mark.wiktionary_parser
     def test_load_dataset(self):
@@ -29,23 +34,21 @@ class CleanDatasetTest(unittest.TestCase):
         """
         dataset = load_dataset(self.dataset_to_clean)
         actual = clean_dataset(dataset)
-        expected = [{'id': 167599, 'title': 'кабель', 'definitions': {
-                         'один или несколько изолированных друг от друга проводников (жил), заключённых в оболочку':
-                             {'examples': [
-                                 'За восемь лет, прошедших до следующей экспедиции, было изготовлено более 30 000 км кабелей для 75 подводных линий.']
-                             }, 'то же, что кабельное телевидение':
-                             {'examples':
-                                  ['Хичкоком, честно говоря, время от времени лишь балуюсь, когда его по кабелю показывают.']}}},
-                    {'id': 167634, 'title': 'кабельное телевидение', 'definitions': {
-                        'телевидение, в котором передача телевизионного сигнала осуществляется по специально проложенному кабелю':
-                                         {'examples': []}}},
-                    {'id': 167625, 'title': 'двояко', 'definitions': {
-                        'двумя способами или путями, в двух видах, формах': {'examples': []}}
-                     },
-                    {'id': 167607, 'title': 'охрана', 'definitions': {
-                        'действие по значению глагола защита чего-либо от посягательства':
-                            {'examples': ['Серьёзной проблемой становится охрана коммуникаций.']},
-                        'люди, техника и прочие ресурсы, предназначенные для охраны , а также службы, занимающиеся охраной':
-                            {'examples': ['В городской вневедомственной охране впервые создаётся особое мобильное подразделение.']}}
-                     }]
-        print(actual)
+        expected = json.loads(self.dataset_expected.open("r", encoding="utf-8").read())
+        self.assertEqual(expected, actual, "Should return the cleaned dataset")
+
+    @pytest.mark.wiktionary_parser
+    def test_dump_dataset(self):
+        """
+        Dump_dataset should dump the dataset to the given path
+        """
+        dataset = load_dataset(self.dataset_to_clean)
+        cleaned_dataset = clean_dataset(dataset)
+        dump_dataset(cleaned_dataset, self.output_dataset)
+        actual = load_dataset(self.output_dataset)
+        expected = json.loads(self.dataset_expected.open("r", encoding="utf-8").read())
+        self.assertEqual(expected, actual, "Should dump the dataset to the given path")
+
+    def tearDown(self):
+        if self.output_dataset.exists():
+            self.output_dataset.unlink()

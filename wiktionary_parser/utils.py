@@ -48,6 +48,7 @@ def remove_text_before_words(text: str) -> str:
     :return: The cleaned text.
     """
     index = 0
-    while index < len(text) and not text[index].isalnum() and text[index] != "[":
+    while (index < len(text) and not text[index].isalnum() and
+           text[index] != "[" and text[index] != "("):
         index += 1
     return text[index:]

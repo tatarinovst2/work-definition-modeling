@@ -1,6 +1,7 @@
 """A module for cleaning the dataset."""
 import argparse
 import json
+import re
 from pathlib import Path
 
 
@@ -15,6 +16,21 @@ def load_dataset(dataset_path: str | Path) -> list[dict[str, str]]:
         dataset = [json.loads(line) for line in dataset_file if line.strip()]
 
     return dataset
+
+
+def remove_non_russian(definition: str) -> str:
+    """
+    Remove latin characters (usually biology species).
+
+    :param definition: The definition in the string form.
+    :return: The cleaned definition.
+    """
+    pattern = r'\([a-zA-Z\s]+\)'
+
+    clean_def = re.sub(pattern, '', definition)
+    clean_def = re.sub(r'\s+', ' ', clean_def).strip()
+
+    return clean_def
 
 
 def clean_dataset(dataset: list[dict[str, str | int | dict[str, list[str]]]])\
@@ -37,6 +53,27 @@ def clean_dataset(dataset: list[dict[str, str | int | dict[str, list[str]]]])\
         new_definitions = {}
 
         for definition in entry["definitions"]:
+            if len(definition) > 200:
+                continue
+
+            if definition[0] == "(" and definition[-1] == ")":
+                continue
+
+            bad_markers = ["?", "=", "ru", "действие по значению",
+                           "связанный, соотносящийся по значению", "свойство или состояние",
+                           "страд.", "превосходная степень", "причастие от слова",
+                           "сравнительная степень"]
+
+            ignore_definition = False
+
+            for bad_marker in bad_markers:
+                if bad_marker in definition:
+                    ignore_definition = True
+                    break
+
+            if ignore_definition:
+                continue
+
             if definition.startswith("то же, что "):
                 word = definition.split("то же, что ")[1]
                 other_definitions = dataset_as_dict.get(word, None)
@@ -46,7 +83,8 @@ def clean_dataset(dataset: list[dict[str, str | int | dict[str, list[str]]]])\
                         new_definitions[the_other_definition] = entry["definitions"][definition]
             else:
                 if entry["definitions"][definition]["examples"]:
-                    new_definitions[definition] = entry["definitions"][definition]
+                    new_definitions[remove_non_russian(definition)] = entry["definitions"][
+                        definition]
 
         new_entry["definitions"] = new_definitions
 

@@ -2,8 +2,84 @@
   "keep_entries_without_examples": true,
   "templates_to_remove":
           ["ru", "помета", "семантика", "рег.", "обл.", "только ед. ч.", "ед. ч.", "мн.", "местн.",
-            "наречие"],
+            "наречие", "прич.", "прич", "страд.", "превосх.", "свойство"],
   "mappings": [
+    {
+      "title_index": 0,
+      "title": "превосх.",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "превосходная степень к прилагательному "
+    },
+    {
+      "title_index": 0,
+      "title": "свойство",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "свойство по значению слова "
+    },
+    {
+      "title_index": 0,
+      "title": "отн.",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "относящийся к "
+    },
+    {
+      "title_index": 0,
+      "title": "женск.",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "женское к "
+    },
+    {
+      "title_index": 0,
+      "title": "женск.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": "женское к "
+    },
+    {
+      "title_index": 0,
+      "title": "страд.",
+      "description_indexes": []
+    },
+    {
+      "title_index": 0,
+      "title": "сравн.",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "сравнительная степень к "
+    },
+    {
+      "title_index": 0,
+      "title": "сравн.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": "сравнительная степень к "
+    },
+    {
+      "title_index": 0,
+      "title": "прич.",
+      "description_indexes": [
+        1
+      ],
+      "starting_text": "причастие от слова "
+    },
     {
       "title_index": 0,
       "title": "уничиж.",
@@ -85,6 +161,22 @@
     },
     {
       "title_index": 0,
+      "title": "аббр.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 5
+    },
+    {
+      "title_index": 0,
+      "title": "аббр.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 6
+    },
+    {
+      "title_index": 0,
       "title": "умласк.",
       "description_indexes": [
         2
@@ -144,7 +236,7 @@
         2
       ],
       "arguments_count": 3,
-      "starting_text": ""
+      "starting_text": "то же, что "
     },
     {
       "title_index": 0,

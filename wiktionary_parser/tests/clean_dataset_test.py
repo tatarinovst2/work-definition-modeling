@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from wiktionary_parser.clean_dataset import clean_dataset, load_dataset, dump_dataset
+from wiktionary_parser.clean_dataset import clean_dataset, dump_dataset, load_dataset
 
 
 class CleanDatasetTest(unittest.TestCase):
@@ -35,6 +35,7 @@ class CleanDatasetTest(unittest.TestCase):
         dataset = load_dataset(self.dataset_to_clean)
         actual = clean_dataset(dataset)
         expected = json.loads(self.dataset_expected.open("r", encoding="utf-8").read())
+        print(actual)
         self.assertEqual(expected, actual, "Should return the cleaned dataset")
 
     @pytest.mark.wiktionary_parser

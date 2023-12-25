@@ -4,8 +4,18 @@ import json
 import re
 from pathlib import Path
 
+from pydantic.dataclasses import dataclass
 
-def load_dataset(dataset_path: str | Path) -> list[dict[str, str]]:
+
+@dataclass
+class DatasetEntry:
+    """A class representing a dataset entry"""
+    id: int
+    title: str
+    definitions: dict[str, dict[str, list[str]]]
+
+
+def load_dataset(dataset_path: str | Path) -> list[dict[str, str | int | dict[str, list[str]]]]:
     """
     Load the dataset of jsonl format from the given path.
 
@@ -33,8 +43,7 @@ def remove_non_russian(definition: str) -> str:
     return clean_def
 
 
-def clean_dataset(dataset: list[dict[str, str | int | dict[str, list[str]]]])\
-        -> list[dict[str, str | int | dict[str, list[str]]]]:
+def clean_dataset(dataset: list[dict]) -> list[dict]:
     """
     Clean the dataset.
 
@@ -45,18 +54,18 @@ def clean_dataset(dataset: list[dict[str, str | int | dict[str, list[str]]]])\
 
     dataset_as_dict = {entry["title"]: entry["definitions"] for entry in dataset}
 
-    for entry in dataset:
-        if not entry["definitions"]:
+    for entry_dict in dataset:
+        entry = DatasetEntry(id=entry_dict["id"],
+                             title=entry_dict["title"],
+                             definitions=entry_dict["definitions"])
+        if not entry.definitions:
             continue
 
-        new_entry = entry.copy()
         new_definitions = {}
+        new_entry = {"id": entry.id, "title": entry.title, "definitions": []}
 
-        for definition in entry["definitions"]:
-            if len(definition) > 200:
-                continue
-
-            if definition[0] == "(" and definition[-1] == ")":
+        for definition in entry.definitions:
+            if len(definition) > 200 or (definition[0] == "(" and definition[-1] == ")"):
                 continue
 
             bad_markers = ["?", "=", "ru", "действие по значению",
@@ -79,12 +88,11 @@ def clean_dataset(dataset: list[dict[str, str | int | dict[str, list[str]]]])\
                 other_definitions = dataset_as_dict.get(word, None)
                 if other_definitions and len(other_definitions) == 1:
                     the_other_definition = list(other_definitions.keys())[0]
-                    if entry["definitions"][definition]["examples"]:
-                        new_definitions[the_other_definition] = entry["definitions"][definition]
+                    if entry.definitions[definition]["examples"]:
+                        new_definitions[the_other_definition] = entry.definitions[definition]
             else:
-                if entry["definitions"][definition]["examples"]:
-                    new_definitions[remove_non_russian(definition)] = entry["definitions"][
-                        definition]
+                if entry.definitions[definition]["examples"]:
+                    new_definitions[remove_non_russian(definition)] = entry.definitions[definition]
 
         new_entry["definitions"] = new_definitions
 
@@ -108,9 +116,7 @@ def dump_dataset(dataset: list[dict[str, str | int | dict[str, list[str]]]],
 
 
 def main() -> None:
-    """
-    Clean the dataset.
-    """
+    """Clean the dataset."""
     parser = argparse.ArgumentParser(description="Clean the dataset.")
     parser.add_argument("--dataset-path", type=str, required=True,
                         help="The path to the dataset.")

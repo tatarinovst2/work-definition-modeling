@@ -119,3 +119,23 @@ python wiktionary_parser/run_parser.py
 ```
 
 The parser will create a `definitions.jsonl` file in the `data` directory.
+
+### 6. Cleaning the dataset
+
+If you wish to use the created dataset for the purpose of definition modeling,
+you would want to clear the dataset of entries without examples, definitions that
+represent grammatical meaning instead of lexical or non-informative definitions.
+
+For this run the following command:
+
+```bash
+python wiktionary_parser/clean_dataset.py --dataset-path path/to/the/dataset
+--output-path path/to/new/dataset
+```
+
+For example:
+
+```bash
+python wiktionary_parser/clean_dataset.py --dataset-path wiktionary_parser/data/definitions.jsonl
+--output-path wiktionary_parser/data/cleaned_definitions.jsonl
+```

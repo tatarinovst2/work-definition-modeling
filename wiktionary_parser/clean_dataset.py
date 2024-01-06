@@ -9,7 +9,8 @@ from pydantic.dataclasses import dataclass
 
 @dataclass
 class DatasetEntry:
-    """A class representing a dataset entry"""
+    """A class representing a dataset entry."""
+
     id: int
     title: str
     definitions: dict[str, dict[str, list[str]]]

@@ -40,7 +40,7 @@ For Windows:
 
 ```bash
 python3 -m venv venv
-venv\Scripts\activate
+.\venv\Scripts\activate
 ```
 
 For Linux and macOS:
@@ -54,7 +54,7 @@ Make sure you've installed the requirements.
 You can do it by running
 
 ```bash
-python3 -m pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ### 2. Download the latest XML dump
@@ -113,7 +113,7 @@ Open the terminal or the command line in the root directory of the project
 and run the following command:
 
 ```bash
-python3 wiktionary_parser/run_parser.py
+python wiktionary_parser/run_parser.py
 ```
 
 The parser will create a `definitions.jsonl` file in the `data` directory.

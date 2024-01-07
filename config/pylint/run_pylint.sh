@@ -8,6 +8,7 @@ echo 'Running lint check...'
 
 configure_script
 
+export PYTHONPATH="${PYTHONPATH}:$(pwd)/config"
 python3 -m pylint --rcfile config/pylint/.pylintrc config
 
 directories=$(get_project_directories)

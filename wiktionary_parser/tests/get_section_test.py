@@ -11,9 +11,9 @@ from wiktionary_parser.run_parser import get_sections
 class GetSectionTest(unittest.TestCase):
     """Tests for get_section function"""
     def setUp(self):
-        self.test_data_dir = Path(__file__).resolve().parent / "data"
-        with open(self.test_data_dir / "section_ideal.txt", "r", encoding="utf-8") as file:
-            self.section_ideal = file.read()
+        self.test_data_dir = Path(__file__).parent / "data"
+        self.section_ideal = (self.test_data_dir / "section_ideal.txt").open(
+            "r", encoding="utf-8").read()
 
     @pytest.mark.wiktionary_parser
     def test_get_section_ideal(self):

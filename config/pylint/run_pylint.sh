@@ -13,7 +13,7 @@ python3 -m pylint --rcfile config/pylint/.pylintrc config
 directories=$(get_project_directories)
 
 for directory in $directories; do
-  export PYTHONPATH=$(pwd)/$directory:$PYTHONPATH
+  export PYTHONPATH="${PYTHONPATH}:$(pwd)/${directory}"
   python3 -m pylint --rcfile config/pylint/.pylintrc "${directory}"
   check_if_failed
 done

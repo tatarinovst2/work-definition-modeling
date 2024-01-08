@@ -17,6 +17,10 @@ class TrainConfigDTO:  # pylint: disable=too-many-instance-attributes
     dataset_split_directory: str
     learning_rate: float
     batch_size: int
+    use_lora: Optional[bool] = False
+    r: Optional[int] = None
+    lora_alpha: Optional[int] = None
+    lora_dropout: Optional[float] = None
     lr_scheduler_type: Optional[str] = None
     gradient_checkpointing: Optional[bool] = None
     gradient_accumulation_steps: Optional[int] = None
@@ -60,6 +64,10 @@ class TrainConfigDTO:  # pylint: disable=too-many-instance-attributes
         if self.eval_steps is not None and self.evaluation_strategy != "steps":
             raise ValueError("TrainConfigDTO must not contain 'eval_steps' and "
                              "'evaluation_strategy' other than 'steps'")
+
+        if (not self.predict_with_generate and
+                (self.load_best_model_at_end or self.metric_for_best_model)):
+            raise ValueError("predict_with_generate is disabled, but you still set the metrics")
 
 
 def load_train_config(config_path: str | Path) -> TrainConfigDTO:

@@ -1,5 +1,6 @@
 """A script that provides metrics, such as ROUGE or BLEU."""
 from evaluate import load
+from razdel import tokenize as regex_tokenize
 
 
 def get_bleu_score(predictions: list[str], labels: list[str]) -> float:
@@ -13,8 +14,8 @@ def get_bleu_score(predictions: list[str], labels: list[str]) -> float:
     blue_metric = load("sacrebleu")
 
     blue_results = blue_metric.compute(predictions=predictions,
-                                       references=labels)
-
+                                       references=labels,
+                                       tokenize="intl")
     return blue_results["score"]
 
 
@@ -31,7 +32,9 @@ def get_rouge_score(predictions: list[str], labels: list[str]) -> float:
     rouge_results = rouge_metric.compute(predictions=predictions,
                                          references=labels,
                                          use_stemmer=False,
-                                         tokenizer=lambda x: x.split())
+                                         tokenizer=lambda x: [
+                                             token.text.lower() for token in regex_tokenize(x)
+                                         ])
 
     return rouge_results["rougeL"]
 

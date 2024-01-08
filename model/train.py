@@ -1,7 +1,9 @@
 """A script for training a T5 model."""
 from pathlib import Path
+from typing import Any
 
 import numpy as np
+from peft import get_peft_model, LoraConfig, TaskType
 from plot import plot_graphs_based_on_log_history
 from src.constants import ROOT_DIR
 from src.dataset_processing import load_dataset_split
@@ -61,6 +63,21 @@ def compute_metrics(eval_pred: tuple, tokenizer: PreTrainedTokenizer) -> dict[st
     return results
 
 
+def patch_lora(model: Any) -> None:
+    """
+    Patch the LoRa model to support gradient_checkpointing.
+
+    :param model: The transformers model to be patched.
+    """
+    if hasattr(model, "enable_input_require_grads"):
+        model.enable_input_require_grads()
+    else:
+        def make_inputs_require_grad(module, input, output):  # pylint: disable=redefined-builtin
+            output.requires_grad_(True)
+
+        model.get_input_embeddings().register_forward_hook(make_inputs_require_grad)
+
+
 class LossLoggingCallback(TrainerCallback):  # pylint: disable=too-few-public-methods
     """A callback that draws plots for metrics."""
 
@@ -70,9 +87,16 @@ class LossLoggingCallback(TrainerCallback):  # pylint: disable=too-few-public-me
         graphs_dir = Path(args.output_dir) / f"checkpoint-{state.global_step}" / "graphs"
         graphs_dir.mkdir(parents=True, exist_ok=True)
 
+        metrics = {"eval_rougeL", "eval_blue", "eval_bert-f1"}
+        log_keys = set()
+
+        for log_entry in state.log_history:
+            log_keys.update(log_entry.keys())
+
+        metrics = metrics.intersection(log_keys)
+
         plot_graphs_based_on_log_history(state.log_history,
-                                         graphs_dir,
-                                         ["eval_rougeL", "eval_blue", "eval_bert-f1"])
+                                         graphs_dir, list(metrics))
 
 
 def main() -> None:
@@ -89,6 +113,20 @@ def main() -> None:
         lambda examples: preprocess_function(examples, loaded_tokenizer), batched=True)
 
     model = AutoModelForSeq2SeqLM.from_pretrained(train_config.model_checkpoint)
+
+    if train_config.use_lora:
+        peft_config = LoraConfig(
+            task_type=TaskType.SEQ_2_SEQ_LM,
+            inference_mode=False,
+            r=train_config.r or 16,
+            lora_alpha=train_config.lora_alpha or 64,
+            lora_dropout=train_config.lora_dropout or 0.1
+        )
+
+        model = get_peft_model(model, peft_config)
+        model.print_trainable_parameters()
+        patch_lora(model)
+
     model.to(get_current_torch_device())
 
     model_name = train_config.model_checkpoint.rsplit('/', maxsplit=1)[-1]
@@ -115,8 +153,8 @@ def main() -> None:
         generation_max_length=train_config.generation_max_length or 128,
         fp16=train_config.fp16 or False,
         bf16=train_config.bf16 or False,
-        load_best_model_at_end=train_config.load_best_model_at_end or True,
-        metric_for_best_model=train_config.metric_for_best_model or "eval_rougeL",
+        load_best_model_at_end=train_config.load_best_model_at_end or False,
+        metric_for_best_model=train_config.metric_for_best_model or None,
         push_to_hub=train_config.push_to_hub or False
     )
 
@@ -129,7 +167,8 @@ def main() -> None:
         eval_dataset=tokenized_datasets["val"],
         data_collator=data_collator,
         tokenizer=loaded_tokenizer,
-        compute_metrics=lambda eval_pred: compute_metrics(eval_pred, loaded_tokenizer),
+        compute_metrics=(lambda eval_pred: compute_metrics(eval_pred, loaded_tokenizer))
+        if train_config.predict_with_generate else None,
         callbacks=[LossLoggingCallback()]
     )
 

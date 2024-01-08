@@ -3,9 +3,11 @@ bleu
 bool
 bz
 config
+checkpointing
 cuda
 dataset
 datasetdict
+dtype
 entrypoint
 eval
 filenotfounderror

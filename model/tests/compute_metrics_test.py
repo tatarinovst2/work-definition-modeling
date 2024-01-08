@@ -32,6 +32,6 @@ class TestComputeMetrics(unittest.TestCase):
         get_rouge_score should return the correct ROUGE score
         """
         actual = get_rouge_score(self.decoded_predictions, self.decoded_labels)
-        expected = 0.86
+        expected = 0.88
 
         self.assertAlmostEqual(actual, expected, places=2)

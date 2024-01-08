@@ -17,10 +17,10 @@ while getopts ":t" opt; do
   case $opt in
     t)
       INCLUDE_TRAIN=true
-      exit 1
       ;;
     *)
       echo "Invalid option: -$OPTARG" >&2
+      exit 1
       ;;
   esac
 done

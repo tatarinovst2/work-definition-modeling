@@ -81,11 +81,8 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertTrue(self.test_loss_epoch_filepath.exists())
 
-        with open(self.test_loss_epoch_filepath, "rb") as file:
-            actual = file.read()
-
-        with open(self.expected_loss_epoch_filepath, "rb") as file:
-            expected = file.read()
+        actual = self.test_loss_epoch_filepath.open(mode="rb").read()
+        expected = self.expected_loss_epoch_filepath.open(mode="rb").read()
 
         self.assertEqual(expected, actual)
 
@@ -99,11 +96,8 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertTrue(self.test_loss_step_filepath.exists())
 
-        with open(self.test_loss_step_filepath, "rb") as file:
-            actual = file.read()
-
-        with open(self.expected_loss_step_filepath, "rb") as file:
-            expected = file.read()
+        actual = self.test_loss_step_filepath.open(mode="rb").read()
+        expected = self.expected_loss_step_filepath.open(mode="rb").read()
 
         self.assertEqual(expected, actual)
 
@@ -117,11 +111,8 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertTrue(self.test_metric_epoch_filepath.exists())
 
-        with open(self.test_metric_epoch_filepath, "rb") as file:
-            actual = file.read()
-
-        with open(self.expected_metric_epoch_filepath, "rb") as file:
-            expected = file.read()
+        actual = self.test_metric_epoch_filepath.open(mode="rb").read()
+        expected = self.expected_metric_epoch_filepath.open(mode="rb").read()
 
         self.assertEqual(expected, actual)
 
@@ -135,11 +126,8 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertTrue(self.test_metric_step_filepath.exists())
 
-        with open(self.test_metric_step_filepath, "rb") as file:
-            actual = file.read()
-
-        with open(self.expected_metric_step_filepath, "rb") as file:
-            expected = file.read()
+        actual = self.test_metric_step_filepath.open(mode="rb").read()
+        expected = self.expected_metric_step_filepath.open(mode="rb").read()
 
         self.assertEqual(expected, actual)
 

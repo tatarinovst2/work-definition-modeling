@@ -16,7 +16,7 @@ This is a module for training the FRED-T5-1.7B model.
 
     ```bash
     python3 -m venv venv
-    venv\Scripts\activate
+    .\venv\Scripts\activate
     ```
 
     For Linux and macOS:

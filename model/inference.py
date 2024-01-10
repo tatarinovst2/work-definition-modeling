@@ -4,6 +4,7 @@ import json
 import sys
 from pathlib import Path
 
+import numpy as np
 import torch  # pylint: disable=import-error
 from peft import PeftModel
 from src.utils import get_current_torch_device, parse_path
@@ -33,27 +34,29 @@ def load_model(model_checkpoint: str | Path, torch_dtype: dtype = torch.float32,
 
 
 def run_inference(model: T5ForConditionalGeneration, tokenizer: AutoTokenizer,
-                  input_text: str, max_length: int = 100) -> str:
+                  input_texts: list[str], max_length: int = 100) -> list[str]:
     """
-    Run inference on a model.
+    Run batched inference.
 
     :param model: The model.
     :param tokenizer: The tokenizer.
-    :param input_text: The input text.
+    :param input_texts: The input texts.
     :param max_length: The maximum length of the output.
-    :return: The generated text.
+    :return: The generated texts.
     """
-    input_ids = torch.tensor([tokenizer.encode(input_text)]).to(model.device)
+    inputs = tokenizer(input_texts, return_tensors="pt", padding=True).to(model.device)
 
-    output_ids = model.generate(input_ids=input_ids,
-                                eos_token_id=tokenizer.eos_token_id,
-                                early_stopping=True,
-                                max_length=max_length,
-                                num_beams=3)
+    output_sequences = model.generate(
+        input_ids=inputs.input_ids,
+        eos_token_id=tokenizer.eos_token_id,
+        early_stopping=True,
+        max_length=max_length,
+        num_beams=3
+    ).cpu()
 
-    output_text = tokenizer.decode(output_ids[0][1:], skip_special_tokens=True)
+    outputs = np.where(output_sequences != -100, output_sequences, tokenizer.pad_token_id)
 
-    return output_text
+    return tokenizer.batch_decode(outputs, skip_special_tokens=True)
 
 
 def run_inference_over_dataset(  # pylint: disable=too-many-arguments
@@ -62,9 +65,10 @@ def run_inference_over_dataset(  # pylint: disable=too-many-arguments
         data: list[dict[str, str]],
         input_field: str,
         output_file_path: str | Path,
-        max_length: int = 100) -> None:
+        max_length: int = 100,
+        batch_size: int = 1) -> None:
     """
-    Run inference over a dataset.
+    Run batched inference over a dataset.
 
     :param model: The model.
     :param tokenizer: The tokenizer.
@@ -72,15 +76,20 @@ def run_inference_over_dataset(  # pylint: disable=too-many-arguments
     :param input_field: The name of the field in the dataset that contains the input text.
     :param output_file_path: The path to the output file.
     :param max_length: The maximum length of the output.
+    :param batch_size: The size of the batch for batched inference.
     """
     entries_inferred = 0
     total_entries = len(data)
 
-    for entry in data:
-        prompt = entry[input_field]
-        output_text = run_inference(model, tokenizer, prompt, max_length=max_length)
-        save_output(output_text, output_file_path, entry)
-        entries_inferred += 1
+    for i in range(0, total_entries, batch_size):
+        batch = data[i:i + batch_size]
+        input_texts = [entry[input_field] for entry in batch]
+        output_texts = run_inference(model, tokenizer, input_texts, max_length=max_length)
+
+        for j, output_text in enumerate(output_texts):
+            save_output(output_text, output_file_path, batch[j])
+
+        entries_inferred += len(batch)
         print(f"\rInferred {entries_inferred} out of {total_entries}.", end="")
 
 
@@ -179,6 +188,10 @@ def main():
     parser.add_argument("-o", "--output-file",
                         type=str,
                         help="The output file of JSON Lines format.")
+    parser.add_argument("-b", "--batch_size",
+                        type=int,
+                        default=1,
+                        help="The inference batch size.")
     parser.add_argument("--input-field",
                         type=str,
                         default="input_text",
@@ -215,7 +228,7 @@ def main():
         data = load_dataset_for_inference(input_file_path, args.input_field, args.limit)
 
         run_inference_over_dataset(model, tokenizer, data, args.input_field,
-                                   output_file_path)
+                                   output_file_path, batch_size=args.batch_size)
     else:
         while True:
             prompt = input("Enter a prompt: ")
@@ -224,8 +237,8 @@ def main():
                 print("Exiting...")
                 sys.exit(0)
 
-            output_text = run_inference(model, tokenizer, prompt)
-            print(output_text, end="\n\n")
+            output_texts = run_inference(model, tokenizer, [prompt])
+            print(output_texts[0], end="\n\n")
 
 
 if __name__ == "__main__":

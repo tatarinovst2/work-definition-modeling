@@ -62,6 +62,9 @@ python model/inference.py ai-forever/FRED-T5-large -l models/checkpoint-fred-t5-
 In this case, the output will be a `.jsonl` file with the same format as the input file,
 but with the `generated_text` field added to each line.
 
+> NOTE: Inference with a batch size of more than 1 seems to be bugged for `mps` pipeline,
+> but should work with `cuda`.
+
 ### On a single prompt
 
 Run `inference.py` without the `--input_file` argument:

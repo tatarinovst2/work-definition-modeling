@@ -4,7 +4,8 @@ import unittest
 import pytest
 
 from wiktionary_parser.template_parsing import (get_templates, pop_templates_in_text,
-                                                replace_templates_with_text, Template)
+                                                replace_templates_with_text, Template,
+                                                TemplateMapping)
 
 
 class TemplateParsingTest(unittest.TestCase):
@@ -12,17 +13,17 @@ class TemplateParsingTest(unittest.TestCase):
 
     def setUp(self):
         self.custom_mappings = [
-            {"title_index": 3, "title": "non-standard1", "description_indexes": [0, 1, 3, 4],
-             "arguments_count": 5, "starting_text": "", "ending_text": ""},
-            {"title_index": 0, "title": "non-standard2", "description_indexes": [0, 1, 3, 4],
-             "arguments_count": -1, "starting_text": "", "ending_text": ""},
-            {"title_index": 0, "title": "non-standard3", "description_indexes": [1],
-             "arguments_count": 7, "starting_text": "", "ending_text": ""},
-            {"title_index": 0, "title": "действие", "description_indexes": [2],
-             "arguments_count": 3, "starting_text": "действие по значению глагола ",
-             "ending_text": ""},
-            {"title_index": 1, "title": "ru", "description_indexes": [0], "arguments_count": 2,
-             "starting_text": "", "ending_text": ""}
+            TemplateMapping(title_index=3, title="non-standard1", description_indexes=[0, 1, 3, 4],
+                            arguments_count=5, starting_text="", ending_text=""),
+            TemplateMapping(title_index=0, title="non-standard2", description_indexes=[0, 1, 3, 4],
+                            arguments_count=-1, starting_text="", ending_text=""),
+            TemplateMapping(title_index=0, title="non-standard3", description_indexes=[1],
+                            arguments_count=7, starting_text="", ending_text=""),
+            TemplateMapping(title_index=0, title="действие", description_indexes=[2],
+                            arguments_count=3, starting_text="действие по значению глагола ",
+                            ending_text=""),
+            TemplateMapping(title_index=1, title="ru", description_indexes=[0], arguments_count=2,
+                            starting_text="", ending_text="")
         ]
 
     @pytest.mark.wiktionary_parser

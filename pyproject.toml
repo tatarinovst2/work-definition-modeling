@@ -3,6 +3,10 @@ markers = [
     "wiktionary_parser",
     "model_training"
 ]
+pythonpath = [
+  "wiktionary_parser",
+  "model_training"
+]
 
 [tool.coverage.run]
 omit = [

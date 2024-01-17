@@ -34,11 +34,27 @@ Open the Terminal or Command Prompt in the root directory of this repository.
 cd path/to/work-definition-modeling
 ```
 
+Activate the virtual environment.
+
+For Windows:
+
+```bash
+python3 -m venv venv
+.\venv\Scripts\activate
+```
+
+For Linux and macOS:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
 Make sure you've installed the requirements.
 You can do it by running
 
 ```bash
-pip3 install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 ### 2. Download the latest XML dump
@@ -53,7 +69,9 @@ You don't need to unpack it, the parser will do it for you.
 
 You can specify the following parameters:
 
-* `templates_to_remove`- templates to remove from the text.
+* `keep_entries_without_examples` - will not skip definitions without examples.
+
+* `templates_to_remove` - templates to remove from the text.
 
 For example, if you want to remove the template `{{помета|...}}`,
 you should add the following line: `"помета"`.
@@ -97,7 +115,27 @@ Open the terminal or the command line in the root directory of the project
 and run the following command:
 
 ```bash
-python3 -m wiktionary_parser.run_parser
+python wiktionary_parser/run_parser.py
 ```
 
 The parser will create a `definitions.jsonl` file in the `data` directory.
+
+### 6. Cleaning the dataset
+
+If you wish to use the created dataset for the purpose of definition modeling,
+you would want to clear the dataset of entries without examples, definitions that
+represent grammatical meaning instead of lexical or non-informative definitions.
+
+For this run the following command:
+
+```bash
+python wiktionary_parser/clean_dataset.py --dataset-path path/to/the/dataset
+--output-path path/to/new/dataset
+```
+
+For example:
+
+```bash
+python wiktionary_parser/clean_dataset.py --dataset-path wiktionary_parser/data/definitions.jsonl
+--output-path wiktionary_parser/data/cleaned_definitions.jsonl
+```

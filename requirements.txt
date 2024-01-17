@@ -3,7 +3,7 @@ evaluate==0.4.1
 matplotlib==3.8.0
 numpy==1.26.1
 pandas==2.1.1
-pytest==7.4.3
+pydantic==2.5.2
 rouge_score==0.1.2
 sacrebleu==2.3.1
 wikitextparser==0.54.0

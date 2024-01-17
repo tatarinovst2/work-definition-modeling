@@ -1,7 +1,103 @@
 {
+  "keep_entries_without_examples": true,
   "templates_to_remove":
-          ["ru", "помета", "семантика", "рег.", "обл.", "только ед. ч.", "ед. ч.", "мн."],
+          ["ru", "помета", "семантика", "рег.", "обл.", "только ед. ч.", "ед. ч.", "мн.", "местн.",
+            "наречие", "прич.", "прич", "страд.", "превосх.", "свойство"],
   "mappings": [
+    {
+      "title_index": 0,
+      "title": "превосх.",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "превосходная степень к прилагательному "
+    },
+    {
+      "title_index": 0,
+      "title": "свойство",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "свойство по значению слова "
+    },
+    {
+      "title_index": 0,
+      "title": "отн.",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "относящийся к "
+    },
+    {
+      "title_index": 0,
+      "title": "женск.",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "женское к "
+    },
+    {
+      "title_index": 0,
+      "title": "женск.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": "женское к "
+    },
+    {
+      "title_index": 0,
+      "title": "страд.",
+      "description_indexes": []
+    },
+    {
+      "title_index": 0,
+      "title": "сравн.",
+      "description_indexes": [
+        1
+      ],
+      "arguments_count": 2,
+      "starting_text": "сравнительная степень к "
+    },
+    {
+      "title_index": 0,
+      "title": "сравн.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": "сравнительная степень к "
+    },
+    {
+      "title_index": 0,
+      "title": "прич.",
+      "description_indexes": [
+        1
+      ],
+      "starting_text": "причастие от слова "
+    },
+    {
+      "title_index": 0,
+      "title": "уничиж.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
+      "starting_text": "уничижительное к "
+    },
+    {
+      "title_index": 0,
+      "title": "наречие",
+      "description_indexes": [
+        0
+      ],
+      "arguments_count": 1,
+      "starting_text": ""
+    },
     {
       "title_index": 0,
       "title": "соотн.",
@@ -65,12 +161,35 @@
     },
     {
       "title_index": 0,
+      "title": "аббр.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 5
+    },
+    {
+      "title_index": 0,
+      "title": "аббр.",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 6
+    },
+    {
+      "title_index": 0,
       "title": "умласк.",
       "description_indexes": [
         2
       ],
       "arguments_count": 3,
       "starting_text": "уменьшительно-ласкательное к "
+    },
+    {
+      "title_index": 0,
+      "title": "умласк.",
+      "description_indexes": [],
+      "arguments_count": 2,
+      "starting_text": "уменьшительно-ласкательное"
     },
     {
       "title_index": 0,
@@ -107,6 +226,16 @@
       "description_indexes": [
         1
       ],
+      "arguments_count": 2,
+      "starting_text": "то же, что "
+    },
+    {
+      "title_index": 0,
+      "title": "t:=",
+      "description_indexes": [
+        2
+      ],
+      "arguments_count": 3,
       "starting_text": "то же, что "
     },
     {

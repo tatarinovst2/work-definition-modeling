@@ -1,20 +1,53 @@
 """A module for processing templates in wiki text."""
 import json
+from dataclasses import field
 from pathlib import Path
-from typing import TypedDict
 
 import wikitextparser as wtp
+from pydantic.dataclasses import dataclass
 
 
-class CustomMapping(TypedDict):
-    """A typed dictionary for representing a custom mapping for a template."""
+@dataclass
+class TemplateMapping:
+    """A data class for representing how a template should be parsed."""
 
     title_index: int
     title: str
     description_indexes: list[int]
-    starting_text: str
-    ending_text: str
-    arguments_count: int
+    starting_text: str = ""
+    ending_text: str = ""
+    arguments_count: int = -1
+
+
+@dataclass
+class ParserConfig:
+    """A data class for representing the parser config."""
+
+    keep_entries_without_examples: bool
+    mappings: list[TemplateMapping]
+    templates_to_remove: list[str] = field(default_factory=list[str])
+
+
+def load_config(filepath: str | Path) -> ParserConfig:
+    """
+    Load the config from the given filepath.
+
+    :param filepath: The filepath to load the config from
+    :return: The config
+    """
+    mappings = []
+
+    with open(filepath, "r", encoding="utf-8") as json_file:
+        mappings_dict = json.load(json_file)
+
+    for custom_mapping in mappings_dict.get("mappings", []):
+        mappings.append(TemplateMapping(**custom_mapping))
+
+    templates_to_remove = mappings_dict.get("templates_to_remove", [])
+    keep_entries_without_examples = mappings_dict.get("keep_entries_without_examples", False)
+
+    return ParserConfig(keep_entries_without_examples=keep_entries_without_examples,
+                        mappings=mappings, templates_to_remove=templates_to_remove)
 
 
 class Template:
@@ -25,7 +58,7 @@ class Template:
         self.raw_text = raw_text
         self.arguments: list[str] = arguments
 
-    def get_text(self, mappings: list[CustomMapping] | None = None) -> str:
+    def get_text(self, mappings: list[TemplateMapping] | None = None) -> str:
         """
         Get the text of the template.
 
@@ -36,35 +69,33 @@ class Template:
             mappings = []
 
         for custom_mapping in mappings:
-            title_index = custom_mapping["title_index"]
-
-            if title_index >= len(self.arguments):
+            if custom_mapping.title_index >= len(self.arguments):
                 continue
 
-            if (custom_mapping["arguments_count"] != -1 and
-                    len(self.arguments) != custom_mapping["arguments_count"]):
+            if (custom_mapping.arguments_count != -1 and
+                    len(self.arguments) != custom_mapping.arguments_count):
                 continue
 
             description_index_out_of_range = False
-            for description_index in custom_mapping["description_indexes"]:
+            for description_index in custom_mapping.description_indexes:
                 if description_index >= len(self.arguments):
                     description_index_out_of_range = True
                     break
             if description_index_out_of_range:
                 continue
 
-            if custom_mapping["title"] == self.arguments[title_index]:
-                return (custom_mapping["starting_text"] +
+            if custom_mapping.title == self.arguments[custom_mapping.title_index]:
+                return (custom_mapping.starting_text +
                         self.get_text_from_argument_indexes(
-                            custom_mapping["description_indexes"], ", ") +
-                        custom_mapping["ending_text"])
+                            custom_mapping.description_indexes, ", ") +
+                        custom_mapping.ending_text)
 
         if len(self.arguments) == 1:
             return self.arguments[0]
 
         return self.get_text_from_argument_indexes([1], ", ")
 
-    def get_title(self, mappings: list[CustomMapping] | None = None) -> str:
+    def get_title(self, mappings: list[TemplateMapping] | None = None) -> str:
         """
         Get the title of the template.
 
@@ -75,11 +106,11 @@ class Template:
             mappings = []
 
         for custom_mapping in mappings:
-            title_index = custom_mapping.get("title_index", 0)
+            title_index = custom_mapping.title_index
             if title_index >= len(self.arguments):
                 continue
-            if custom_mapping["title"] == self.arguments[title_index]:
-                return self.arguments[custom_mapping.get("title_index", 0)]
+            if custom_mapping.title == self.arguments[title_index]:
+                return self.arguments[custom_mapping.title_index]
 
         return self.arguments[0]
 
@@ -126,7 +157,7 @@ def get_templates(text: str, level: int = 0) -> list[Template]:
     return templates
 
 
-def replace_templates_with_text(text: str, mappings: list[CustomMapping] | None = None,
+def replace_templates_with_text(text: str, mappings: list[TemplateMapping] | None = None,
                                 templates_to_remove: list[str] | None = None) -> str:
     """
     Replace the templates in the text with their values.
@@ -154,7 +185,7 @@ def replace_templates_with_text(text: str, mappings: list[CustomMapping] | None 
 
 
 def pop_templates_in_text(text: str, title_to_pop: str,
-                          mappings: list[CustomMapping] | None = None)\
+                          mappings: list[TemplateMapping] | None = None)\
         -> tuple[str, list[Template]]:
     """
     Pops the templates in the text with the given title.
@@ -175,31 +206,3 @@ def pop_templates_in_text(text: str, title_to_pop: str,
             popped_templates.append(template)
 
     return text, popped_templates
-
-
-def load_config(filepath: str | Path) -> dict[str, list[CustomMapping] | list[str]]:
-    """
-    Load the config from the given filepath.
-
-    :param filepath: The filepath to load the config from
-    :return: The config
-    """
-    mappings = []
-
-    with open(filepath, "r", encoding="utf-8") as json_file:
-        mappings_dict = json.load(json_file)
-
-    for custom_mapping in mappings_dict.get("mappings", []):
-        mapping = CustomMapping(title_index=custom_mapping["title_index"],
-                                title=custom_mapping["title"],
-                                description_indexes=custom_mapping["description_indexes"],
-                                starting_text=custom_mapping.get("starting_text", ""),
-                                ending_text=custom_mapping.get("ending_text", ""),
-                                arguments_count=custom_mapping.get("arguments_count", -1))
-
-        mappings.append(mapping)
-
-    return {
-        "mappings": mappings,
-        "templates_to_remove": mappings_dict.get("templates_to_remove", [])
-    }

@@ -69,7 +69,9 @@ You don't need to unpack it, the parser will do it for you.
 
 You can specify the following parameters:
 
-* `templates_to_remove`- templates to remove from the text.
+* `keep_entries_without_examples` - will not skip definitions without examples.
+
+* `templates_to_remove` - templates to remove from the text.
 
 For example, if you want to remove the template `{{помета|...}}`,
 you should add the following line: `"помета"`.
@@ -117,3 +119,23 @@ python wiktionary_parser/run_parser.py
 ```
 
 The parser will create a `definitions.jsonl` file in the `data` directory.
+
+### 6. Cleaning the dataset
+
+If you wish to use the created dataset for the purpose of definition modeling,
+you would want to clear the dataset of entries without examples, definitions that
+represent grammatical meaning instead of lexical or non-informative definitions.
+
+For this run the following command:
+
+```bash
+python wiktionary_parser/clean_dataset.py --dataset-path path/to/the/dataset
+--output-path path/to/new/dataset
+```
+
+For example:
+
+```bash
+python wiktionary_parser/clean_dataset.py --dataset-path wiktionary_parser/data/definitions.jsonl
+--output-path wiktionary_parser/data/cleaned_definitions.jsonl
+```

@@ -10,6 +10,7 @@ from peft import PeftModel
 from src.utils import get_current_torch_device, parse_path
 from torch import dtype
 from transformers import AutoTokenizer, T5ForConditionalGeneration  # pylint: disable=import-error
+from tqdm import tqdm
 
 
 def load_model(model_checkpoint: str | Path, torch_dtype: dtype = torch.float32,
@@ -81,7 +82,7 @@ def run_inference_over_dataset(  # pylint: disable=too-many-arguments
     entries_inferred = 0
     total_entries = len(data)
 
-    for i in range(0, total_entries, batch_size):
+    for i in tqdm(range(0, total_entries, batch_size)):
         batch = data[i:i + batch_size]
         input_texts = [entry[input_field] for entry in batch]
         output_texts = run_inference(model, tokenizer, input_texts, max_length=max_length)
@@ -90,7 +91,6 @@ def run_inference_over_dataset(  # pylint: disable=too-many-arguments
             save_output(output_text, output_file_path, batch[j])
 
         entries_inferred += len(batch)
-        print(f"\rInferred {entries_inferred} out of {total_entries}.", end="")
 
 
 def validate_args(args: argparse.Namespace) -> None:

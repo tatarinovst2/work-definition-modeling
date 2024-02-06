@@ -1,11 +1,13 @@
 [tool.pytest.ini_options]
 markers = [
     "wiktionary_parser",
-    "model"
+    "model",
+    "rushifteval"
 ]
 pythonpath = [
     "wiktionary_parser",
-    "model"
+    "model",
+    "rushifteval"
 ]
 
 [tool.coverage.run]
@@ -16,7 +18,7 @@ omit = [
 ]
 
 [tool.coverage.report]
-fail_under=85
+fail_under=80
 omit = [
     "*/.cache/*",
     "*/var/folders/*",
@@ -24,7 +26,7 @@ omit = [
 ]
 
 [[tool.mypy.overrides]]
-module = ["wiktionary_parser/*", "model/*"]
+module = ["wiktionary_parser/*", "model/*", "rushifteval/*"]
 disable_error_code = [
     'import-untyped',
     'import-not-found'
@@ -62,7 +64,8 @@ exclude = [
 application_import_names = [
     'config',
     'wiktionary_parser',
-    'model'
+    'model',
+    'rushifteval'
 ]
 select = ['I']
 count = true

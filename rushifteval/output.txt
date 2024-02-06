@@ -1,0 +1,4 @@
+spearman0: 0.573
+spearman1: 0.650
+spearman2: 0.623
+ave_score: 0.615

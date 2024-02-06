@@ -23,6 +23,8 @@ preprocess
 preprocesses
 pretrainedtokenizer
 py
+rusemshift
+rushifteval
 str
 tatarinov
 tbd

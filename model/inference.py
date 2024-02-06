@@ -9,8 +9,8 @@ import torch  # pylint: disable=import-error
 from peft import PeftModel
 from src.utils import get_current_torch_device, parse_path
 from torch import dtype
-from transformers import AutoTokenizer, T5ForConditionalGeneration  # pylint: disable=import-error
 from tqdm import tqdm
+from transformers import AutoTokenizer, T5ForConditionalGeneration  # pylint: disable=import-error
 
 
 def load_model(model_checkpoint: str | Path, torch_dtype: dtype = torch.float32,

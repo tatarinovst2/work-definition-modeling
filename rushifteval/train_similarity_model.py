@@ -3,9 +3,9 @@ import argparse
 
 import joblib
 import numpy as np
-from sklearn.linear_model import LinearRegression
 from rushifteval_utils import (AnnotatedWord, compute_distance, load_annotated_data,
                                load_jsonl_vectors, parse_path)
+from sklearn.linear_model import LinearRegression
 
 
 def train_model(annotated_words: list[AnnotatedWord], metric: str,
@@ -16,15 +16,14 @@ def train_model(annotated_words: list[AnnotatedWord], metric: str,
     :param annotated_words: A list of AnnotatedWord instances with vector data.
     :param metric: The metric to use for computing distances between vectors.
     :param normalize_flag: Whether to normalize vectors before distance computation.
-    :raises ValueError: If empty value is in the dataset.
     :return: A trained LogisticRegression model.
     """
+    distances = []
     for word in annotated_words:
-        if not word.vect1 or word.vect2:
-            raise ValueError("Empty vector value in the dataset!")
-
-    data = np.array([compute_distance(word.vect1, word.vect2, metric, normalize_flag) for word in
-                     annotated_words]).reshape(-1, 1)
+        if word.vect1 is None or word.vect2 is None:
+            raise ValueError("Vector is None!")
+        distances.append(compute_distance(word.vect1, word.vect2, metric, normalize_flag))
+    data = np.array(distances).reshape(-1, 1)
     targets = np.array([word.mean for word in annotated_words])
     model = LinearRegression()
     model.fit(data, targets)

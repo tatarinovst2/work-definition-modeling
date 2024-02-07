@@ -58,8 +58,12 @@ def compute_distance(vect1: list[float], vect2: list[float], metric: str,
     :param vect2: The second vector.
     :param metric: The metric to use for distance computation.
     :param normalize_flag: Whether to normalize the vectors before computing distance.
+    :raises ValueError: If given an empty value.
     :return: The computed distance between the two vectors.
     """
+    if vect1 is None or vect2 is None:
+        raise ValueError("Vector is None!")
+
     if normalize_flag:
         vect1 = normalize([vect1])[0]
         vect2 = normalize([vect2])[0]
@@ -69,7 +73,7 @@ def compute_distance(vect1: list[float], vect2: list[float], metric: str,
     elif metric == 'manhattan':
         return manhattan_distances([vect1], [vect2])[0][0]
 
-    return np.linalg.norm(np.array(vect1) - np.array(vect2))
+    return float(np.linalg.norm(np.array(vect1) - np.array(vect2)))
 
 
 def load_annotated_data(tsv_file_path: str | Path,

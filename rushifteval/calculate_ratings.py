@@ -4,9 +4,9 @@ import csv
 from pathlib import Path
 
 import joblib
-from sklearn.linear_model import LinearRegression
 from rushifteval_utils import (AnnotatedWord, compute_distance, load_annotated_data,
                                load_jsonl_vectors, parse_path)
+from sklearn.linear_model import LinearRegression
 
 
 def load_model(regression_model_path: str | Path) -> LinearRegression:
@@ -56,6 +56,7 @@ def process_and_annotate(tsv_file_path: str | Path,  # pylint: disable=too-many-
     :param metric: The metric to use for computing distances between vectors.
     :param normalize_flag: A flag indicating whether to normalize vectors.
     :param output_file_path: The path to save the output TSV file.
+    :raises ValueError: If the vector is empty.
     """
     jsonl_vectors = load_jsonl_vectors(jsonl_vectors_path)
     model = load_model(regression_model_path)
@@ -63,9 +64,10 @@ def process_and_annotate(tsv_file_path: str | Path,  # pylint: disable=too-many-
     annotated_data = load_annotated_data(tsv_file_path, jsonl_vectors)
 
     for word in annotated_data:
-        if word.vect1 is not None and word.vect2 is not None:
-            distance = compute_distance(word.vect1, word.vect2, metric, normalize_flag)
-            word.mean = model.predict([[distance]])[0]
+        if word.vect1 is None or word.vect2 is None:
+            raise ValueError("Vector is None!")
+        distance = compute_distance(word.vect1, word.vect2, metric, normalize_flag)
+        word.mean = model.predict([[distance]])[0]
 
     save_annotated_data_to_tsv(annotated_data, output_file_path)
 

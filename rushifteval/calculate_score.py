@@ -13,7 +13,7 @@ def calculate_means(filenames: list[str | Path]) -> dict[str, list[float]]:
     :param filenames: A list of filenames to process.
     :return: A dictionary where keys are words and values are lists of mean values.
     """
-    data = {}  # type: dict[str, list[float]]
+    data: dict[str, list[float]] = {}
 
     for filename in filenames:
         file_path = parse_path(filename)
@@ -24,8 +24,8 @@ def calculate_means(filenames: list[str | Path]) -> dict[str, list[float]]:
 
         for word, mean in word_means.items():
             if word not in data:
-                data[word] = []
-            data[word].append(mean)
+                data[str(word)] = []
+            data[str(word)].append(float(mean))
 
     return data
 
@@ -37,6 +37,8 @@ def write_to_tsv(data: dict[str, list[float]], output_path: str | Path) -> None:
     :param data: A dictionary containing words and their corresponding mean values.
     :param output_path: The name of the output TSV file.
     """
+    output_path = parse_path(output_path)
+
     if not output_path.parent.exists():
         output_path.parent.mkdir(parents=True, exist_ok=True)
 

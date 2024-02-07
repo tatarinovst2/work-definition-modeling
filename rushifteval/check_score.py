@@ -3,9 +3,8 @@ import argparse
 from pathlib import Path
 
 import pandas as pd
-from rushifteval_utils import parse_path
-
 from pydantic.dataclasses import dataclass
+from rushifteval_utils import parse_path
 
 
 @dataclass

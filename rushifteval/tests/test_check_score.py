@@ -1,9 +1,9 @@
 """Tests for the calculate_test_score function"""
 import unittest
 from pathlib import Path
-import pytest
 
-from check_score import Scores, calculate_test_score
+import pytest
+from check_score import calculate_test_score, Scores
 
 
 class CheckScoreTest(unittest.TestCase):

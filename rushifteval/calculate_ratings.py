@@ -43,7 +43,7 @@ def save_annotated_data_to_tsv(annotated_data: list[AnnotatedWord],
             ])
 
 
-def process_and_annotate(tsv_file_path: str | Path,  # pylint: disable=too-many-instance-attributes
+def process_and_annotate(tsv_file_path: str | Path,  # pylint: disable=too-many-arguments
                          jsonl_vectors_path: str | Path,
                          regression_model_path: str | Path, metric: str,
                          normalize_flag: bool, output_file_path: str | Path) -> None:

@@ -70,7 +70,8 @@ def compute_distance(vect1: list[float], vect2: list[float], metric: str,
 
     if metric == 'cosine':
         return cosine_distances([vect1], [vect2])[0][0]
-    elif metric == 'manhattan':
+
+    if metric == 'manhattan':
         return manhattan_distances([vect1], [vect2])[0][0]
 
     return float(np.linalg.norm(np.array(vect1) - np.array(vect2)))

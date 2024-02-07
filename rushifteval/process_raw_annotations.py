@@ -68,12 +68,12 @@ def save_as_json(prepared_data: list[dict[str, Any]], output_path: str | Path) -
     :param prepared_data: The dataset prepared for inference.
     :param output_path: The path where the JSON file will be saved.
     """
-    output_path = parse_path(output_path)
+    parsed_output_path = parse_path(output_path)
 
-    if not output_path.parent.exists():
-        output_path.parent.mkdir(parents=True, exist_ok=True)
+    if not parsed_output_path.parent.exists():
+        parsed_output_path.parent.mkdir(parents=True, exist_ok=True)
 
-    with open(output_path, 'w', encoding='utf-8') as output_file:
+    with open(parsed_output_path, 'w', encoding='utf-8') as output_file:
         for record in prepared_data:
             json_record = json.dumps(record, ensure_ascii=False)
             output_file.write(json_record + '\n')

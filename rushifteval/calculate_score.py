@@ -37,13 +37,13 @@ def write_to_tsv(data: dict[str, list[float]], output_path: str | Path) -> None:
     :param data: A dictionary containing words and their corresponding mean values.
     :param output_path: The name of the output TSV file.
     """
-    output_path = parse_path(output_path)
+    parsed_output_path = parse_path(output_path)
 
-    if not output_path.parent.exists():
-        output_path.parent.mkdir(parents=True, exist_ok=True)
+    if not parsed_output_path.parent.exists():
+        parsed_output_path.parent.mkdir(parents=True, exist_ok=True)
 
     df_output = pd.DataFrame.from_dict(data, orient='index')
-    df_output.to_csv(output_path, sep='\t', header=False, float_format='%.16f')
+    df_output.to_csv(parsed_output_path, sep='\t', header=False, float_format='%.16f')
 
 
 def main() -> None:

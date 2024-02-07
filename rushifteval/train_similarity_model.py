@@ -16,6 +16,7 @@ def train_model(annotated_words: list[AnnotatedWord], metric: str,
     :param annotated_words: A list of AnnotatedWord instances with vector data.
     :param metric: The metric to use for computing distances between vectors.
     :param normalize_flag: Whether to normalize vectors before distance computation.
+    :raises ValueError: If the vector is None.
     :return: A trained LogisticRegression model.
     """
     distances = []

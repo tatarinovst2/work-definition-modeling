@@ -17,7 +17,7 @@ def train_model(annotated_words: list[AnnotatedWord], metric: str,
     :param metric: The metric to use for computing distances between vectors.
     :param normalize_flag: Whether to normalize vectors before distance computation.
     :raises ValueError: If the vector is None.
-    :return: A trained LogisticRegression model.
+    :return: A trained LinearRegression model.
     """
     distances = []
     for word in annotated_words:
@@ -54,8 +54,17 @@ def main() -> None:
     annotated_words = load_annotated_data(tsv_file_path, jsonl_vectors)
     model = train_model(annotated_words, args.metric, args.normalize)
 
-    model_path = f'similarity_model_{args.metric}.joblib'
-    joblib.dump(model, model_path)
+    if args.normalize:
+        model_path = f'rushifteval/tmp/models/similarity_model_{args.metric}_normalize.joblib'
+    else:
+        model_path = f'rushifteval/tmp/models/similarity_model_{args.metric}.joblib'
+
+    full_model_path = parse_path(model_path)
+
+    if not full_model_path.parent.exists():
+        full_model_path.parent.mkdir(parents=True, exist_ok=True)
+
+    joblib.dump(model, full_model_path)
 
     print(f"Model saved to {model_path}")
 

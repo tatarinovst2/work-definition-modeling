@@ -1,3 +1,4 @@
+annotatedword
 args
 bleu
 bool
@@ -5,6 +6,7 @@ bz
 config
 checkpointing
 cuda
+dataclass
 dataset
 datasetdict
 dtype
@@ -14,6 +16,7 @@ filenotfounderror
 filepath
 json
 jsonl
+linearregression
 mps
 param
 pathlib
@@ -25,13 +28,18 @@ pretrainedtokenizer
 py
 rusemshift
 rushifteval
+spearman
 str
 tatarinov
 tbd
 tokenized
 tokenizer
+tsv
 utils
 valueerror
+vect
+vectorization
+vectorize
 wikitext
 wikitextparser
 wiktionary

@@ -44,4 +44,5 @@ matrix:
     - 'wiktionary_parser/*.py'
     - 'model/*.py'
     - 'model/*/*.py'
+    - 'rushifteval/*.py'
   default_encoding: utf-8

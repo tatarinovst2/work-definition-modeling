@@ -1,1 +1,0 @@
-python rushifteval/calculate_score.py rushifteval/data/ratings/rushifteval1_test.tsv rushifteval/data/ratings/rushifteval2_test.tsv rushifteval/data/ratings/rushifteval3_test.tsv rushifteval/data/result/result_testset.tsv

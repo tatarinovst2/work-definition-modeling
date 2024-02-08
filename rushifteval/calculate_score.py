@@ -17,8 +17,7 @@ def calculate_means(filenames: list[str | Path]) -> dict[str, list[float]]:
 
     for filename in filenames:
         file_path = parse_path(filename)
-        df = pd.read_csv(file_path, sep='\t', names=['word', 'sent1', 'sent2', 'mean'],
-                         usecols=['word', 'mean'])
+        df = pd.read_csv(file_path, sep='\t', usecols=['word', 'mean'])
         df['mean'] = pd.to_numeric(df['mean'], errors='coerce')
         word_means = df.groupby('word')['mean'].mean()
 

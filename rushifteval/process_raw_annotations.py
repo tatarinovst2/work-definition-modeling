@@ -98,7 +98,7 @@ def main() -> None:
     output_path = parse_path(args.output_path)
 
     if not dataset_path.exists():
-        raise ValueError("This dataset does not exist.")
+        raise ValueError(f"This dataset ({dataset_path}) does not exist.")
 
     if dataset_path.suffix != output_path.suffix:
         raise ValueError("Both dataset_path and output_path should be either .tsv files"

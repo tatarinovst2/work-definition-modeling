@@ -50,7 +50,7 @@ def main() -> None:
     """Handle command line arguments and invoke the score calculation."""
     parser = argparse.ArgumentParser(description='Calculate test scores correlation')
     parser.add_argument('--predictions-filepath', type=str,
-                        default="rushifteval/data/result/result_testset.tsv",
+                        default="rushifteval/tmp/result/result_testset.tsv",
                         help='File path to the predictions tsv file.')
     parser.add_argument('--gold-scores-filepath', type=str,
                         default="rushifteval/data/gold/annotated_testset.tsv",

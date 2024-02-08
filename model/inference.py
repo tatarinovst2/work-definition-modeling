@@ -200,7 +200,7 @@ def main():
                         type=str,
                         default="float32",
                         help="The precision in which to load the model.")
-    parser.add_argument("--limit",
+    parser.add_argument("--limit", default=1,
                         type=int,
                         help="How many rows to load.")
 

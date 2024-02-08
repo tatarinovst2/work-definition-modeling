@@ -73,7 +73,7 @@ bash rushifteval/bash/get_definitions.sh base_model_name path_to_the_adapter --b
 
 A folder will appear under `rushifteval/data/preds` with the definitions.
 
-#### PS: You can download existing LoRa adapters:
+#### PS: You can download existing LoRa adapters
 
 > 23 December FRED-T5-large 2.87 epochs
 > [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/15)

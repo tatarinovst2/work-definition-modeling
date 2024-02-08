@@ -3,6 +3,8 @@
 This is a module for checking the quality of using the fine-tuned T5 model for
 detecting semantic change.
 
+## How to run
+
 ### 1. Download `data`
 
 Download the `data` archive, unpack it and put the contents under `rushifteval` directory:
@@ -100,7 +102,7 @@ normalize the vectors.
 
 The script will report the results in the following format:
 
-```
+```text
 Mean correlation: 0.6411617197963112
 Correlations for all epoch pairs:
 pre-Soviet:Soviet: 0.6128661193246704

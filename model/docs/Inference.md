@@ -23,6 +23,9 @@ This directory contains the code for inference.
 > 23 December FRED-T5-large 2.87 epochs
 > [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/15)
 
+> 18 January FRED-T5-1.7B 3 epochs
+> [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/22)
+
 Unpack it and put under `models` directory.
 
 ## Two ways to run inference

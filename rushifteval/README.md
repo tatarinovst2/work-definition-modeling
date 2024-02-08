@@ -25,7 +25,7 @@ between vectors to the dataset format.
 > NOTE: Inference takes time.
 > You can skip this step by downloading the archive and
 > unpacking it under `rushifteval/data` directory:
-> [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/22)
+> [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/23)
 
 #### 2.1 Process annotations
 
@@ -72,6 +72,14 @@ bash rushifteval/bash/get_definitions.sh base_model_name path_to_the_adapter --b
 ```
 
 A folder will appear under `rushifteval/data/preds` with the definitions.
+
+#### PS: You can download existing LoRa adapters:
+
+> 23 December FRED-T5-large 2.87 epochs
+> [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/15)
+
+> 18 January FRED-T5-1.7B 3 epochs
+> [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/22)
 
 ### 3. Vectorize the definitions
 

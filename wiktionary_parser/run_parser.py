@@ -7,9 +7,8 @@ from pathlib import Path
 import wikitextparser as wtp
 from template_parsing import (load_config, ParserConfig, pop_templates_in_text,
                               replace_templates_with_text)
-from utils import clean_text
+from utils import clean_text, WIKTIONARY_PARSER_DIR
 
-WIKTIONARY_PARSER_DIR = Path(__file__).parent
 ROOT_XML_TAG = "{http://www.mediawiki.org/xml/export-0.10/}"
 
 TAGS = {
@@ -153,9 +152,6 @@ def parse_wiki(wiki: str, parser_config: ParserConfig) -> dict[str, dict[str, li
                     continue
                 examples.append(example_text)
 
-            if not examples and not parser_config.keep_entries_without_examples:
-                continue
-
             definitions[definition] = {"examples": examples}
 
     return definitions
@@ -185,7 +181,7 @@ def validate_filepaths(input_filepath: str | Path, output_filepath: str | Path) 
 def main() -> None:
     """Parse the Wiktionary dump file and extract articles."""
     dump_filepath = WIKTIONARY_PARSER_DIR / "data" / "ruwiktionary-latest-pages-articles.xml.bz2"
-    output_definitions_filepath = WIKTIONARY_PARSER_DIR / "data" / "definitions.jsonl"
+    output_definitions_filepath = WIKTIONARY_PARSER_DIR / "data" / "wiki_definitions.jsonl"
     config_filepath = WIKTIONARY_PARSER_DIR / "wiktionary_parser_config.json"
 
     config = load_config(config_filepath)

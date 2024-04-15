@@ -1,5 +1,9 @@
 """Module for extra functions that are used in the parser."""
 import re
+from pathlib import Path
+
+WIKTIONARY_PARSER_DIR = Path(__file__).parent
+ROOT_DIR = Path(__file__).resolve().parent.parent
 
 
 def clean_text(text: str, words_to_remove: list[str] | None = None,
@@ -52,3 +56,15 @@ def remove_text_before_words(text: str) -> str:
            text[index] != "[" and text[index] != "("):
         index += 1
     return text[index:]
+
+
+def parse_path(path: str | Path) -> Path:
+    """
+    Ensure that the path is absolute and is in a pathlib.Path format.
+    :param path: The path to parse.
+    :return: The parsed path.
+    """
+    path = Path(path)
+    if not path.is_absolute():
+        path = ROOT_DIR / path
+    return path

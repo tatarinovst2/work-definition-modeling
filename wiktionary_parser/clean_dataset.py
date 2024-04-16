@@ -64,11 +64,12 @@ def load_config(config_path: str | Path) -> WiktionaryCleaningConfig:
     return WiktionaryCleaningConfig(**config)
 
 
-def process_definition(definition: str, config: WiktionaryCleaningConfig) -> str:
+def process_definition(definition: str, title: str, config: WiktionaryCleaningConfig) -> str:
     """
     Process the definition by removing unnecessary parts and formatting it.
 
     :param definition: The definition in the string form.
+    :param title: The title of the entry.
     :param config: The cleaning config.
     :return: The cleaned definition.
     """
@@ -82,6 +83,12 @@ def process_definition(definition: str, config: WiktionaryCleaningConfig) -> str
 
     definition = re.sub(r'^\s?(?:[и,;]|или)[\s,.]', '', definition)
     definition = re.sub(r'\s+', ' ', definition).strip()
+
+    if "то же, что" in definition.lower():
+        right_part = definition.lower().split("то же, что")[1].strip()
+        if right_part[:2].lower() == title[:2].lower() or not right_part:
+            return ""
+        definition = right_part[0].upper() + right_part[1:]
 
     if not definition:
         return definition
@@ -161,8 +168,10 @@ def clean_dataset(dataset: list[dict], config: WiktionaryCleaningConfig) -> list
 
             examples = entry.definitions[definition]
 
-            processed_definition = process_definition(definition, config)
-            new_definitions[processed_definition] = examples
+            processed_definition = process_definition(definition, entry.title, config)
+
+            if processed_definition:
+                new_definitions[processed_definition] = examples
 
         new_entry["definitions"] = new_definitions
 

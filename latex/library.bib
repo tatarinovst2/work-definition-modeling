@@ -35,11 +35,13 @@ author = {Tianyi Zhang and Varsha Kishore and Felix Wu and Kilian Q. Weinberger 
 year = {2020},
 }
 
-@online{FRED-T5,
-title = {FRED-T5. Новая SOTA модель для русского языка от SberDevices},
-year = {2023},
-url = {https://habr.com/ru/companies/sberdevices/articles/730088/},
-urldate = {2023-11-15}
+@misc{FRED-T5,
+      title={A Family of Pretrained Transformer Language Models for Russian},
+      author={Dmitry Zmitrovich and Alexander Abramov and Andrey Kalmykov and Maria Tikhonova and Ekaterina Taktasheva and Danil Astafurov and Mark Baushenko and Artem Snegirev and Tatiana Shavrina and Sergey Markov and Vladislav Mikhailov and Alena Fenogenova},
+      year={2023},
+      eprint={2309.10931},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
 }
 
 @inproceedings{RussianSuperGLUE,
@@ -102,6 +104,15 @@ doi = {10.28995/2075-7182-2020-19-500-516}
   bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
 
+@inproceedings{rushifteval,
+author = {Pivovarova, Lidia and Kutuzov, Andrei},
+year = {2021},
+month = {06},
+pages = {533-545},
+title = {RuShiftEval: a shared task on semantic shift detection for Russian},
+doi = {10.28995/2075-7182-2021-20-533-545}
+}
+
 @inproceedings{GlossReader,
 author = {Rachinskiy, Maxim and Arefyev, Nikolay},
 year = {2021},
@@ -152,3 +163,50 @@ urldate = {2024-01-18}}
 title = {GlossReader},
 url = {https://github.com/myrachins/RuShiftEval},
 urldate = {2024-01-18}}
+
+@misc{noraset2016definition,
+      title={Definition Modeling: Learning to define word embeddings in natural language},
+      author={Thanapon Noraset and Chen Liang and Larry Birnbaum and Doug Downey},
+      year={2016},
+      eprint={1612.00394},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+@inproceedings{gadetsky-etal-2018-conditional,
+    title = "Conditional Generators of Words Definitions",
+    author = "Gadetsky, Artyom  and
+      Yakubovskiy, Ilya  and
+      Vetrov, Dmitry",
+    editor = "Gurevych, Iryna  and
+      Miyao, Yusuke",
+    booktitle = "Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)",
+    month = jul,
+    year = "2018",
+    address = "Melbourne, Australia",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/P18-2043",
+    doi = "10.18653/v1/P18-2043",
+    pages = "266--271",
+    abstract = "We explore recently introduced definition modeling technique that provided the tool for evaluation of different distributed vector representations of words through modeling dictionary definitions of words. In this work, we study the problem of word ambiguities in definition modeling and propose a possible solution by employing latent variable modeling and soft attention mechanisms. Our quantitative and qualitative evaluation and analysis of the model shows that taking into account words{'} ambiguity and polysemy leads to performance improvement.",
+}
+
+@inproceedings{huang-etal-2021-definition,
+    title = "Definition Modelling for Appropriate Specificity",
+    author = "Huang, Han  and
+      Kajiwara, Tomoyuki  and
+      Arase, Yuki",
+    editor = "Moens, Marie-Francine  and
+      Huang, Xuanjing  and
+      Specia, Lucia  and
+      Yih, Scott Wen-tau",
+    booktitle = "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+    month = nov,
+    year = "2021",
+    address = "Online and Punta Cana, Dominican Republic",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2021.emnlp-main.194",
+    doi = "10.18653/v1/2021.emnlp-main.194",
+    pages = "2499--2509",
+    abstract = "Definition generation techniques aim to generate a definition of a target word or phrase given a context. In previous studies, researchers have faced various issues such as the out-of-vocabulary problem and over/under-specificity problems. Over-specific definitions present narrow word meanings, whereas under-specific definitions present general and context-insensitive meanings. Herein, we propose a method for definition generation with appropriate specificity. The proposed method addresses the aforementioned problems by leveraging a pre-trained encoder-decoder model, namely Text-to-Text Transfer Transformer, and introducing a re-ranking mechanism to model specificity in definitions. Experimental results on standard evaluation datasets indicate that our method significantly outperforms the previous state-of-the-art method. Moreover, manual evaluation confirms that our method effectively addresses the over/under-specificity problems.",
+}

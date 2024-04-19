@@ -21,6 +21,11 @@
 \newfontfamily{\cyrillicfonttt}{Times New Roman}
 \setmainlanguage{russian}
 
+% My code
+\usepackage{longtable}
+\usepackage{array}
+% ----
+
 \RequirePackage[font=small,skip=4pt]{caption}
 \RequirePackage{graphicx}
 

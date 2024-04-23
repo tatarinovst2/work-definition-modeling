@@ -90,6 +90,30 @@ def process_definition(definition: str, title: str, config: WiktionaryCleaningCo
             return ""
         definition = right_part[0].upper() + right_part[1:]
 
+    if "женск. к" in definition.lower():
+        if not "; " in definition:
+            return ""
+        definition = "; ".join(definition.split("; ")[1:])
+        if "женск. к" in definition:
+            return ""
+    elif "женское к" in definition.lower():
+        if not "; " in definition:
+            return ""
+        definition = "; ".join(definition.split("; ")[1:])
+        if "женское к" in definition:
+            return ""
+    elif "результат такого действия" in definition.lower():
+        if not "; " in definition or len(definition.split("; ")[0]) > 40:
+            return ""
+        definition = "; ".join(definition.split("; ")[1:])
+        if "результат такого действия" in definition:
+            return ""
+    elif "химический элемент с атомным номером" in definition.lower():
+        definition = re.sub(r" с атомным номером \d+", "", definition)
+
+    if re.search(rf"\b{re.escape(title.lower())}\b", definition.lower()):
+        return ""
+
     if not definition:
         return definition
 
@@ -113,6 +137,8 @@ def should_ignore_definition(definition: str, config: WiktionaryCleaningConfig,
     if len(definition) > config.max_definition_character_length:
         return True
     if definition.startswith("(") and definition.endswith(")"):
+        return True
+    if len(definition) < 3:
         return True
 
     for bad_marker in config.throw_out_definition_markers:
@@ -169,6 +195,9 @@ def clean_dataset(dataset: list[dict], config: WiktionaryCleaningConfig) -> list
             examples = entry.definitions[definition]
 
             processed_definition = process_definition(definition, entry.title, config)
+
+            if " " not in processed_definition:
+                continue
 
             if processed_definition:
                 new_definitions[processed_definition] = examples

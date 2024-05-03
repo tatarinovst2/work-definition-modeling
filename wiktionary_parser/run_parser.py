@@ -153,7 +153,7 @@ def parse_wiki(wiki: str, parser_config: ParserConfig) -> dict[str, dict[str, li
                     continue
                 examples.append(example_text)
 
-            if not examples:
+            if not examples and not parser_config.keep_entries_without_examples:
                 continue
 
             definitions[definition] = {"examples": examples}

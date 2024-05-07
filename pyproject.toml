@@ -1,11 +1,13 @@
 [tool.pytest.ini_options]
 markers = [
     "wiktionary_parser",
-    "model_training"
+    "model_training",
+    "mas_parser"
 ]
 pythonpath = [
-  "wiktionary_parser",
-  "model_training"
+    "wiktionary_parser",
+    "model_training",
+    "mas_parser"
 ]
 
 [tool.coverage.run]
@@ -22,7 +24,7 @@ omit = [
 ]
 
 [[tool.mypy.overrides]]
-module = ["wiktionary_parser/*", "model_training/*"]
+module = ["wiktionary_parser/*", "model_training/*", "mas_parser/*"]
 disable_error_code = [
     'import-untyped',
     'import-not-found'
@@ -60,7 +62,8 @@ exclude = [
 application_import_names = [
     'config',
     'wiktionary_parser',
-    'model_training'
+    'model_training',
+    'mas_parser'
 ]
 select = ['I']
 count = true

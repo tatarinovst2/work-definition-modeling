@@ -2,18 +2,8 @@
 import argparse
 import re
 
-from parse_mas_utils import (dump_dataset, load_cleaning_config, load_dataset, MasCleaningConfig,
-                             parse_path, ROOT_DIR)
-from pydantic.dataclasses import dataclass
-
-
-@dataclass
-class DatasetEntry:
-    """A class representing a dataset entry."""
-
-    id: int
-    title: str
-    definitions: dict[str, dict[str, list[str]]]
+from parse_mas_utils import (DatasetEntry, dump_dataset, load_cleaning_config, load_dataset,
+                             MasCleaningConfig, parse_path, ROOT_DIR)
 
 
 def should_ignore_definition(definition: str, config: MasCleaningConfig) -> bool:
@@ -88,52 +78,6 @@ def clean_dataset(dataset: list[dict], config: MasCleaningConfig) -> list[dict]:
                     continue
                 definition = right_part[0].upper() + right_part[1:]
 
-            # tags_to_split = ["женск. к", "уменьш. к", "ласк. к", "уменьш.-ласк. к",
-            #                  "состояние по глаг."]
-            #
-            # for tag_to_split in tags_to_split:
-            #     if tag_to_split in definition.lower():
-            #         right_part = definition.lower().split(tag_to_split)[-1]
-            #         if len(right_part.split()) < 4 or ";" not in definition:
-            #             continue
-            #         print(f"Updating definition: {definition}")
-            #         definition = definition.split(";")[-1]
-            #         print(f"to {definition}")
-
-            # if "женск. к" in definition.lower():
-            #     if ";" not in definition:
-            #         continue
-            #     if len(right_part.split()) < 4 or ";" not in right_part:
-            #         print(f"Skipped: {definition}")
-            #         continue
-            #     definition = definition.split(";")[-1]
-            # elif "уменьш. к" in definition.lower():
-            #     right_part = definition.lower().split("уменьш. к")[-1]
-            #     if len(right_part.split()) < 4 or ";" not in right_part:
-            #         continue
-            #     definition = definition.split(";")[-1]
-            # elif "ласк. к" in definition.lower():
-            #     right_part = definition.lower().split("ласк. к")[1]
-            #     if 4 < len(right_part.split()) <= 5:
-            #         print(definition)
-            #     if len(right_part.split()) <= 5 or ";" not in right_part:
-            #         continue
-            #     definition = definition.split(";")[-1]
-            # elif "уменьш.-ласк. к" in definition.lower():
-            #     right_part = definition.lower().split("уменьш.-ласк. к")[1]
-            #     if 4 < len(right_part.split()) <= 5:
-            #         print(definition)
-            #     if len(right_part.split()) <= 5 or ";" not in right_part:
-            #         continue
-            #     definition = definition.split(";")[-1]
-            # elif "состояние по глаг." in definition.lower():
-            #     right_part = definition.lower().split("состояние по глаг.")[1]
-            #     if 4 < len(right_part.split()) <= 5:
-            #         print(definition)
-            #     if len(right_part.split()) <= 5 or ";" not in right_part:
-            #         continue
-            #     definition = definition.split(";")[-1]
-
             if re.search(r":,+\.?", definition) or re.search(r":\.", definition):
                 continue
 
@@ -171,11 +115,14 @@ def main() -> None:
 
     args = parser.parse_args()
 
+    dataset_path = parse_path(args.dataset_path)
+    output_path = parse_path(args.output_path)
+
     config = load_cleaning_config(ROOT_DIR / "mas_parser" / "mas_cleaning_config.json")
-    dataset = load_dataset(parse_path(args.dataset_path))
+    dataset = load_dataset(dataset_path)
     cleaned_dataset = clean_dataset(dataset, config)
 
-    dump_dataset(cleaned_dataset, parse_path(args.output_path))
+    dump_dataset(cleaned_dataset, output_path)
 
 
 if __name__ == "__main__":

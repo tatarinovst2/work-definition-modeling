@@ -1,6 +1,4 @@
 {
-  "continue_from_the_last_url": false,
-  "html_output_path": "data/mas_articles.jsonl",
   "remove_tags": true,
   "tags_to_remove": [
     "авиа.",

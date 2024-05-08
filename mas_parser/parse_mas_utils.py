@@ -7,6 +7,15 @@ from pydantic.dataclasses import dataclass
 ROOT_DIR = Path(__file__).resolve().parent.parent
 
 
+@dataclass
+class DatasetEntry:
+    """A class representing a dataset entry."""
+
+    id: int
+    title: str
+    definitions: dict[str, dict[str, list[str]]]
+
+
 def parse_path(path: str | Path) -> Path:
     """
     Ensure that the path is absolute and is in a pathlib.Path format.
@@ -24,8 +33,6 @@ def parse_path(path: str | Path) -> Path:
 class ParseMASConfig:
     """A class for representing the config for parsing the MAS dataset."""
 
-    continue_from_the_last_url: bool
-    html_output_path: str
     remove_tags: bool
     tags_to_remove: list[str]
     other_tags: list[str]
@@ -39,6 +46,7 @@ def load_parse_config(config_path: str | Path) -> ParseMASConfig:
     """
     Load the config with the settings of how to parse the dataset.
 
+    :param config_path: The path to the config file.
     :return: The parse MAS config.
     """
     with open(config_path, "r", encoding="utf-8") as config_file:

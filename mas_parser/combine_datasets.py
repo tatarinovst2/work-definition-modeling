@@ -1,10 +1,12 @@
+# pylint: disable=too-many-nested-blocks
 """Module to combine two datasets into one."""
 import argparse
 import re
 from copy import deepcopy
 
-from parse_mas_utils import dump_dataset, load_dataset, parse_path
 from tqdm import tqdm
+
+from parse_mas_utils import dump_dataset, load_dataset, parse_path
 
 
 def merge_examples(list1: list[str], list2: list[str]) -> list[str]:
@@ -55,15 +57,17 @@ def combine_datasets(dataset1: list[dict], dataset2: list[dict]) -> list[dict]:
     for entry in tqdm(dataset1 + dataset2):
         title = entry['title']
         if title in seen_titles:
-            combined_entry = next((item for item in combined_dataset if item['title'] == title), None)
+            combined_entry = next((item for item in combined_dataset if item['title'] == title),
+                                  None)
             if combined_entry:
                 for definition, examples_dict in entry['definitions'].items():
                     examples = examples_dict['examples']
                     definition_found = False
                     for combined_definition in combined_entry['definitions']:
                         if is_similar(definition, combined_definition):
-                            combined_entry['definitions'][combined_definition]['examples'] = merge_examples(
-                                combined_entry['definitions'][combined_definition]['examples'], examples)
+                            combined_entry['definitions'][combined_definition]['examples'] = (
+                                merge_examples(combined_entry['definitions'][combined_definition]
+                                               ['examples'], examples))
                             definition_found = True
                             break
                     if not definition_found:

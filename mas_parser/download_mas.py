@@ -1,4 +1,5 @@
 """Module to download MAS articles."""
+import argparse
 import json
 import re
 import sys
@@ -6,16 +7,17 @@ import time
 from pathlib import Path
 
 import requests
-from parse_mas_utils import load_parse_config, parse_path, ParseMASConfig, ROOT_DIR
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from tqdm import tqdm
 
+from parse_mas_utils import parse_path, ROOT_DIR
+
 CHARACTER_PAGES_URL = ('https://feb-web.ru/feb/common/tree.asp?/feb/mas/mas-abc&amp;encyc=1&amp;'
                        'vtsrch=on')
 
-last_parsed_url_path = ROOT_DIR / "mas_parser" / "last_parsed_url.txt"
+last_parsed_url_path = ROOT_DIR / "mas_parser" / "data" / "last_parsed_url.txt"
 
 
 def load_headers() -> dict:
@@ -56,7 +58,12 @@ def get_character_pages(driver: webdriver.Chrome) -> list[str]:
 
 
 def extract_identifier(url: str) -> str:
-    """Extract a unique identifier from the URL."""
+    """
+    Extract a unique identifier from the URL.
+
+    :param url: The URL to extract the identifier from.
+    :return: The identifier.
+    """
     # Example extraction, adjust based on URL format
     match = re.search(r'/mas-abc/(\d+(?:-\d+)?)/ma(\d+)\.htm', url)
     if match:
@@ -65,7 +72,13 @@ def extract_identifier(url: str) -> str:
 
 
 def save_html_content_jsonl(identifier: str, html_content: str, jsonl_file_path: Path) -> None:
-    """Append the HTML content of a given URL to a JSON file with the identifier as key."""
+    """
+    Append the HTML content of a given URL to a JSON file with the identifier as key.
+
+    :param identifier: The unique identifier of the URL.
+    :param html_content: The HTML content to save.
+    :param jsonl_file_path: The path to the JSON file to append the content to.
+    """
     try:
         data = {"id": identifier, "html": html_content}
 
@@ -77,7 +90,12 @@ def save_html_content_jsonl(identifier: str, html_content: str, jsonl_file_path:
 
 
 def fetch_and_save_html_content(url: str, json_file_path: Path) -> None:
-    """Fetch HTML content from a URL and save it to a JSON file using an identifier."""
+    """
+    Fetch HTML content from a URL and save it to a JSON file using an identifier.
+
+    :param url: The URL to fetch the HTML content from.
+    :param json_file_path: The path to the JSON file to append the content to.
+    """
     failed_attempts = 0
     identifier = extract_identifier(url)
 
@@ -87,6 +105,8 @@ def fetch_and_save_html_content(url: str, json_file_path: Path) -> None:
             if response.status_code == 200:
                 html_content = response.text
                 save_html_content_jsonl(identifier, html_content, json_file_path)
+                if not last_parsed_url_path.parent.exists():
+                    last_parsed_url_path.parent.mkdir(parents=True, exist_ok=True)
                 with open(last_parsed_url_path, "w", encoding="utf-8") as last_url_file:
                     last_url_file.write(url)
             else:
@@ -135,17 +155,18 @@ def save_articles_urls(articles_urls: list[str]) -> None:
 
     :param articles_urls: A list of article URLs to save.
     """
-    with open(ROOT_DIR / "mas_parser"/ "data" / "urls.txt", "w", encoding="utf-8") as urls_file:
+    with open(ROOT_DIR / "mas_parser" / "data" / "urls.txt", "w", encoding="utf-8") as urls_file:
         urls_file.write("\n".join(articles_urls))
 
 
-def load_article_urls(mas_config: ParseMASConfig) -> list[str] | None:
+def load_article_urls(continue_from_the_last_url: bool) -> list[str] | None:
     """
     Load article URLs from a file.
 
+    :param continue_from_the_last_url: Whether to continue from the last URL.
     :return: A list of article URLs if the file exists, otherwise None.
     """
-    urls_path = ROOT_DIR / "mas_parser"/ "data" / "urls.txt"
+    urls_path = ROOT_DIR / "mas_parser" / "data" / "urls.txt"
 
     if not urls_path.exists():
         return None
@@ -153,7 +174,7 @@ def load_article_urls(mas_config: ParseMASConfig) -> list[str] | None:
     with open(urls_path, "r", encoding="utf-8") as urls_file:
         article_urls = urls_file.read().split("\n")
 
-    if mas_config.continue_from_the_last_url and last_parsed_url_path.exists():
+    if continue_from_the_last_url and last_parsed_url_path.exists():
         with open(last_parsed_url_path, "r", encoding="utf-8") as last_url_file:
             return article_urls[article_urls.index(last_url_file.read().strip()) + 1:]
 
@@ -162,10 +183,18 @@ def load_article_urls(mas_config: ParseMASConfig) -> list[str] | None:
 
 def main() -> None:
     """Download MAS articles."""
-    mas_config = load_parse_config(ROOT_DIR / "mas_parser" / "config.json")
+    # Load arguments with argparse: continue_from_the_last_url, html_output_path
 
-    article_urls = load_article_urls(mas_config)
-    print(article_urls)
+    parser = argparse.ArgumentParser(description="Download MAS articles.")
+    parser.add_argument("--continue-from-the-last-url", action="store_true",
+                        default=False,
+                        help="Continue downloading from the last URL.")
+    parser.add_argument("--output-path", type=str,
+                        default="mas_parser/data/mas_articles.jsonl",
+                        help="The path to save the HTML content to.")
+    args = parser.parse_args()
+
+    article_urls = load_article_urls(args.continue_from_the_last_url)
 
     if not article_urls:
         chrome_options = Options()
@@ -180,11 +209,11 @@ def main() -> None:
         print("Saving article urls...")
         save_articles_urls(article_urls)
 
-    output_path = parse_path(mas_config.html_output_path)
+    output_path = parse_path(args.output_path)
 
     if not output_path.exists():
         output_path.parent.mkdir(parents=True, exist_ok=True)
-    elif not mas_config.continue_from_the_last_url:
+    elif not args.continue_from_the_last_url:
         remove_the_file = input("The output file exists and continue_from_the_last_url is False. "
                                 "Clear the file? y/n")
         if remove_the_file == "y":

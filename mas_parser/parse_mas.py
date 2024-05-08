@@ -1,29 +1,32 @@
+# pylint: disable=too-many-return-statements,too-many-locals,too-many-statements,too-many-branches
 """Module to parse MAS articles."""
+import argparse
 import json
 import re
+from dataclasses import asdict
 from pathlib import Path
 
 import pymorphy3
 import spacy
-from bs4 import BeautifulSoup
-from parse_mas_utils import load_parse_config, ParseMASConfig, ROOT_DIR
+from bs4 import BeautifulSoup, Tag
+from pymorphy3 import MorphAnalyzer
 from razdel import tokenize
+from spacy import Language
 from tqdm import tqdm
 
-INPUT_JSONL_FILE = ROOT_DIR / "mas_parser" / "data" / "mas_articles.jsonl"
-OUTPUT_FILE = ROOT_DIR / "mas_parser" / "data" / "mas_definitions.jsonl"
-
-nlp = spacy.load("ru_core_news_sm", disable=["ner", "parser", "textcat"])
-morph = pymorphy3.MorphAnalyzer()
+from parse_mas_utils import DatasetEntry, load_parse_config, parse_path, ParseMASConfig, ROOT_DIR
 
 
-def check_if_text_is_example(text: str, title: str, mas_config: ParseMASConfig) -> bool:
+def check_if_text_is_example(text: str, title: str, mas_config: ParseMASConfig,
+                             nlp: Language, morph: MorphAnalyzer) -> bool:
     """
     Check if a text is an example based on the title.
 
     :param text: The text to check.
     :param title: The title of the article.
     :param mas_config: The configuration object.
+    :param nlp: A spaCy Language object.
+    :param morph: A pymorphy3 MorphAnalyzer object.
     :return: True if the text is an example, False otherwise.
     """
     for tag in [*mas_config.tags_to_remove, *mas_config.other_tags]:
@@ -146,7 +149,7 @@ def validate_definition(definition_text: str) -> bool:
         return False
 
     prohibited = ["||", "]", "---", "□", " -,", "-;", "…", "-."]
-    if any([p in definition_text for p in prohibited]):
+    if any(p in definition_text for p in prohibited):
         return False
 
     prohibited_pattern = r"-[а-яёо́]+[\b,]|\s[мж]\."
@@ -154,10 +157,11 @@ def validate_definition(definition_text: str) -> bool:
     if match and match.group() != "-л":
         return False
 
-    with open(ROOT_DIR / "mas_parser" / "last_names.txt", "r", encoding="utf-8") as last_names_file:
+    with open(ROOT_DIR / "mas_parser" / "last_names.txt", "r",
+              encoding="utf-8") as last_names_file:
         last_names = last_names_file.read().split("\n")
 
-    if any([ln in definition_text for ln in last_names]):
+    if any(ln in definition_text for ln in last_names):
         return False
 
     return True
@@ -179,13 +183,16 @@ def validate_example(example_text: str, mas_config: ParseMASConfig) -> bool:
     return True
 
 
-def parse_meaning(lines: list[str], title: str, mas_config: ParseMASConfig) -> dict[str, dict]:
+def parse_meaning(lines: list[str], title: str, mas_config: ParseMASConfig,
+                  nlp: Language, morph: MorphAnalyzer) -> dict[str, dict]:
     """
     Parse a meaning from the given lines.
 
     :param lines: The lines to parse.
     :param title: The title of the article.
     :param mas_config: The configuration object.
+    :param nlp: A spaCy Language object.
+    :param morph: A pymorphy3 MorphAnalyzer object.
     :return: A dictionary with the definition and examples.
     """
     if len(lines) < 2:
@@ -255,7 +262,7 @@ def parse_meaning(lines: list[str], title: str, mas_config: ParseMASConfig) -> d
         lines[i] = re.sub(pattern, '', original_line).strip()
 
     # Remove (часто в сочетании: ...) lines
-    pattern = r'\(<i>часто в сочетании:<\/i>\s<em>[^<]+<\/em>(,\s<em>[^<]+<\/em>)+\)'
+    pattern = re.compile(r'\(<i>часто в сочетании:<\/i>\s<em>[^<]+<\/em>(,\s<em>[^<]+<\/em>)+\)')
     for i in range(len(lines) - 1, -1, -1):
         original_line = lines[i]
 
@@ -290,7 +297,7 @@ def parse_meaning(lines: list[str], title: str, mas_config: ParseMASConfig) -> d
 
     for i in range(1, initial_length):
         for i_tag in BeautifulSoup(lines[i], 'html.parser').find_all('i'):
-            if check_if_text_is_example(i_tag.get_text(), title, mas_config):
+            if check_if_text_is_example(i_tag.get_text(), title, mas_config, nlp=nlp, morph=morph):
                 i_tag_index = lines[i].find(str(i_tag))
                 if i_tag_index == -1:
                     return {}
@@ -303,10 +310,12 @@ def parse_meaning(lines: list[str], title: str, mas_config: ParseMASConfig) -> d
     if len(lines) < 2:
         return {}  # Skip if there are less than 2 lines
 
+    second_line_inside_tags = (lines[1].strip().startswith("(") and
+                               (lines[1].strip().endswith(")") or lines[1].strip().endswith(").")))
+
     if ((("<i>" in lines[1] or re.match("-[а-яёо́]+,", lines[1]))
-         and not BeautifulSoup(lines[1],"html.parser").find("a")) or
-            ("<em>" in lines[1]) or  # and "-" in lines[1]) or
-            (lines[1].strip().startswith("(") and (lines[1].strip().endswith(")") or lines[1].strip().endswith(").")))):  # Check if the second line is tags
+         and not BeautifulSoup(lines[1], "html.parser").find("a")) or
+            ("<em>" in lines[1]) or second_line_inside_tags):
         # Extract definition
         if len(lines) > 3 and not lines[3] == "<IGNORE>":
             definition_soup = BeautifulSoup(" ".join([lines[1].replace('\xa0', ' '),
@@ -369,11 +378,11 @@ def preprocess_html_content(html_content: str) -> str:
     """
     Preprocess HTML content by removing incorrect blockquotes.
 
-    :param html_content: HTML content as a string
-    :return: Preprocessed HTML content
+    :param html_content: HTML content as a string.
+    :return: Preprocessed HTML content.
     """
-    pattern = ("(?:</i>)?\\n</BLOCKQUOTE><BLOCKQUOTE class=page>"
-               "<P>(?:<p>)?<span class=page id=\$p\d+>- \d+ -</span></P>(?:</p>)?\\n(?:<i>)?")
+    pattern = (r"(?:</i>)?\\n</BLOCKQUOTE><BLOCKQUOTE class=page><P>(?:<p>)"
+               r"?<span class=page id=\$p\d+>- \d+ -</span></P>(?:</p>)?\\n(?:<i>)?")
 
     while re.findall(pattern, html_content)[1:]:
         match = re.findall(pattern, html_content)[1]
@@ -384,15 +393,15 @@ def preprocess_html_content(html_content: str) -> str:
     return html_content
 
 
-def preprocess_lines(lines: list[str]) -> list[str]:
+def preprocess_lines(lines: list[str]) -> list[list[str]]:
     """
     Preprocess lines by splitting submeanings into separate sections.
 
     :param lines: The lines to preprocess.
     :return: A list of preprocessed sections.
     """
-    processed_lines = []
-    current_section = []
+    processed_lines: list[list[str]] = []
+    current_section: list[str] = []
 
     for line in lines:
         # Check if the line indicates a submeaning
@@ -420,32 +429,39 @@ def preprocess_lines(lines: list[str]) -> list[str]:
     return processed_lines
 
 
-def extract_data_from_html(html_content: str, mas_config: ParseMASConfig) -> dict:
+def extract_data_from_html(html_content: str, dataset_entry: DatasetEntry,
+                           mas_config: ParseMASConfig,
+                           nlp: Language, morph: MorphAnalyzer) -> DatasetEntry:
     """
     Extract data from an HTML page's content.
 
-    :param html_content: HTML content as a string
-    :param mas_config: A ParseMASConfig object with configuration options
-    :return: A dictionary with extracted data
+    :param html_content: HTML content as a string.
+    :param dataset_entry: An entry to fill.
+    :param mas_config: A ParseMASConfig object with configuration options.
+    :param nlp: A spaCy Language object.
+    :param morph: A pymorphy3 MorphAnalyzer object.
+    :return: A dictionary with extracted data.
     """
     html_content = preprocess_html_content(html_content)
 
     soup = BeautifulSoup(html_content, 'html.parser')
 
+    title = "Unknown"
+
     # Find the title within <h4> tags
     title_tag = soup.find('h4')
-    if title_tag:
-        title = title_tag.get('title')
-        if title[-1].isdigit():
+    if title_tag and isinstance(title_tag, Tag):
+        title_data = title_tag.get('title')
+        title = title_data if isinstance(title_data, str) else "Unknown"
+        if title and title[-1].isdigit():
             title = title[:-1]
-        title = title.replace("'", "")
-    else:
-        title = "Unknown"
+        if title:
+            title = title.replace("'", "")
 
-    data = {"title": title, "definitions": {}}
+    dataset_entry.title = title
 
     if title in mas_config.ignore_entries:
-        return data
+        return dataset_entry
 
     pos_tags = soup.find_all('blockquote')
     for pos_tag in pos_tags:
@@ -468,31 +484,50 @@ def extract_data_from_html(html_content: str, mas_config: ParseMASConfig) -> dic
                 preprocessed_sections = preprocess_lines(lines)
 
                 for section in preprocessed_sections:
-                    meaning_data = parse_meaning(section, title, mas_config)
+                    meaning_data = parse_meaning(section, title, mas_config, nlp=nlp, morph=morph)
                     if meaning_data:
-                        data["definitions"].update(meaning_data["definitions"])
+                        dataset_entry.definitions.update(meaning_data["definitions"])
 
-    return data
+    return dataset_entry
 
 
-def process_jsonl_file(input_file: Path, output_file: Path, mas_config: ParseMASConfig) -> None:
+def process_jsonl_file(input_file: Path, output_file: Path, mas_config: ParseMASConfig,
+                       nlp: Language, morph: MorphAnalyzer) -> None:
     """Process HTML content and append extracted data to a JSON Lines file.
 
-    :param input_file: A Path object pointing to the input JSON Lines file
-    :param output_file: A Path object for the output JSON Lines file
-    :param mas_config: A ParseMASConfig object with configuration options
+    :param input_file: A Path object pointing to the input JSON Lines file.
+    :param output_file: A Path object for the output JSON Lines file.
+    :param mas_config: A ParseMASConfig object with configuration options.
+    :param nlp: A spaCy Language object.
+    :param morph: A pymorphy3 MorphAnalyzer object.
     """
     with (input_file.open('r', encoding='utf-8') as in_f,
           output_file.open('a', encoding='utf-8') as out_f):
         for line in tqdm(in_f.readlines()):
             record = json.loads(line)
-            html_content = record['html']
-            data_dict = extract_data_from_html(html_content, mas_config)
-            data_dict['id'] = record['id']
-            out_f.write(json.dumps(data_dict, ensure_ascii=False) + '\n')
+            dataset_entry = DatasetEntry(id=record['id'], title="", definitions={})
+            dataset_entry = extract_data_from_html(record['html'], dataset_entry, mas_config,
+                                                   nlp=nlp, morph=morph)
+            out_f.write(json.dumps(asdict(dataset_entry), ensure_ascii=False) + '\n')
 
 
 if __name__ == "__main__":
-    mas_parse_config = load_parse_config(ROOT_DIR / "mas_parser" / "config.json")
+    parser = argparse.ArgumentParser(description="Parse MAS articles")
+    parser.add_argument("--input-file", type=str,
+                        default="mas_parser/data/mas_articles.jsonl",
+                        help="The path to the input JSON Lines file")
+    parser.add_argument("--output-file", type=str,
+                        default="mas_parser/data/mas_definitions.jsonl",
+                        help="The path to the output JSON Lines file")
+    args = parser.parse_args()
 
-    process_jsonl_file(INPUT_JSONL_FILE, OUTPUT_FILE, mas_parse_config)
+    input_file_path = parse_path(args.input_file)
+    output_file_path = parse_path(args.output_file)
+
+    mas_parse_config = load_parse_config(ROOT_DIR / "mas_parser" / "parse_config.json")
+
+    spacy_model = spacy.load("ru_core_news_sm", disable=["ner", "parser", "textcat"])
+    morph_analyzer = pymorphy3.MorphAnalyzer()
+
+    process_jsonl_file(input_file_path, output_file_path, mas_parse_config, nlp=spacy_model,
+                       morph=morph_analyzer)

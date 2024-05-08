@@ -15,7 +15,7 @@ class CombineDatasetsTest(unittest.TestCase):
         self.test_data_dir = Path(__file__).parent / "data"
         self.dataset_1_path = self.test_data_dir / "dataset_1.jsonl"
         self.dataset_2_path = self.test_data_dir / "dataset_2.jsonl"
-        self.expected_dataset_path = self.test_data_dir / "expected_dataset.jsonl"
+        self.expected_dataset_path = self.test_data_dir / "expected_combined_dataset.jsonl"
 
         self.output_dataset = self.test_data_dir / "dumped_dataset.jsonl"
 

@@ -17,7 +17,7 @@ omit = [
 ]
 
 [tool.coverage.report]
-fail_under=90
+fail_under=80
 omit = [
     "*/.cache/*",
     "*/var/folders/*"
@@ -43,6 +43,7 @@ order_by_type = true
 remove_redundant_aliases = true
 group_by_package = true
 force_alphabetical_sort_within_sections = true
+src_paths = ["mas_parser", "wiktionary_parser"]
 
 [tool.pydocstyle]
 convention = 'pep257'

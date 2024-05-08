@@ -90,7 +90,7 @@ These parameters are:
 
 - `remove_tags`: whether to remove tags like `спец.` or `устар.` from the definitions.
 - `tags_to_remove`: a list of tags to remove.
-- `other_tags`: a list of other tags that can be found in the definitions, used for 
+- `other_tags`: a list of other tags that can be found in the definitions, used for
 detecting definitions.
 - `ignore_entries`: a list of entries to ignore.
 

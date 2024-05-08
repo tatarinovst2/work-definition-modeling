@@ -172,6 +172,7 @@ Thumbs.db
 models/
 wiktionary_parser/data/*xml.bz2
 wiktionary_parser/data/*.jsonl
+mas_parser/data
 
 # LaTeX
 latex/main.*

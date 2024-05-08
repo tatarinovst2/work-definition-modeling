@@ -511,7 +511,8 @@ def process_jsonl_file(input_file: Path, output_file: Path, mas_config: ParseMAS
             out_f.write(json.dumps(asdict(dataset_entry), ensure_ascii=False) + '\n')
 
 
-if __name__ == "__main__":
+def main() -> None:
+    """Parse MAS articles."""
     parser = argparse.ArgumentParser(description="Parse MAS articles")
     parser.add_argument("--input-file", type=str,
                         default="mas_parser/data/mas_articles.jsonl",
@@ -531,3 +532,7 @@ if __name__ == "__main__":
 
     process_jsonl_file(input_file_path, output_file_path, mas_parse_config, nlp=spacy_model,
                        morph=morph_analyzer)
+
+
+if __name__ == "__main__":
+    main()

@@ -183,8 +183,6 @@ def load_article_urls(continue_from_the_last_url: bool) -> list[str] | None:
 
 def main() -> None:
     """Download MAS articles."""
-    # Load arguments with argparse: continue_from_the_last_url, html_output_path
-
     parser = argparse.ArgumentParser(description="Download MAS articles.")
     parser.add_argument("--continue-from-the-last-url", action="store_true",
                         default=False,

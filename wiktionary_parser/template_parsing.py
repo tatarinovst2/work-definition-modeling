@@ -23,7 +23,6 @@ class TemplateMapping:
 class ParserConfig:
     """A data class for representing the parser config."""
 
-    keep_entries_without_examples: bool
     mappings: list[TemplateMapping]
     templates_to_remove: list[str] = field(default_factory=list[str])
 
@@ -44,10 +43,8 @@ def load_config(filepath: str | Path) -> ParserConfig:
         mappings.append(TemplateMapping(**custom_mapping))
 
     templates_to_remove = mappings_dict.get("templates_to_remove", [])
-    keep_entries_without_examples = mappings_dict.get("keep_entries_without_examples", False)
 
-    return ParserConfig(keep_entries_without_examples=keep_entries_without_examples,
-                        mappings=mappings, templates_to_remove=templates_to_remove)
+    return ParserConfig(mappings=mappings, templates_to_remove=templates_to_remove)
 
 
 class Template:

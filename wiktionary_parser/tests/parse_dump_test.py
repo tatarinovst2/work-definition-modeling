@@ -16,7 +16,7 @@ class ParseDumpTest(unittest.TestCase):
         self.test_data_dir = Path(__file__).parent / "data"
         self.test_articles_path = self.test_data_dir / "test_articles.xml.bz2"
         self.test_definitions_path = self.test_data_dir / "test_definitions.jsonl"
-        self.test_config_path = self.test_data_dir / "test_config.json"
+        self.test_config_path = self.test_data_dir / "test_parser_config.json"
 
         self.expected_definitions_path = self.test_data_dir / "expected_output.jsonl"
         with open(self.expected_definitions_path, "r", encoding="utf-8") as file:

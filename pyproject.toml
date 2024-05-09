@@ -43,6 +43,7 @@ order_by_type = true
 remove_redundant_aliases = true
 group_by_package = true
 force_alphabetical_sort_within_sections = true
+src_paths = ["wiktionary_parser", "model"]
 
 [tool.pydocstyle]
 convention = 'pep257'

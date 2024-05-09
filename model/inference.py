@@ -70,9 +70,10 @@ def load_model(model_checkpoint: str | Path, torch_dtype: dtype = torch.float32,
     return model, tokenizer
 
 
-def run_inference(model: T5ForConditionalGeneration, tokenizer: AutoTokenizer,
-                  input_texts: list[str], max_length: int = 128,
-                  avoid_target_word: bool = False, target_word: str = "") -> list[str]:
+def run_inference(  # pylint: disable=too-many-arguments
+        model: T5ForConditionalGeneration, tokenizer: AutoTokenizer,
+        input_texts: list[str], max_length: int = 128,
+        avoid_target_word: bool = False, target_word: str = "") -> list[str]:
     """
     Run batched inference.
 
@@ -100,7 +101,7 @@ def run_inference(model: T5ForConditionalGeneration, tokenizer: AutoTokenizer,
     return tokenizer.batch_decode(outputs, skip_special_tokens=True)
 
 
-def run_inference_over_dataset(  # pylint: disable=too-many-arguments
+def run_inference_over_dataset(  # pylint: disable=too-many-arguments, too-many-locals
         model: T5ForConditionalGeneration,
         tokenizer: AutoTokenizer,
         data: list[dict[str, str]],
@@ -135,7 +136,7 @@ def run_inference_over_dataset(  # pylint: disable=too-many-arguments
                 raise ValueError("If avoid_target_word is True,"
                                  "all entries must have a target word.")
 
-            target_words = set(target_words)
+            target_words = list(set(target_words))
 
             for target_word in target_words:
                 target_word_batch = [entry for entry in batch if entry["word"] == target_word]

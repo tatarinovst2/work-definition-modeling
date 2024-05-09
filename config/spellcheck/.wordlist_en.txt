@@ -15,6 +15,7 @@ filepath
 json
 jsonl
 mps
+opencv
 param
 pathlib
 png

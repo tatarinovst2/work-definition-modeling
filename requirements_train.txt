@@ -1,5 +1,5 @@
-accelerate==0.24.0
+accelerate==0.30.0
 bert_score==0.3.13
-peft==0.7.1
-pyarrow==11.0.0
-transformers==4.34.1
+peft==0.10.0
+pyarrow==16.0.0
+transformers==4.40.2

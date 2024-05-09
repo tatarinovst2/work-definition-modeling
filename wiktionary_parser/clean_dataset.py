@@ -104,11 +104,8 @@ def process_definition(definition: str, title: str, config: WiktionaryCleaningCo
     if "химический элемент с атомным номером" in definition.lower():
         definition = re.sub(r" с атомным номером \d+", "", definition)
 
-    if re.search(rf"\b{re.escape(title.lower())}\b", definition.lower()):
+    if re.search(rf"\b{re.escape(title.lower())}\b", definition.lower()) or not definition:
         return ""
-
-    if not definition:
-        return definition
 
     return definition
 

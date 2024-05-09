@@ -5,12 +5,48 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pymorphy3
 import torch  # pylint: disable=import-error
 from peft import PeftModel
 from src.utils import get_current_torch_device, parse_path
 from torch import dtype
 from tqdm import tqdm
 from transformers import AutoTokenizer, T5ForConditionalGeneration  # pylint: disable=import-error
+
+
+def generate_forms(word: str) -> list[str]:
+    """
+    Generate all forms of a word.
+
+    :param word: The word.
+    :return: The forms.
+    """
+    morph = pymorphy3.MorphAnalyzer()
+    parsed_word = morph.parse(word)[0]
+    forms = set()
+
+    for form in parsed_word.lexeme:
+        forms.add(form.word)
+
+    return list(forms)
+
+
+def get_bad_words_ids(word: str, tokenizer: AutoTokenizer) -> list[int]:
+    """
+    Get the token IDs of the bad words in the vocabulary.
+
+    :param word: The word.
+    :param tokenizer: The tokenizer.
+    :return: The token IDs of the bad words.
+    """
+    forms = generate_forms(word)
+    bad_words_ids = []
+
+    for form in forms:
+        bad_words_ids.append(tokenizer.encode(form, add_special_tokens=False))
+        bad_words_ids.append(tokenizer.encode(f" {form}", add_special_tokens=False))
+
+    return bad_words_ids
 
 
 def load_model(model_checkpoint: str | Path, torch_dtype: dtype = torch.float32,
@@ -35,7 +71,8 @@ def load_model(model_checkpoint: str | Path, torch_dtype: dtype = torch.float32,
 
 
 def run_inference(model: T5ForConditionalGeneration, tokenizer: AutoTokenizer,
-                  input_texts: list[str], max_length: int = 100) -> list[str]:
+                  input_texts: list[str], max_length: int = 128,
+                  avoid_target_word: bool = False, target_word: str = "") -> list[str]:
     """
     Run batched inference.
 
@@ -43,6 +80,8 @@ def run_inference(model: T5ForConditionalGeneration, tokenizer: AutoTokenizer,
     :param tokenizer: The tokenizer.
     :param input_texts: The input texts.
     :param max_length: The maximum length of the output.
+    :param avoid_target_word: Whether to avoid the target word in the output.
+    :param target_word: The target word to avoid.
     :return: The generated texts.
     """
     inputs = tokenizer(input_texts, return_tensors="pt", padding=True).to(model.device)
@@ -52,7 +91,8 @@ def run_inference(model: T5ForConditionalGeneration, tokenizer: AutoTokenizer,
         eos_token_id=tokenizer.eos_token_id,
         early_stopping=True,
         max_length=max_length,
-        num_beams=3
+        num_beams=3,
+        bad_words_ids=get_bad_words_ids(target_word, tokenizer) if avoid_target_word else None
     ).cpu()
 
     outputs = np.where(output_sequences != -100, output_sequences, tokenizer.pad_token_id)
@@ -67,7 +107,8 @@ def run_inference_over_dataset(  # pylint: disable=too-many-arguments
         input_field: str,
         output_file_path: str | Path,
         max_length: int = 100,
-        batch_size: int = 1) -> None:
+        batch_size: int = 1,
+        avoid_target_word: bool = True) -> None:
     """
     Run batched inference over a dataset.
 
@@ -78,19 +119,39 @@ def run_inference_over_dataset(  # pylint: disable=too-many-arguments
     :param output_file_path: The path to the output file.
     :param max_length: The maximum length of the output.
     :param batch_size: The size of the batch for batched inference.
+    :param avoid_target_word: Whether to avoid the target word in the output.
+    :raises ValueError: If avoid_target_word is True and some entries don't have a target word.
     """
-    entries_inferred = 0
     total_entries = len(data)
 
     for i in tqdm(range(0, total_entries, batch_size)):
         batch = data[i:i + batch_size]
         input_texts = [entry[input_field] for entry in batch]
-        output_texts = run_inference(model, tokenizer, input_texts, max_length=max_length)
 
-        for j, output_text in enumerate(output_texts):
-            save_output(output_text, output_file_path, batch[j])
+        if avoid_target_word:
+            target_words = [entry["word"] for entry in batch if "word" in entry]
 
-        entries_inferred += len(batch)
+            if len(target_words) != len(batch):
+                raise ValueError("If avoid_target_word is True,"
+                                 "all entries must have a target word.")
+
+            target_words = set(target_words)
+
+            for target_word in target_words:
+                target_word_batch = [entry for entry in batch if entry["word"] == target_word]
+                target_word_input_texts = [entry[input_field] for entry in target_word_batch]
+
+                output_texts = run_inference(model, tokenizer, target_word_input_texts,
+                                             max_length=max_length, avoid_target_word=True,
+                                             target_word=target_word)
+
+                for j, output_text in enumerate(output_texts):
+                    save_output(output_text, output_file_path, target_word_batch[j])
+        else:
+            output_texts = run_inference(model, tokenizer, input_texts, max_length=max_length)
+
+            for j, output_text in enumerate(output_texts):
+                save_output(output_text, output_file_path, batch[j])
 
 
 def validate_args(args: argparse.Namespace) -> None:
@@ -203,6 +264,10 @@ def main():
     parser.add_argument("--limit",
                         type=int,
                         help="How many rows to load.")
+    parser.add_argument("--avoid-target-word",
+                        type=bool,
+                        default=True,
+                        help="Avoid the target word in the output for dataset inference.")
 
     args = parser.parse_args()
 
@@ -228,7 +293,8 @@ def main():
         data = load_dataset_for_inference(input_file_path, args.input_field, args.limit)
 
         run_inference_over_dataset(model, tokenizer, data, args.input_field,
-                                   output_file_path, batch_size=args.batch_size)
+                                   output_file_path, batch_size=args.batch_size,
+                                   avoid_target_word=args.avoid_target_word)
     else:
         while True:
             prompt = input("Enter a prompt: ")

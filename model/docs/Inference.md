@@ -65,6 +65,10 @@ but with the `generated_text` field added to each line.
 > NOTE: Inference with a batch size of more than 1 seems to be bugged for `mps` pipeline,
 > but should work with `cuda`.
 
+> NOTE: By default, when inferring a dataset, the model will not generate the target word
+> in the output. If you want it to be able to generate the target word, you need to set
+> `--avoid-target-word` parameter to `False`.
+
 ### On a single prompt
 
 Run `inference.py` without the `--input_file` argument:

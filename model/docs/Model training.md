@@ -48,17 +48,17 @@ This is a module for training the FRED-T5-1.7B model.
 4. Make sure you have the dataset.
 
     It is a `.jsonl` file that has `id`, `title` and `definition` fields.
-    The file is produced by running `clean_dataset.py`.
+    The file is produced by running `clean_mas_dataset.py`.
 
     If you do not have the file, follow the instructions
-    in [wiktionary_parser](../../wiktionary_parser/README.md)
+    in [mas_parser](../../mas_parser/README.md)
 
     You can also download existing dataset:
 
-    > 23 December definitions
-   > [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/17)
+    > MAS definitions
+   > [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/26)
 
-    Unpack and put it under `wiktionary_parser/data`.
+    Unpack and put it under `mas_parser/data`.
 
 5. Split the dataset into train, validation and test sets.
 
@@ -71,7 +71,7 @@ This is a module for training the FRED-T5-1.7B model.
     For example:
 
     ```bash
-    python model/split_dataset.py wiktionary_parser/data/cleaned_definitions.jsonl
+    python model/split_dataset.py mas_parser/data/mas_cleaned_definitions.jsonl
    -o model/data/splits
     ```
 
@@ -80,10 +80,10 @@ This is a module for training the FRED-T5-1.7B model.
 
     You can also download existing splits:
 
-    > 23 December splits
-   > [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/18)
+    > MAS splits
+   > [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/27)
 
-    Unpack and put it under `model/data/splits`.
+    Unpack and put the files under `model/data/splits`.
 
 6. Configure the training parameters in `train_config.json`.
 
@@ -99,6 +99,8 @@ This is a module for training the FRED-T5-1.7B model.
     Set `use_lora` to `True` and set other parameters which follow the
     [LoraConfig](https://huggingface.co/docs/peft/package_reference/lora) class of the
     `peft` library.
+
+    > NOTE: The final training was done with LoRa. Enable it if you want to replicate results.
 
 7. Run `train.py` with the following command to start training.
 

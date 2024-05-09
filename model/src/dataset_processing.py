@@ -16,7 +16,7 @@ def prepare_row(row: dict) -> dict:
     """
     input_text = f"<LM>Контекст: \"{row['context']}\" Определение слова \"{row['word']}\": "
     target_text = row['definition']
-    return {"input_text": input_text, "target_text": target_text}
+    return {"word": row['word'], "input_text": input_text, "target_text": target_text}
 
 
 def prepare_dataset(filepath: str | Path, output_directory: str | Path,

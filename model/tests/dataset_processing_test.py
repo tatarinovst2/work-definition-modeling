@@ -36,7 +36,8 @@ class DatasetProcessingTest(unittest.TestCase):
         Prepare_row should return a dict with the correct keys and values
         """
         row = {"word": "слово", "definition": "значение", "context": "пример"}
-        expected = {"input_text": "<LM>Контекст: \"пример\" Определение слова \"слово\": ",
+        expected = {"word": "слово",
+                    "input_text": "<LM>Контекст: \"пример\" Определение слова \"слово\": ",
                     "target_text": "значение"}
         actual = prepare_row(row)
         self.assertEqual(expected, actual)

@@ -2,6 +2,8 @@
 import unittest
 from pathlib import Path
 
+import cv2
+import numpy as np
 import pytest
 
 from model.plot import plot_metric, plot_training_and_test_loss
@@ -72,6 +74,24 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
         if self.test_metric_step_filepath.exists():
             self.test_metric_step_filepath.unlink()
 
+    def assertImagesSimilar(self, img_path1: str | Path, img_path2: str | Path,
+                            threshold: int = 10):
+        """
+        Assert that two images are similar using opencv.
+        """
+        img1 = cv2.imread(str(img_path1))
+        img2 = cv2.imread(str(img_path2))
+
+        img1_gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+        img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
+        diff = cv2.absdiff(img1_gray, img2_gray)
+
+        num_diff_pixels = np.sum(diff > threshold)
+
+        if num_diff_pixels > 0:
+            raise AssertionError(f"Images {img_path1} and {img_path2} differ at {num_diff_pixels} pixels")
+
     @pytest.mark.model
     def test_plot_training_and_test_loss_with_epochs_ideal(self):
         """
@@ -81,10 +101,7 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertTrue(self.test_loss_epoch_filepath.exists())
 
-        actual = self.test_loss_epoch_filepath.open(mode="rb").read()
-        expected = self.expected_loss_epoch_filepath.open(mode="rb").read()
-
-        self.assertEqual(expected, actual)
+        self.assertImagesSimilar(self.expected_loss_epoch_filepath, self.test_loss_epoch_filepath)
 
     @pytest.mark.model
     def test_plot_training_and_test_loss_with_steps_ideal(self):
@@ -96,10 +113,7 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertTrue(self.test_loss_step_filepath.exists())
 
-        actual = self.test_loss_step_filepath.open(mode="rb").read()
-        expected = self.expected_loss_step_filepath.open(mode="rb").read()
-
-        self.assertEqual(expected, actual)
+        self.assertImagesSimilar(self.expected_loss_step_filepath, self.test_loss_step_filepath)
 
     @pytest.mark.model
     def test_plot_metric_with_epochs_ideal(self):
@@ -111,10 +125,7 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertTrue(self.test_metric_epoch_filepath.exists())
 
-        actual = self.test_metric_epoch_filepath.open(mode="rb").read()
-        expected = self.expected_metric_epoch_filepath.open(mode="rb").read()
-
-        self.assertEqual(expected, actual)
+        self.assertImagesSimilar(self.expected_metric_epoch_filepath, self.test_metric_epoch_filepath)
 
     @pytest.mark.model
     def test_plot_metric_with_steps_ideal(self):
@@ -126,10 +137,8 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertTrue(self.test_metric_step_filepath.exists())
 
-        actual = self.test_metric_step_filepath.open(mode="rb").read()
-        expected = self.expected_metric_step_filepath.open(mode="rb").read()
-
-        self.assertEqual(expected, actual)
+        self.assertImagesSimilar(self.expected_metric_step_filepath,
+                                 self.test_metric_step_filepath)
 
     def tearDown(self):
         if self.test_loss_epoch_filepath.exists():

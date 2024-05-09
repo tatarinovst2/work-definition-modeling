@@ -79,13 +79,13 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
         """
         Assert that two images are similar using opencv.
         """
-        img1 = cv2.imread(str(img_path1))
-        img2 = cv2.imread(str(img_path2))
+        img1 = cv2.imread(str(img_path1))  # type: ignore
+        img2 = cv2.imread(str(img_path2))  # type: ignore
 
-        img1_gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-        img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+        img1_gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)  # type: ignore
+        img2_gray = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)  # type: ignore
 
-        diff = cv2.absdiff(img1_gray, img2_gray)
+        diff = cv2.absdiff(img1_gray, img2_gray)  # type: ignore
 
         num_diff_pixels = np.sum(diff > threshold)  # type: ignore
 
@@ -126,7 +126,8 @@ class PlotTrainingAndTestLossTest(unittest.TestCase):
 
         self.assertTrue(self.test_metric_epoch_filepath.exists())
 
-        self.assert_images_similar(self.expected_metric_epoch_filepath, self.test_metric_epoch_filepath)
+        self.assert_images_similar(self.expected_metric_epoch_filepath,
+                                   self.test_metric_epoch_filepath)
 
     @pytest.mark.model
     def test_plot_metric_with_steps_ideal(self):

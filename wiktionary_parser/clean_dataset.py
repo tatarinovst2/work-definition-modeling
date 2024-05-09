@@ -5,6 +5,7 @@ import re
 from pathlib import Path
 
 from pydantic.dataclasses import dataclass
+
 from utils import parse_path, WIKTIONARY_PARSER_DIR
 
 
@@ -90,25 +91,17 @@ def process_definition(definition: str, title: str, config: WiktionaryCleaningCo
             return ""
         definition = right_part[0].upper() + right_part[1:]
 
-    if "женск. к" in definition.lower():
-        if not "; " in definition:
-            return ""
-        definition = "; ".join(definition.split("; ")[1:])
-        if "женск. к" in definition:
-            return ""
-    elif "женское к" in definition.lower():
-        if not "; " in definition:
-            return ""
-        definition = "; ".join(definition.split("; ")[1:])
-        if "женское к" in definition:
-            return ""
-    elif "результат такого действия" in definition.lower():
-        if not "; " in definition or len(definition.split("; ")[0]) > 40:
-            return ""
-        definition = "; ".join(definition.split("; ")[1:])
-        if "результат такого действия" in definition:
-            return ""
-    elif "химический элемент с атомным номером" in definition.lower():
+    start_tags_to_be_removed = ["женск. к", "женское к"]
+
+    for tag in start_tags_to_be_removed:
+        if tag in definition.lower():
+            if not "; " in definition:
+                return ""
+            definition = "; ".join(definition.split("; ")[1:])
+            if tag in definition or len(definition.split()) < 2:
+                return ""
+
+    if "химический элемент с атомным номером" in definition.lower():
         definition = re.sub(r" с атомным номером \d+", "", definition)
 
     if re.search(rf"\b{re.escape(title.lower())}\b", definition.lower()):
@@ -116,10 +109,6 @@ def process_definition(definition: str, title: str, config: WiktionaryCleaningCo
 
     if not definition:
         return definition
-
-    definition = definition[0].upper() + definition[1:]
-    if not definition.endswith("."):
-        definition += "."
 
     return definition
 
@@ -134,11 +123,9 @@ def should_ignore_definition(definition: str, config: WiktionaryCleaningConfig,
     :param marker_counts: The counts of markers.
     :return: True if the definition should be ignored, otherwise False.
     """
-    if len(definition) > config.max_definition_character_length:
+    if len(definition) > config.max_definition_character_length or len(definition) < 3:
         return True
     if definition.startswith("(") and definition.endswith(")"):
-        return True
-    if len(definition) < 3:
         return True
 
     for bad_marker in config.throw_out_definition_markers:

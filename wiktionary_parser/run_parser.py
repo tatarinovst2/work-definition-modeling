@@ -5,6 +5,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import wikitextparser as wtp
+
 from template_parsing import (load_config, ParserConfig, pop_templates_in_text,
                               replace_templates_with_text)
 from utils import clean_text, WIKTIONARY_PARSER_DIR

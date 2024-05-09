@@ -60,7 +60,8 @@ def remove_text_before_words(text: str) -> str:
 
 def parse_path(path: str | Path) -> Path:
     """
-    Ensure that the path is absolute and is in a pathlib.Path format.
+    Ensure that the path is absolute and is in a Path format.
+
     :param path: The path to parse.
     :return: The parsed path.
     """

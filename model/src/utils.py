@@ -22,6 +22,7 @@ class TrainConfigDTO:  # pylint: disable=too-many-instance-attributes
     lora_alpha: Optional[int] = None
     lora_dropout: Optional[float] = None
     lr_scheduler_type: Optional[str] = None
+    warmup_steps: Optional[int] = None
     gradient_checkpointing: Optional[bool] = None
     gradient_accumulation_steps: Optional[int] = None
     weight_decay: Optional[float] = None

@@ -11,7 +11,7 @@ This is a module for evaluation of the model based on metrics such as BERT-F1, R
 
     You can also download existing predictions:
 
-    > 23 December FRED-T5-large predictions
+    > FRED-T5-1.7B-MAS-FN predictions
    > [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/16)
 
     Unpack and put them under `model/data/output`.
@@ -26,7 +26,7 @@ This is a module for evaluation of the model based on metrics such as BERT-F1, R
 
     For example:
     ```bash
-    python model/run_evaluate.py model/data/output/output_test_t5_large.jsonl
+    python model/run_evaluate.py model/data/output/output_test.jsonl
     ```
 
 By default, the fields for input text and the generated one are called

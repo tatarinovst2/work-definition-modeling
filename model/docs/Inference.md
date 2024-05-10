@@ -20,8 +20,8 @@ This directory contains the code for inference.
 
 ### You can download existing LoRa adapters:
 
-> 23 December FRED-T5-large 2.87 epochs
-> [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/15)
+> FRED-T5-1.7B-MAS-FN (LoRa)
+> [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/29)
 
 Unpack it and put under `models` directory.
 
@@ -37,8 +37,7 @@ Such files (`test.jsonl`, `train.jsonl`, `val.jsonl`) are created after running 
 
 > NOTE: You can also download existing splits:
 
-> 23 December splits
-> [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/18)
+> MAS splits [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/27)
 
 > Unpack and put it under `model/data/splits`. Learn more in [Model training](Model%20training.md).
 
@@ -55,7 +54,7 @@ You can load the base model using its hugging-face name or by providing the path
 For example:
 
 ```bash
-python model/inference.py ai-forever/FRED-T5-large -l models/checkpoint-fred-t5-large-lora-30000
+python model/inference.py ai-forever/FRED-T5-1.7B -l models/checkpoint-41000
 --input-file model/data/cleaned_splits/test.jsonl --output-file model/data/output/output_test.jsonl
 ```
 

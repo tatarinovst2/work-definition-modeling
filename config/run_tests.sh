@@ -9,7 +9,7 @@ echo 'Running pytest...'
 configure_script
 
 directories=$(get_project_directories)
-INITIAL_PYTHONPATH=PYTHONPATH
+INITIAL_PYTHONPATH=$PYTHONPATH
 FAILED=false
 
 if [[ -z "${directories}" ]]; then
@@ -26,7 +26,7 @@ for directory in $directories; do
   fi
 done
 
-export PYTHONPATH=INITIAL_PYTHONPATH
+export PYTHONPATH=$INITIAL_PYTHONPATH
 
 if [[ "$FAILED" = true ]]; then
   echo "Pytest failed."

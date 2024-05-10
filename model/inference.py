@@ -8,10 +8,11 @@ import numpy as np
 import pymorphy3
 import torch  # pylint: disable=import-error
 from peft import PeftModel
-from src.utils import get_current_torch_device, parse_path
 from torch import dtype
 from tqdm import tqdm
 from transformers import AutoTokenizer, T5ForConditionalGeneration  # pylint: disable=import-error
+
+from src.utils import get_current_torch_device, parse_path
 
 
 def generate_forms(word: str) -> list[str]:

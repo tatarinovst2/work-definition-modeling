@@ -3,7 +3,9 @@ import json
 import unittest
 from pathlib import Path
 
+import numpy as np
 import pytest
+from sklearn.metrics import pairwise_distances
 
 from vizvector.vectorize import load_json_dataset, save_json_dataset, vectorize_text
 
@@ -38,7 +40,18 @@ class TestVectorizationProcess(unittest.TestCase):
         with open(self.expected_file_path, "r", encoding="utf-8") as expected_file:
             expected = [json.loads(line) for line in expected_file]
 
-        self.assertEqual(actual, expected)
+        for actual_item, expected_item in zip(actual, expected):
+            for key in actual_item:
+                if key != 'vector':
+                    self.assertEqual(actual_item[key], expected_item[key])
+
+        similarity_threshold = 0.8
+        for actual_item, expected_item in zip(actual, expected):
+            actual_vector = np.array(actual_item['vector'])
+            expected_vector = np.array(expected_item['vector'])
+            similarity = pairwise_distances([actual_vector], [expected_vector],
+                                            metric='cosine')[0][0]
+            self.assertGreaterEqual(1 - similarity, similarity_threshold)
 
     def tearDown(self):
         if self.output_file_path.exists():

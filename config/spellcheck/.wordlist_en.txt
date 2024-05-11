@@ -37,6 +37,7 @@ tokenizer
 utils
 valueerror
 vect
+vectorize
 vectorized
 vectorization
 wikitext

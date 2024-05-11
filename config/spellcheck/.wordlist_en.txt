@@ -1,3 +1,4 @@
+annotatedword
 args
 bleu
 bool
@@ -15,8 +16,10 @@ eps
 eval
 filenotfounderror
 filepath
+fn
 json
 jsonl
+linearregression
 medoid
 mps
 numpy
@@ -29,15 +32,20 @@ preprocess
 preprocesses
 pretrainedtokenizer
 py
+rusemshift
+rushifteval
+spearman
 str
 tatarinov
 tbd
 tokenized
 tokenizer
+tsv
 utils
 valueerror
 vect
 vectorize
+vectorizer
 vectorized
 vectorization
 wikitext

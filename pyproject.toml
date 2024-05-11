@@ -2,12 +2,14 @@
 markers = [
     "wiktionary_parser",
     "model",
-    "vizvector"
+    "vizvector",
+    "rushifteval"
 ]
 pythonpath = [
     "wiktionary_parser",
     "model",
-    "vizvector"
+    "vizvector",
+    "rushifteval"
 ]
 
 [tool.coverage.run]
@@ -30,7 +32,7 @@ omit = [
 ]
 
 [[tool.mypy.overrides]]
-module = ["wiktionary_parser/*", "model/*", "vizvector/*"]
+module = ["wiktionary_parser/*", "model/*", "vizvector/*", "rushifteval/*"]
 disable_error_code = [
     'import-untyped',
     'import-not-found'
@@ -49,7 +51,7 @@ order_by_type = true
 remove_redundant_aliases = true
 group_by_package = true
 force_alphabetical_sort_within_sections = true
-src_paths = ["wiktionary_parser", "model", "vizvector"]
+src_paths = ["wiktionary_parser", "model", "vizvector", "rushifteval"]
 
 [tool.pydocstyle]
 convention = 'pep257'
@@ -70,7 +72,8 @@ application_import_names = [
     'config',
     'wiktionary_parser',
     'model',
-    'vizvector'
+    'vizvector',
+    'rushifteval'
 ]
 select = ['I']
 count = true

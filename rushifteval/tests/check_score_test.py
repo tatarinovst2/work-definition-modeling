@@ -70,4 +70,5 @@ class CheckScoreTest(unittest.TestCase):
                         "Soviet:post-Soviet: 0.65\n"
                         "pre-Soviet:post-Soviet: 0.62")
 
-        self.assertEqual(str(scores), expected_str, "String representation does not match expected value")
+        self.assertEqual(str(scores), expected_str,
+                         "String representation does not match expected value")

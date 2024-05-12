@@ -107,6 +107,7 @@ def load_annotated_data(tsv_file_path: str | Path,
 
     :param tsv_file_path: Path to the TSV file containing annotations.
     :param jsonl_vectors: Dictionary with loaded vectors from the JSONL file.
+    :raises ValueError: If no corresponding jsonl data is found for a row from the TSV file.
     :return: A list of AnnotatedWord instances.
     """
     annotated_data = []
@@ -116,14 +117,18 @@ def load_annotated_data(tsv_file_path: str | Path,
             row_id = idx
             jsonl_1_data = jsonl_vectors.get((row_id, 1))
             jsonl_2_data = jsonl_vectors.get((row_id, 2))
-            vect1 = jsonl_1_data['vector'] if jsonl_1_data and isinstance(
-                jsonl_1_data['vector'], list) else None
-            vect2 = jsonl_2_data['vector'] if jsonl_2_data and isinstance(
-                jsonl_2_data['vector'], list) else None
-            definition1 = jsonl_1_data['definition'] if jsonl_1_data and isinstance(
+
+            if not jsonl_1_data or not jsonl_2_data:
+                raise ValueError(f"No jsonl data with row_id {row_id}.")
+
+            definition1 = jsonl_1_data['definition'] if isinstance(
                 jsonl_1_data['definition'], str) else None
-            definition2 = jsonl_2_data['definition'] if jsonl_2_data and isinstance(
+            definition2 = jsonl_2_data['definition'] if isinstance(
                 jsonl_2_data['definition'], str) else None
+            vect1 = jsonl_1_data['vector'] if isinstance(
+                jsonl_1_data['vector'], list) else None
+            vect2 = jsonl_2_data['vector'] if isinstance(
+                jsonl_2_data['vector'], list) else None
 
             annotated_data.append(AnnotatedWordPair(
                 word=row['word'], sent1=row['sent1'], sent2=row['sent2'], mean=float(row['mean']),

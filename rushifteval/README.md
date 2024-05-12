@@ -8,7 +8,7 @@ detecting semantic change.
 ### 1. Download `data`
 
 Download the `data` archive, unpack it and put the contents under `rushifteval` directory:
-[Download](https://github.com/tatarinovst2/work-definition-modeling/issues/21)
+[Download](https://github.com/tatarinovst2/work-definition-modeling/issues/33)
 
 You'll have a `rushifteval/data` folder with `gold`, `rushifteval`, and `rusemshift` folders
 inside.
@@ -26,6 +26,9 @@ between vectors to the dataset format.
 > You can skip this step by downloading the archive and
 > unpacking it under `rushifteval/data` directory:
 > [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/31)
+>
+> You should get `rushifteval/data/preds/FRED-T5-1.7B-MAS-FN_preds` directory
+> with 4 `.jsonl` files.
 
 #### 2.1 Process annotations
 
@@ -69,12 +72,12 @@ bash rushifteval/bash/get_definitions.sh ai-forever/FRED-T5-1.7B \
 models/FRED-T5-1.7B-MAS-FN
 ```
 
-> NOTE: Use the command above (the one with LoRa) to reproduce results.
+> NOTE: Run the command above (the one with LoRa) to reproduce results.
 
 The optional argument is `batch_size`. Use it like this to make inference faster.
 
 ```bash
-bash rushifteval/bash/get_definitions.sh ai-forever/FRED-T5-large \
+bash rushifteval/bash/get_definitions.sh ai-forever/FRED-T5-1.7B \
 models/FRED-T5-1.7B-MAS-FN --batch_size 16
 ```
 
@@ -89,6 +92,8 @@ A folder will appear under `rushifteval/data/preds` with the definitions.
 
 > NOTE: You can skip this step by downloading the fine-tuned vectorizer model:
 > [Download](https://github.com/tatarinovst2/work-definition-modeling/issues/32)
+>
+> Put it under `models` folder.
 
 To get the highest results, you need to fine-tune the vectorizer model on the `rusemshift` dataset.
 
@@ -105,8 +110,10 @@ For example:
 ```bash
 bash rushifteval/bash/fine_tune_vectorizer.sh \
 rushifteval/data/rusemshift/rusemshift_all_raw_annotations.tsv \
-rushifteval/data/preds/FRED-T5-1.7B-MAS-FN_preds/preds_rushifteval1_test.jsonl
+rushifteval/data/preds/FRED-T5-1.7B-MAS-FN_preds/preds_rusemshift_all.jsonl
 ```
+
+> NOTE: Run the example command above to reproduce results.
 
 ### 4. Vectorize the definitions
 
@@ -118,8 +125,11 @@ Pass it together with the sentence-transformer model to the `rushifteval/bash/ve
 For example:
 
 ```bash
-bash rushifteval/bash/vectorize.sh FRED-T5-1.7B_preds models/paraphrase-multilingual-mpnet-base-dm
+bash rushifteval/bash/vectorize.sh FRED-T5-1.7B-MAS-FN_preds \
+models/paraphrase-multilingual-mpnet-base-dm
 ```
+
+> NOTE: Run the command above to reproduce results.
 
 ### 5. Calculate the scores
 
@@ -128,12 +138,15 @@ Run `rushifteval/bash/get_scores.sh`:
 For example:
 
 ```bash
-bash rushifteval/bash/get_scores.sh FRED-T5-1.7B_preds_rubert-tiny2 cosine --normalize
+bash rushifteval/bash/get_scores.sh FRED-T5-1.7B-MAS-FN_preds_paraphrase-multilingual-mpnet-base-dm \
+cosine
 ```
 
 where the first argument is the name of the folder with vectors, the second
 argument is the metric and the third optional argument is whether to
 normalize the vectors.
+
+> NOTE: Run the command above to reproduce results.
 
 The script will report the results in the following format:
 

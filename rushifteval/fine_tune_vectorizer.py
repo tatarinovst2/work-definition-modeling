@@ -42,7 +42,7 @@ def train_vectorizer(annotated_words: list[AnnotatedWordPair], output_path: str 
               evaluation_steps=50,
               output_path=output_path)
 
-    print("Training complete. Model saved to 'output/trained-model'")
+    print(f"Training complete. Model saved to {output_path}")
 
 
 def main():

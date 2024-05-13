@@ -26,7 +26,11 @@ matrix:
   - '*.md'
   - 'model/*.md'
   - 'model/docs/*.md'
+<<<<<<< HEAD
   - 'rushifteval/*.md'
+=======
+  - 'vizvector/*.md'
+>>>>>>> 5dda75726580a89af30a2b762e8aaca11b7bd121
   default_encoding: utf-8
 
 - name: Docstrings

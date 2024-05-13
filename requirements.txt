@@ -11,6 +11,6 @@ rouge_score==0.1.2
 sacrebleu==2.4.2
 scikit-learn==1.4.2
 sentencepiece==0.2.0
-transliterate==1.10.2
 tqdm==4.66.4
+transliterate==1.10.2
 wikitextparser==0.55.13

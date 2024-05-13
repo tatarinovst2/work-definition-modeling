@@ -24,6 +24,7 @@ matrix:
       - 'pre'
   sources:
   - '*.md'
+  - 'model/docs/*.md'
   default_encoding: utf-8
 
 - name: Docstrings

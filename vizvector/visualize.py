@@ -2,6 +2,7 @@
 import argparse
 import json
 import textwrap
+from pathlib import Path
 from typing import Optional
 
 import matplotlib.pyplot as plt
@@ -10,6 +11,8 @@ from pydantic.dataclasses import dataclass
 from sklearn.cluster import DBSCAN
 from sklearn.metrics import pairwise_distances
 from sklearn.preprocessing import normalize
+
+from vizvector_utils import parse_path
 
 BASE_FONT_SIZE = 10
 DECREMENT_STEP = 0.1
@@ -148,10 +151,11 @@ def find_representative_index(data: np.ndarray, clusters: np.ndarray,
     return representative_idx
 
 
-def cluster_data_and_get_definitions(all_data: list[WordUsage],
+def cluster_data_and_get_definitions(all_data: list[WordUsage],  # pylint: disable=too-many-arguments, too-many-locals
                                      eps: float = 0.5, relative: bool = True,
                                      min_samples: int = 5,
-                                     do_normalize: bool = False) -> tuple[dict, dict]:
+                                     do_normalize: bool = False,
+                                     metric: str = "cosine") -> tuple[dict, dict]:
     """
     Cluster the data and get the definitions for the clusters.
 
@@ -160,6 +164,7 @@ def cluster_data_and_get_definitions(all_data: list[WordUsage],
     :param relative: Show the values in percentages relative to all usages in the epoch.
     :param min_samples: Minimum samples for a core point.
     :param do_normalize: Normalize the vectors.
+    :param metric: The metric to use for clustering.
     :return: The date-cluster counts and the definitions.
     """
     unique_dates = sorted(list(set(usage.date for usage in all_data
@@ -171,7 +176,7 @@ def cluster_data_and_get_definitions(all_data: list[WordUsage],
     if do_normalize:
         aggregated_vectors = normalize(aggregated_vectors, axis=1, norm='l2')
 
-    dbscan = DBSCAN(eps=eps, min_samples=min_samples)
+    dbscan = DBSCAN(eps=eps, min_samples=min_samples, metric=metric)
     clusters = dbscan.fit_predict(aggregated_vectors)
 
     representative_indices = find_representative_index(aggregated_vectors, clusters,
@@ -198,25 +203,47 @@ def get_definitions_subplot_text(definitions: dict) -> str:
     :return: The text for the subplot.
     """
     definitions_text = ""
+
+    if len(definitions) > 15:
+        print("Too many meanings to display. Showing in console.")
+        print_definitions(definitions)
+        return "Слишком много значений для отображения. Смотрите в консоли."
+
     for idx, (_, meaning) in enumerate(definitions.items()):
         wrapped_text = textwrap.fill(f"{idx + 1}: {meaning}", width=70)
         definitions_text += wrapped_text + "\n"
     return definitions_text
 
 
-def visualize_changes_with_legend(date_cluster_counts: dict,  # pylint: disable=too-many-locals
+def print_definitions(definitions: dict) -> None:
+    """
+    Print the definitions.
+
+    :param definitions: The definitions.
+    """
+    for idx, definition in definitions.items():
+        print(f"{idx}: {definition}")
+
+
+def visualize_changes_with_legend(date_cluster_counts: dict,  # pylint: disable=too-many-locals, too-many-arguments
                                   definitions: dict,
+                                  word: str,
                                   eps: float,
                                   min_samples: int,
-                                  relative: bool = True) -> None:
+                                  relative: bool = True,
+                                  output_path: Path | str | None = None,
+                                  minimal: bool = False) -> None:
     """
     Visualize semantic changes.
 
     :param date_cluster_counts: The counts of clusters for each date.
     :param definitions: The definitions for the clusters.
+    :param word: The target word.
     :param eps: Maximum distance for considering neighborhood.
     :param min_samples: Minimum samples for a core point.
     :param relative: Show the values in percentages relative to all usages in the epoch.
+    :param output_path: The path to save the plot.
+    :param minimal: Do not show the definitions subplot and parameters.
     """
     dates = list(date_cluster_counts.keys())
     max_meaning_id = max(max(counts.keys()) for counts in date_cluster_counts.values()) + 1
@@ -229,36 +256,57 @@ def visualize_changes_with_legend(date_cluster_counts: dict,  # pylint: disable=
     colors = plt.cm.Blues(  # type: ignore  # pylint: disable=no-member
         np.linspace(0.2, 1, len(dates)))
 
-    fig, axs = plt.subplots(2, 1, figsize=(7, 7),
-                            gridspec_kw={'height_ratios': [3, 1], 'hspace': 0.6})
-    ax = axs[0]
+    if not minimal:
+        fig, axs = plt.subplots(3, 1, figsize=(6.5, 7),
+                                gridspec_kw={'height_ratios': [1, 8, 7], 'hspace': 0.05})
+    else:
+        fig, axs = plt.subplots(2, 1, figsize=(6.5, 4),
+                                gridspec_kw={'height_ratios': [0.5, 8], 'hspace': 0.05})
+        plt.subplots_adjust(left=0.125, right=0.9, top=0.95, bottom=0.15)
+    ax_legend = axs[0]
+    ax = axs[1]
+
+    ax_legend.set_axis_off()
+    legend_elements = [plt.Rectangle((0, 0), 1, 1,
+                                     fc=colors[i], label=f'{date}') for i, date in
+                       enumerate(dates)]
+    ax_legend.legend(handles=legend_elements, loc='center', ncol=len(dates), frameon=False)
+
     for i, (date, counts) in enumerate(date_cluster_counts.items()):
         date_counts = [counts.get(meaning_id, 0) for meaning_id in range(max_meaning_id)]
-        ax.bar(index + i * bar_width, date_counts, bar_width, label=f'{date}', color=colors[i])
+        ax.bar(index + i * bar_width, date_counts, bar_width, color=colors[i])
 
     ax.set_xlabel('Значения')
     ax.set_ylabel('Процент от всех использований' if relative else 'Частота')
     ax.set_xticks(index + total_width / 2 - bar_width / 2)
     ax.set_xticklabels([f'{i + 1}' for i in range(max_meaning_id)])
 
-    leg = ax.legend(title="Периоды", loc='upper left')
-    leg.get_frame().set_alpha(0.5)
-
     definitions_text = get_definitions_subplot_text(definitions)
 
     adjusted_font_size = max(BASE_FONT_SIZE * (1 - max(len(definitions) - 8, 0) * DECREMENT_STEP),
                              8)
 
-    axs[1].text(0.01, 0.5, definitions_text, verticalalignment='center',
-                horizontalalignment='left', fontsize=adjusted_font_size, wrap=True)
-    axs[1].set_axis_off()
+    if not minimal:
+        ax_definitions = axs[2]
+        ax_definitions.text(0.0, 0.3, definitions_text, verticalalignment='center',
+                            horizontalalignment='left', fontsize=adjusted_font_size, wrap=True)
+        ax_definitions.set_axis_off()
 
-    param_description = f"Параметры: eps={eps}, min_samples={min_samples}"
-    fig.text(0.02, 0.02, param_description, fontsize=9, verticalalignment='bottom',
-             horizontalalignment='left')
+        param_description = f"Параметры: eps={eps}, min_samples={min_samples}"
+        fig.text(0.02, 0.02, param_description, fontsize=9, verticalalignment='bottom',
+                 horizontalalignment='left')
+    else:
+        print(f"\nСлово: {word}")
+        print_definitions(definitions)
+        print(f"\nПараметры: eps={eps}, min_samples={min_samples}")
 
-    plt.tight_layout()
-    plt.show()
+    if output_path:
+        parsed_path = parse_path(output_path)
+        if not parsed_path.parent.exists():
+            parsed_path.parent.mkdir(parents=True, exist_ok=True)
+        plt.savefig(parsed_path, dpi=300, bbox_inches='tight')
+    else:
+        plt.show()
 
 
 def main() -> None:
@@ -275,11 +323,18 @@ def main() -> None:
     parser.add_argument("--relative", type=bool, default=True,
                         help="Show the values in percentages relative "
                              "to all usages in the epoch.")
-    parser.add_argument("--min_samples", type=int, default=5,
+    parser.add_argument("--min-samples", type=int, default=5,
                         help="The number of samples in a neighborhood for a "
                              "point to be considered as a core point")
-    parser.add_argument("--do-normalize", type=bool, default=True,
+    parser.add_argument("--metric", type=str, default="cosine",
+                        help="The metric to use for clustering.")
+    parser.add_argument("--do-normalize", action='store_true',
                         help="Normalize the vectors.")
+    parser.add_argument("--output-path", type=str, default=None,
+                        help="The path to save the plot. "
+                             "If not specified, the plot will be shown.")
+    parser.add_argument("--minimal", action='store_true',
+                        help="Do not show the definitions subplot and parameters.")
     args = parser.parse_args()
 
     all_data = load_data(args.input_paths, args.word)
@@ -288,10 +343,13 @@ def main() -> None:
                                                                          min_samples=
                                                                          args.min_samples,
                                                                          do_normalize=
-                                                                         args.do_normalize)
-    visualize_changes_with_legend(epoch_cluster_counts, definitions,
+                                                                         args.do_normalize,
+                                                                         metric=args.metric)
+    visualize_changes_with_legend(epoch_cluster_counts, definitions, word=args.word,
                                   relative=args.relative, eps=args.eps,
-                                  min_samples=args.min_samples)
+                                  min_samples=args.min_samples,
+                                  output_path=args.output_path,
+                                  minimal=args.minimal)
 
 
 if __name__ == "__main__":

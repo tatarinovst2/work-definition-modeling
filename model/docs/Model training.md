@@ -48,7 +48,7 @@ This is a module for training the FRED-T5-1.7B model.
 4. Make sure you have the dataset.
 
     It is a `.jsonl` file that has `id`, `title` and `definition` fields.
-    The file is produced by running `clean_mas_dataset.py`.
+    The file is produced by running `clean_mas_dataset.py` from the `mas_parser` module.
 
     If you do not have the file, follow the instructions
     in [mas_parser](../../mas_parser/README.md)
@@ -71,12 +71,14 @@ This is a module for training the FRED-T5-1.7B model.
     For example:
 
     ```bash
-    python model/split_dataset.py mas_parser/data/mas_cleaned_definitions.jsonl
+    python model/split_dataset.py mas_parser/data/mas_cleaned_definitions.jsonl \
    -o model/data/splits
     ```
 
     This will create three files in the `data` folder:
     `train.jsonl`, `val.jsonl` and `test.jsonl`.
+
+    > NOTE: Run the example command above to reproduce results.
 
     You can also download existing splits:
 
@@ -101,6 +103,7 @@ This is a module for training the FRED-T5-1.7B model.
     `peft` library.
 
     > NOTE: The final training was done with LoRa. Enable it if you want to replicate results.
+    > NOTE: Keep default values in the config file to reproduce the results.
 
 7. Run `train.py` with the following command to start training.
 

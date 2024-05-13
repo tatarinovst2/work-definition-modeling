@@ -176,6 +176,7 @@ model/data/
 wiktionary_parser/data/
 rushifteval/data
 rushifteval/tmp
+vizvector/data/
 tmp/
 
 # LaTeX

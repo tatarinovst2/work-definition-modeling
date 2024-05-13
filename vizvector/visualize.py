@@ -11,6 +11,7 @@ from pydantic.dataclasses import dataclass
 from sklearn.cluster import DBSCAN
 from sklearn.metrics import pairwise_distances
 from sklearn.preprocessing import normalize
+from transliterate import detect_language, translit
 
 from vizvector_utils import parse_path
 
@@ -222,7 +223,7 @@ def print_definitions(definitions: dict) -> None:
     :param definitions: The definitions.
     """
     for idx, definition in definitions.items():
-        print(f"{idx + 1}: {definition}")
+        print(f"{idx}: {definition}")
 
 
 def visualize_changes_with_legend(date_cluster_counts: dict,  # pylint: disable=too-many-locals, too-many-arguments
@@ -302,9 +303,12 @@ def visualize_changes_with_legend(date_cluster_counts: dict,  # pylint: disable=
 
     if output_path:
         parsed_path = parse_path(output_path)
+        if detect_language(parsed_path.name) == 'ru':
+            transliterated_file_name = translit(parsed_path.name, "ru", True)
+            parsed_path = parsed_path.parent / transliterated_file_name
         if not parsed_path.parent.exists():
             parsed_path.parent.mkdir(parents=True, exist_ok=True)
-        plt.savefig(parsed_path, dpi=300, bbox_inches='tight')
+        plt.savefig(parsed_path, dpi=300)
     else:
         plt.show()
 

@@ -4,8 +4,9 @@ bleu
 bool
 bz
 centroid
-config
 checkpointing
+config
+ctrl
 cuda
 dataclass
 dataset
@@ -20,6 +21,8 @@ fn
 json
 jsonl
 linearregression
+loraconfig
+macos
 medoid
 mps
 numpy
@@ -48,6 +51,7 @@ vectorize
 vectorizer
 vectorized
 vectorization
+vizvector
 wikitext
 wikitextparser
 wiktionary

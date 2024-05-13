@@ -24,6 +24,8 @@ matrix:
       - 'pre'
   sources:
   - '*.md'
+  - 'model/*.md'
+  - 'model/docs/*.md'
   - 'rushifteval/*.md'
   default_encoding: utf-8
 

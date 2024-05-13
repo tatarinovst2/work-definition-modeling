@@ -251,7 +251,7 @@ def main():
     parser.add_argument("-o", "--output-file",
                         type=str,
                         help="The output file of JSON Lines format.")
-    parser.add_argument("-b", "--batch_size",
+    parser.add_argument("-b", "--batch-size",
                         type=int,
                         default=1,
                         help="The inference batch size.")

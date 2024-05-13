@@ -178,6 +178,7 @@ rushifteval/data
 rushifteval/tmp
 ruscorpora/data
 ruscorpora/tmp
+vizvector/data/
 tmp/
 
 # LaTeX

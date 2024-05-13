@@ -44,7 +44,7 @@ Such files (`test.jsonl`, `train.jsonl`, `val.jsonl`) are created after running 
 Supply the path to the file as an argument to `inference.py`:
 
 ```bash
-python model/inference.py path/to/checkpoint
+python model/inference.py path/to/checkpoint \
 --input-file path/to/dataset.jsonl --output-file path/to/output.jsonl
 ```
 
@@ -54,12 +54,23 @@ You can load the base model using its hugging-face name or by providing the path
 For example:
 
 ```bash
-python model/inference.py ai-forever/FRED-T5-1.7B -l models/checkpoint-41000
+python model/inference.py ai-forever/FRED-T5-1.7B -l models/checkpoint-41000 \
 --input-file model/data/cleaned_splits/test.jsonl --output-file model/data/output/output_test.jsonl
 ```
 
 In this case, the output will be a `.jsonl` file with the same format as the input file,
 but with the `generated_text` field added to each line.
+
+> NOTE: Use the command above to reproduce results.
+
+You can also use `--batch-size` argument to set the batch size for inference.
+
+```bash
+python model/inference.py ai-forever/FRED-T5-1.7B -l models/checkpoint-41000 \
+--input-file model/data/cleaned_splits/test.jsonl \
+--output-file model/data/output/output_test.jsonl \
+--batch-size 16
+```
 
 > NOTE: Inference with a batch size of more than 1 seems to be bugged for `mps` pipeline,
 > but should work with `cuda`.

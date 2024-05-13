@@ -8,13 +8,13 @@ vectorizer_name=$(basename "$vectorizer")
 vectors_folder="${predictions_folder}_${vectorizer_name}"
 
 python3 vizvector/vectorize.py "rushifteval/data/preds/${predictions_folder}/preds_rusemshift_all.jsonl" \
-"rushifteval/tmp/vectors/${vectors_folder}/vectors_rusemshift_all.jsonl" --model_name "${vectorizer}"
+"rushifteval/tmp/vectors/${vectors_folder}/vectors_rusemshift_all.jsonl" --model-name "${vectorizer}"
 
 python3 vizvector/vectorize.py "rushifteval/data/preds/${predictions_folder}/preds_rushifteval1_test.jsonl" \
-"rushifteval/tmp/vectors/${vectors_folder}/vectors_rushifteval1_test.jsonl" --model_name "${vectorizer}"
+"rushifteval/tmp/vectors/${vectors_folder}/vectors_rushifteval1_test.jsonl" --model-name "${vectorizer}"
 
 python3 vizvector/vectorize.py "rushifteval/data/preds/${predictions_folder}/preds_rushifteval2_test.jsonl" \
-"rushifteval/tmp/vectors/${vectors_folder}/vectors_rushifteval2_test.jsonl" --model_name "${vectorizer}"
+"rushifteval/tmp/vectors/${vectors_folder}/vectors_rushifteval2_test.jsonl" --model-name "${vectorizer}"
 
 python3 vizvector/vectorize.py "rushifteval/data/preds/${predictions_folder}/preds_rushifteval3_test.jsonl" \
-"rushifteval/tmp/vectors/${vectors_folder}/vectors_rushifteval3_test.jsonl" --model_name "${vectorizer}"
+"rushifteval/tmp/vectors/${vectors_folder}/vectors_rushifteval3_test.jsonl" --model-name "${vectorizer}"

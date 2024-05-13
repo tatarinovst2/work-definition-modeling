@@ -176,6 +176,8 @@ model/data/
 wiktionary_parser/data/
 rushifteval/data
 rushifteval/tmp
+ruscorpora/data
+ruscorpora/tmp
 tmp/
 
 # LaTeX

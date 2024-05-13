@@ -25,6 +25,7 @@ matrix:
   sources:
   - '*.md'
   - 'rushifteval/*.md'
+  - 'ruscorpora/*.md'
   default_encoding: utf-8
 
 - name: Docstrings
@@ -47,4 +48,5 @@ matrix:
     - 'model/*/*.py'
     - 'vizvector/*.py'
     - 'rushifteval/*.py'
+    - 'ruscorpora/*.py'
   default_encoding: utf-8

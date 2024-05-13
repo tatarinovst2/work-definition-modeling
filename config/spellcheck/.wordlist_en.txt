@@ -2,8 +2,9 @@ args
 bleu
 bool
 bz
-config
 checkpointing
+config
+ctrl
 cuda
 dataset
 datasetdict
@@ -12,6 +13,7 @@ entrypoint
 eval
 filenotfounderror
 filepath
+fn
 json
 jsonl
 loraconfig

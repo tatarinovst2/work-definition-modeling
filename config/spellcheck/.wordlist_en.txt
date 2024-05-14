@@ -12,6 +12,7 @@ cuda
 dataclass
 dataset
 datasetdict
+diachronic
 dtype
 entrypoint
 eps

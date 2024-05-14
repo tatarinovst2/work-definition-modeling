@@ -3,11 +3,12 @@ import json
 import random
 from argparse import ArgumentParser
 from collections import defaultdict
+from pathlib import Path
 
-from ruscorpora_utils import write_results_to_file
+from ruscorpora_utils import parse_path, write_results_to_file
 
 
-def load_data(file_path: str) -> list[dict]:
+def load_data(file_path: str | Path) -> list[dict]:
     """
     Load JSON Lines file into a list of dictionaries.
 
@@ -64,9 +65,15 @@ def main():
                         help="Seed for the random number generator. Set to -1 to turn it off.")
     args = parser.parse_args()
 
-    data = load_data(args.file_path)
+    path_to_data = parse_path(args.file_path)
+    output_file_path = parse_path(args.output_file_path)
+
+    if not output_file_path.parent.exists():
+        output_file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    data = load_data(path_to_data)
     sampled_data = sample_x_rows_per_word(data, args.sample_size, args.seed)
-    write_results_to_file(sampled_data, args.output_file_path)
+    write_results_to_file(sampled_data, output_file=output_file_path)
 
 
 if __name__ == "__main__":

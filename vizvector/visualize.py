@@ -223,7 +223,7 @@ def print_definitions(definitions: dict) -> None:
     :param definitions: The definitions.
     """
     for idx, definition in definitions.items():
-        print(f"{idx}: {definition}")
+        print(f"{idx + 1}: {definition}")
 
 
 def visualize_changes_with_legend(date_cluster_counts: dict,  # pylint: disable=too-many-locals, too-many-arguments

@@ -67,7 +67,7 @@ def get_word_forms(word: str) -> list[str]:
     forms = set()
     for p in parsed_word:
         forms.update({form.word for form in p.lexeme})
-    return [form for form in forms]
+    return list(forms)
 
 
 def process_epochs(words: list[str], epochs: list[Epoch]) -> list[dict]:
@@ -96,7 +96,8 @@ def process_epochs(words: list[str], epochs: list[Epoch]) -> list[dict]:
                             "word": word,
                             "date": epoch.date,
                             "sentence": sentence,
-                            "input_text": f'<LM> Контекст: "{sentence}" Определение слова "{word}": '
+                            "input_text": f'<LM> Контекст: "{sentence}" '
+                                          f'Определение слова "{word}": '
                         }
                         results.append(result)
                         id_counter += 1

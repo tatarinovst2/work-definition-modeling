@@ -79,7 +79,7 @@ def main():
                         default="generated_text",
                         help="The column name with the text to vectorize "
                              "(default: 'generated_text')")
-    parser.add_argument("--model_name",
+    parser.add_argument("--model-name",
                         default="cointegrated/rubert-tiny2",
                         help="The model name or path to it (default: 'cointegrated/rubert-tiny2')")
     parser.add_argument("--limit",

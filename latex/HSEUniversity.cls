@@ -4,7 +4,7 @@
 \LoadClass[fontsize=14bp]{scrreprt}
 \RequirePackage{ifpdf}
 \RequirePackage{kvoptions}
-\RequirePackage[a4paper,left=25mm,right=10mm,top=20mm,bottom=25mm,footskip=10mm]{geometry}
+\RequirePackage[a4paper,left=40mm,right=10mm,top=20mm,bottom=20mm,footskip=10mm]{geometry}
 
 % \RequirePackage{cmap}						% Улучшенный поиск русских слов в полученном pdf-файле
 \RequirePackage[T2A]{fontenc}				% Поддержка русских букв
@@ -20,6 +20,15 @@
 \newfontfamily\cyrillicfont{Times New Roman}[Script=Cyrillic]
 \newfontfamily{\cyrillicfonttt}{Times New Roman}
 \setmainlanguage{russian}
+
+% My code
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{float} % Позволяет расположить таблицу именно там, где она назодится относительно текста
+\usepackage{enumitem}
+\setlist[itemize]{topsep=0pt, partopsep=0pt, itemsep=0pt, parsep=0pt}
+\setlist[enumerate]{topsep=0pt, partopsep=0pt, itemsep=0pt, parsep=0pt}
+% ----
 
 \RequirePackage[font=small,skip=4pt]{caption}
 \RequirePackage{graphicx}
@@ -50,16 +59,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[
 	style=gost-numeric-min,
+%	citestyle=gost-authoryear-min,
+%    bibstyle=gost-numeric-min,
 	language=russian,
 	babel=other,
 	backend=biber,
-	defernumbers=true,% Нумерация начинается как только встречается группа.
+%	defernumbers=true,% Нумерация начинается как только встречается группа.
 	sorting=none,
 	url=false,
 	doi=false,
 	isbn=false,
 	movenames=false,
-	maxnames=100
+	maxnames=10
 ]{biblatex}
 \renewcommand*{\multicitedelim}{\addcomma\space}
 
@@ -161,13 +172,15 @@
 \def\@specCode{00.00.00.UNKOWN SPECIALIZATION}
 \newif\ifHasReviewer
 \HasReviewerfalse
+\newif\ifHasConsultant
+\HasConsultantfalse
 
 % Available options for the specialiazation
 % LI -- Фундаментальная и прикладная лингвистика
 \DeclareVoidOption{LI}{
 	\def\@facultyString{Факультет гуманитарных наук}
 	\def\@specName{Фундаментальная и прикладная лингвистика}
-	\def\@specCode{45.03.03. Фундаментальная и прикладная лингвистика}
+	\def\@specCode{45.03.03. Фундаментальная и прикладная лингвистика}
 }
 % Available options for the type
 \DeclareVoidOption{KR}{
@@ -175,7 +188,6 @@
 }
 \DeclareVoidOption{VKR}{
 	\def\@typeString{Выпускная квалификационная работа}
-	\HasReviewertrue
 }
 
 \DeclareDefaultOption{%
@@ -203,6 +215,10 @@
 	\def\@supervisorTitle{#1}
 	\def\@supervisorName{#2}
 }
+\newcommand{\consultant}[2]{
+	\def\@consultantTitle{#1}
+	\def\@consultantName{#2}
+}
 \newcommand{\reviewer}[2]{
 	\def\@reviewerTitle{#1}
 	\def\@reviewerName{#2}
@@ -225,21 +241,25 @@
 	}
 
 	\vfill
+	\vfill
 
-		\textit{\@facultyString}
+	\textbf{\@facultyString}
 
 	\vfill
+
+	\textbf{Программа подготовки бакалавров по направлению
+  	по направлению \@specCode}
+
 	\vfill
 	\vfill
 
 	\@author
 
-	\textbf{\MakeUppercase{\@title}}
+	\textbf{\MakeUppercase{\@typeString}}
 
-	\textit{\@typeString}
+	\vfill
 
-	% студента образовательной программы <<\@specName>> \\
-  по направлению подготовки \textit{\underline{\@specCode}}
+	\@title
 
 	\vfill
 	\vfill
@@ -263,18 +283,30 @@
 		\@supervisorName
 	\end{minipage}
 
+	\vspace{10mm}
+
+	\ifHasConsultant
+		\hfill
+		\begin{minipage}[t]{0.4\textwidth}
+			Научный консультант \\
+			\@consultantTitle
+
+			\@consultantName
+		\end{minipage}
+	\fi
+
 	\vfill
 	\vfill
 	\vfill
 
-	\@city{} \@year{}
+	\@city{}, \@year{}
 
 	\newpage
 }
 
-\chapter**{Аннотация}
+%\chapter**{Аннотация}
 
-\@abstract
+%\@abstract
 
 \chapter**{Оглавление}
 
@@ -316,4 +348,23 @@
 
   \caption{\@figureCaption}
   \end{figure}
+}
+
+\def\cyrtoc#1{\ifcase #1\or А\or Б\or В\or Г\or Д\or Е\or Ж\or И\or К\or Л\or М\or Н\or П\or Р\or С\or Т\or У\or Ф\or Х\or Ц\or Ш\or Щ\or Э\or Ю\or Я\else \@ctrerr \fi}
+
+\newcommand\originalappendix{}
+\let\originalappendix\appendix
+\renewcommand{\appendix}{%
+  \label{pg:end} % для указания на номер последней страницы
+  \originalappendix
+  \renewcommand{\thechapter}{\cyrtoc{\value{chapter}}}
+  \renewcommand{\appendixname}{Приложение} % Можно не менять и заменить на команду с \MakeUppercase в \renewcommand у меня локально не компилит, а в overleaf все нормально
+%  \titleformat{\chapter}{\Large\bfseries\centering}{\MakeUppercase{\chaptertitlename}\ \thechapter}{4pt}{}
+%    \titleformat{\chapter}{\Large\bfseries\centering}\chaptertitlename\ \thechapter}{4pt}{}
+
+  \addtocontents{toc}{\protect\value{tocdepth}=\chaptertocdepth}
+  \renewcommand\addchaptertocentry[2]{%
+    \addtocentrydefault{chapter}{}{\appendixname~##1 ##2}
+    % \addtocentrydefault{chapter}{}{\MakeUppercase{\appendixname~##1} ##2}
+  }
 }

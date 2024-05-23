@@ -24,6 +24,7 @@ matrix:
       - 'pre'
   sources:
   - '*.md'
+  - 'rushifteval/*.md'
   - 'model/*.md'
   - 'model/docs/*.md'
   - 'vizvector/*.md'
@@ -48,4 +49,5 @@ matrix:
     - 'model/*.py'
     - 'model/*/*.py'
     - 'vizvector/*.py'
+    - 'rushifteval/*.py'
   default_encoding: utf-8

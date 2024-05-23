@@ -1,3 +1,4 @@
+annotatedword
 args
 bleu
 bool
@@ -19,6 +20,7 @@ filepath
 fn
 json
 jsonl
+linearregression
 loraconfig
 macos
 medoid
@@ -34,16 +36,20 @@ preprocesses
 pretrainedtokenizer
 py
 ruscorpora
+rusemshift
 rushifteval
+spearman
 str
 tatarinov
 tbd
 tokenized
 tokenizer
+tsv
 utils
 valueerror
 vect
 vectorize
+vectorizer
 vectorized
 vectorization
 vizvector

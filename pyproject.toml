@@ -70,7 +70,7 @@ application_import_names = [
     'config',
     'wiktionary_parser',
     'model',
-    'vizvector'
+    'vizvector',
     'model'
 ]
 select = ['I']

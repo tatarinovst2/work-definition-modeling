@@ -71,6 +71,7 @@ application_import_names = [
     'wiktionary_parser',
     'model',
     'vizvector'
+    'model'
 ]
 select = ['I']
 count = true

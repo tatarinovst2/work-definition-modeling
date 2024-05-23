@@ -4,6 +4,7 @@ bool
 bz
 checkpointing
 config
+checkpointing
 ctrl
 cuda
 dataset

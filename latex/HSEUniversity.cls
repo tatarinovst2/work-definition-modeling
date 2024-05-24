@@ -26,8 +26,8 @@
 \usepackage{array}
 \usepackage{float} % Позволяет расположить таблицу именно там, где она назодится относительно текста
 \usepackage{enumitem}
-\setlist[itemize]{topsep=0pt, partopsep=0pt, itemsep=0pt, parsep=0pt}
-\setlist[enumerate]{topsep=0pt, partopsep=0pt, itemsep=0pt, parsep=0pt}
+\setlist[itemize]{left=13mm, topsep=0pt, partopsep=0pt, itemsep=0pt, parsep=0pt}
+\setlist[enumerate]{left=13mm, topsep=0pt, partopsep=0pt, itemsep=0pt, parsep=0pt}
 % ----
 
 \RequirePackage[font=small,skip=4pt]{caption}

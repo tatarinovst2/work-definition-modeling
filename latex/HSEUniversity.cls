@@ -9,7 +9,7 @@
 % \RequirePackage{cmap}						% Улучшенный поиск русских слов в полученном pdf-файле
 \RequirePackage[T2A]{fontenc}				% Поддержка русских букв
 % \RequirePackage[utf8]{inputenc}				% Кодировка utf8
-% \RequirePackage{csquotes}
+\RequirePackage{csquotes}
 \RequirePackage[russian]{babel}	% Языки: русский, английский
 
 \usepackage{fontspec}
@@ -26,8 +26,12 @@
 \usepackage{array}
 \usepackage{float} % Позволяет расположить таблицу именно там, где она назодится относительно текста
 \usepackage{enumitem}
+\usepackage{subfig}
+%\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
 \setlist[itemize]{left=13mm, topsep=0pt, partopsep=0pt, itemsep=0pt, parsep=0pt}
 \setlist[enumerate]{left=13mm, topsep=0pt, partopsep=0pt, itemsep=0pt, parsep=0pt}
+\renewcommand\thesubfigure{\asbuk{subfigure}}
 % ----
 
 \RequirePackage[font=small,skip=4pt]{caption}
@@ -59,7 +63,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[
 	style=gost-numeric-min,
-%	citestyle=gost-authoryear-min,
+	citestyle=gost-authoryear-min,
 %    bibstyle=gost-numeric-min,
 	language=russian,
 	babel=other,
@@ -70,9 +74,35 @@
 	doi=false,
 	isbn=false,
 	movenames=false,
-	maxnames=10
+	maxcitenames=2,
+	maxbibnames=10
 ]{biblatex}
+
+\DefineBibliographyStrings{english}{
+  andothers = {et al.},
+}
+\DefineBibliographyStrings{russian}{
+  andothers = {и др.},
+}
+
 \renewcommand*{\multicitedelim}{\addcomma\space}
+
+\DeclareCiteCommand{\cite}
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \printtext[bibhyperref]{%
+	 (\printnames{labelname}%
+     \setunit{\nameyeardelim},%
+     \printfield{year}})}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\citeurl}
+  {\usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \printtext{(\printfield{url})}}
+  {}
+  {\usebibmacro{postnote}}
 
 %\usepackage{cite} % Красивые ссылки на литературу
 % Настройки языка в списке литературы.

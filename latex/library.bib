@@ -57,6 +57,18 @@ title = {Evaluate},
 url = {https://github.com/huggingface/evaluate},
 urldate = {2023-11-15}}
 
+@online{Encodechka,
+title = {encodechka},
+url = {https://github.com/avidale/encodechka},
+urldate = {2024-04-19}
+}
+
+@online{Vectorizer,
+    title = {paraphrase-multilingual-mpnet-base-v2},
+    url = {https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2},
+    urldate = {2024-04-19},
+}
+
 @misc{rodina2020elmo,
       title={ELMo and BERT in semantic change detection for Russian},
       author={Julia Rodina and Yuliya Trofimova and Andrey Kutuzov and Ekaterina Artemova},
@@ -105,12 +117,12 @@ doi = {10.28995/2075-7182-2020-19-500-516}
 }
 
 @inproceedings{rushifteval,
-author = {Pivovarova, Lidia and Kutuzov, Andrei},
-year = {2021},
-month = {06},
-pages = {533-545},
-title = {RuShiftEval: a shared task on semantic shift detection for Russian},
-doi = {10.28995/2075-7182-2021-20-533-545}
+  title={RuShiftEval: a shared task on semantic shift detection for Russian},
+  author={Kutuzov, Andrey and Pivovarova, Lidia},
+  %month = {06},
+  pages = {533-545},
+  booktitle={Computational linguistics and intellectual technologies: Papers from the annual conference Dialogue},
+  year={2021}
 }
 
 @inproceedings{GlossReader,
@@ -218,7 +230,7 @@ urldate = {2024-01-18}}
   publisher = {Издательский дом Высшей школы экономики},
   year      = {2018},
   address   = {Москва},
-  note      = {Электронное издание. Системные требования: Adobe Reader XI либо Adobe Digital Editions 4.5; экран 10".},
+%  note      = {Электронное издание. Системные требования: Adobe Reader XI либо Adobe Digital Editions 4.5; экран 10".},
   isbn      = {978-5-7598-1480-1},
   url       = {https://znanium.com/catalog/product/1018929},
   urldate   = {2024-04-20},
@@ -249,16 +261,26 @@ urldate = {2024-01-18}}
   address   = {New York},
 }
 
-@book{TahmasebiComputationalApproachesToSemanticChange,
-editor = {Tahmasebi, Nina and Borin, Lars and Jatowt, Adam and Xu, Yang and Hengchen, Simon},
-title = {{Computational} approaches to semantic change},
-subtitle = {},
-year = {2021},
-series = {Language Variation},
-number = {6},
-address = {Berlin},
-publisher = {Language Science Press},
-doi = {10.5281/zenodo.5040241}
+%@book{TahmasebiComputationalApproachesToSemanticChange,
+%  title        = {Computational Approaches to Semantic Change},
+%  editor       = {Tahmasebi, Nina and Borin, Lars and Jatowt, Adam and Xu, Yang and Hengchen, Simon},
+%  year         = 2021,
+%  series       = {Language Variation},
+%  volume       = 6,
+%  address      = {Berlin},
+%  publisher    = {Language Science Press},
+%  doi          = {10.5281/zenodo.5040241}
+%}
+
+@incollection{TahmasebiComputationalApproachesToSemanticChange,
+  author    = {Nina Tahmasebi and Lars Borin and Adam Jatowt},
+  title     = {Survey of computational approaches to lexical semantic change detection},
+  booktitle = {Computational approaches to semantic change},
+  editor    = {Nina Tahmasebi and Lars Borin and Adam Jatowt and Yang Xu and Simon Hengchen},
+  year      = {2021},
+  pages     = {1--91},
+  publisher = {Language Science Press},
+  address   = {Berlin},
 }
 
 @book{SemanticDefinitionsAndAnalysis,
@@ -270,14 +292,15 @@ doi = {10.5281/zenodo.5040241}
 }
 
 @Book{MAS1981,
+  author    = {Евгеньева, А. П.},
   title     = {{Словарь русского языка: В 4-х т.}},
   publisher = {Русский язык},
   year      = {1981-1984},
   editor    = {А. П. Евгеньева},
-  edition   = {2-е изд., испр. и доп},
+  edition   = {4-е изд., испр. и доп},
   address   = {Москва},
-  organization = {АН СССР, Ин-т рус. яз.},
-  note      = {В 4-х томах},
+  organization = {Полиграфресурсы},
+  note      = {В 4-х томах}
 }
 
 @online{Wiktionary,

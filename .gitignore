@@ -175,5 +175,6 @@ wiktionary_parser/data/*.jsonl
 
 # LaTeX
 latex/main.*
+latex/larm*
 !latex/main.pdf
 !latex/main.tex

@@ -30,6 +30,7 @@
 \usepackage{chngcntr}  % Нумерует графики и таблицы без учёта глав
 \counterwithout{table}{chapter}
 \counterwithout{figure}{chapter}
+\counterwithout{equation}{chapter}
 %\setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}
 \setlist[itemize]{left=13mm, topsep=0pt, partopsep=0pt, itemsep=0pt, parsep=0pt}
@@ -59,7 +60,7 @@
 \RequirePackage{amssymb}
 
 
-\RequirePackage[linktocpage=true,plainpages=false,pdfpagelabels=false]{hyperref}
+\RequirePackage[linktocpage=true,plainpages=false,pdfpagelabels=false,hidelinks]{hyperref}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Библиография %%%

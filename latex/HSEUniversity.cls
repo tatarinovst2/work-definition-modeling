@@ -10,7 +10,7 @@
 \RequirePackage[T2A]{fontenc}				% Поддержка русских букв
 % \RequirePackage[utf8]{inputenc}				% Кодировка utf8
 \RequirePackage{csquotes}
-\RequirePackage[russian]{babel}	% Языки: русский, английский
+\RequirePackage[english,russian]{babel}	% Языки: русский, английский
 
 \usepackage{fontspec}
 \usepackage{polyglossia}
@@ -26,7 +26,10 @@
 \usepackage{array}
 \usepackage{float} % Позволяет расположить таблицу именно там, где она назодится относительно текста
 \usepackage{enumitem}
-\usepackage{subfig}
+\usepackage{subfig}  % Для горизонтально расположенных графиков
+\usepackage{chngcntr}  % Нумерует графики и таблицы без учёта глав
+\counterwithout{table}{chapter}
+\counterwithout{figure}{chapter}
 %\setcounter{tocdepth}{4}
 \setcounter{secnumdepth}{4}
 \setlist[itemize]{left=13mm, topsep=0pt, partopsep=0pt, itemsep=0pt, parsep=0pt}
@@ -62,8 +65,9 @@
 %%% Библиография %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \RequirePackage[
-	style=gost-numeric-min,
+	bibstyle=gost-numeric-min,
 	citestyle=gost-authoryear-min,
+%	citestyle=authoryear,
 %    bibstyle=gost-numeric-min,
 	language=russian,
 	babel=other,
@@ -82,7 +86,8 @@
   andothers = {et al.},
 }
 \DefineBibliographyStrings{russian}{
-  andothers = {и др.},
+%  andothers = {и др.},
+  andothers = {et al.},
 }
 
 \renewcommand*{\multicitedelim}{\addcomma\space}
@@ -145,24 +150,24 @@
 \linespread{1.5} % Полуторный интервал
 \setlength{\parindent}{12.5mm} % Отступ красной строки
 
-\captionsetup[table]{position=t,singlelinecheck=false, justification=RaggedLeft,labelsep=period}
-\captionsetup[figure]{labelfont={bf},textfont={bf},position=b,singlelinecheck=false,labelsep=period,justification=centering}
+\captionsetup[table]{position=t,singlelinecheck=false, justification=RaggedLeft,labelsep=space}  % labelsep=period
+\captionsetup[figure]{labelfont={bf},textfont={bf},position=b,singlelinecheck=false,labelsep=space,justification=centering}  % labelsep=period
 
 %%% Главы и разделы %%%
 \titleformat{\chapter}%[display]
-  {\Large\bfseries\centering}
+  {\large\bfseries\centering}  % {\Large\bfseries\centering}
   {\chaptertitlename\ \thechapter.}{4pt}{}
 \titlespacing*{\chapter}{0pt}{0pt}{12pt}
 \titleformat{\section}
-  {\large\centering}
+  {\large\bfseries\centering}  % {\large\centering}
   {\thesection.}{4pt}{}
 \titlespacing*{\section}{0pt}{12pt}{6pt}
 \titleformat{\subsection}
-  {\centering}
+  {\bfseries\centering} % {\centering}
   {\thesubsection.}{3pt}{}
 \titlespacing*{\subsection}{0pt}{8pt}{4pt}
 \titleformat{\subsubsection}
-  {\centering}
+  {\bfseries\centering} % {\centering}
   {\thesubsubsection.}{3pt}{}
 \titlespacing*{\subsubsection}{0pt}{8pt}{4pt}
 
@@ -185,9 +190,9 @@
 \titlecontents{chapter}% <section-type>
   [0pt]% <left>
   {}% <above-code>
-  {\bfseries\chaptername\ \thecontentslabel.\enskip}% <numbered-entry-format>
+  {\chaptername\ \thecontentslabel.\enskip}% <numbered-entry-format> {\bfseries\chaptername\ \thecontentslabel.\enskip}
   {}% <numberless-entry-format>
-  {\bfseries\dotfill\contentspage}% <filler-page-format>
+  {\dotfill\contentspage}% <filler-page-format> {\bfseries\dotfill\contentspage}
 %%%%%%%%%%%%%%%%%%%%%%%%
 % Обработка опций пакета
 

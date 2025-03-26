@@ -64,6 +64,8 @@ def load_data(input_paths: list[str], target_word: str) -> list[WordUsage]:
                         definition=definition,
                         vect=item.get('vector', [])
                     )
+                    word_usage.date = word_usage.date.replace("1990", "1991")
+                    word_usage.date = word_usage.date.replace("2017", "2016")
                     data.append(word_usage)
         all_data.extend(data)
 
@@ -254,8 +256,11 @@ def visualize_changes_with_legend(date_cluster_counts: dict,  # pylint: disable=
 
     index = np.arange(max_meaning_id) * (total_width + 0.2)
 
-    colors = plt.cm.Blues(  # type: ignore  # pylint: disable=no-member
-        np.linspace(0.2, 1, len(dates)))
+    # colors = plt.cm.Blues(  # type: ignore  # pylint: disable=no-member
+    #     np.linspace(0.2, 1, len(dates)))
+
+    colors = plt.cm.Greys(  # type: ignore  # pylint: disable=no-member
+        np.linspace(0.25, 1, len(dates)))
 
     if not minimal:
         fig, axs = plt.subplots(3, 1, figsize=(6.5, 7),
@@ -277,8 +282,10 @@ def visualize_changes_with_legend(date_cluster_counts: dict,  # pylint: disable=
         date_counts = [counts.get(meaning_id, 0) for meaning_id in range(max_meaning_id)]
         ax.bar(index + i * bar_width, date_counts, bar_width, color=colors[i])
 
-    ax.set_xlabel('Значения')
-    ax.set_ylabel('Процент от всех использований' if relative else 'Частота')
+    # ax.set_xlabel('Значения')
+    # ax.set_ylabel('Процент от всех использований' if relative else 'Частота')
+    ax.set_xlabel("Meanings")
+    ax.set_ylabel("Percentage of all usages" if relative else "Frequency")
     ax.set_xticks(index + total_width / 2 - bar_width / 2)
     ax.set_xticklabels([f'{i + 1}' for i in range(max_meaning_id)])
 

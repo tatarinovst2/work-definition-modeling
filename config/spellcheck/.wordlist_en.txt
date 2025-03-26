@@ -32,6 +32,7 @@ opencv
 param
 pathlib
 png
+pos
 pred
 preprocess
 preprocesses

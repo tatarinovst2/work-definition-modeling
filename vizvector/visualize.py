@@ -64,8 +64,9 @@ def load_data(input_paths: list[str], target_word: str) -> list[WordUsage]:
                         definition=definition,
                         vect=item.get('vector', [])
                     )
-                    word_usage.date = word_usage.date.replace("1990", "1991")
-                    word_usage.date = word_usage.date.replace("2017", "2016")
+                    if word_usage.date is not None:
+                        word_usage.date = word_usage.date.replace("1990", "1991")
+                        word_usage.date = word_usage.date.replace("2017", "2016")
                     data.append(word_usage)
         all_data.extend(data)
 

@@ -25,6 +25,7 @@ matrix:
   sources:
   - '*.md'
   - 'rushifteval/*.md'
+  - 'ruscorpora/*.md'
   - 'model/*.md'
   - 'model/docs/*.md'
   - 'vizvector/*.md'
@@ -50,4 +51,5 @@ matrix:
     - 'model/*/*.py'
     - 'vizvector/*.py'
     - 'rushifteval/*.py'
+    - 'ruscorpora/*.py'
   default_encoding: utf-8

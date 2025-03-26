@@ -18,6 +18,8 @@ class DatasetProcessingTest(unittest.TestCase):
 
         if self.result_dataset_split_directory.exists():
             for file in self.result_dataset_split_directory.iterdir():
+                if file.name.startswith("._"):
+                    continue
                 file.unlink()
             self.result_dataset_split_directory.rmdir()
 
@@ -105,5 +107,7 @@ class DatasetProcessingTest(unittest.TestCase):
     def tearDown(self):
         if self.result_dataset_split_directory.exists():
             for file in self.result_dataset_split_directory.iterdir():
+                if file.name.startswith("._"):
+                    continue
                 file.unlink()
             self.result_dataset_split_directory.rmdir()

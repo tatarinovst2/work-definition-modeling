@@ -51,19 +51,19 @@ def plot_metric(metric: str, log_history: list[dict], output_path: str | Path,
             steps.append(entry['step'])
             epochs.append(entry['epoch'])
 
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(8, 4))
 
     if plot_epochs:
-        plt.plot(epochs, metric_values, label=metric, marker='o', linestyle='-', color='b')
+        plt.plot(epochs, metric_values, label=metric, marker='o', linestyle='-', color='0.5')
         plt.title(f"{metric} Over Epochs")
         plt.xlabel('Epochs')
     else:
-        plt.plot(steps, metric_values, label=metric, marker='o', linestyle='-', color='b')
+        plt.plot(steps, metric_values, label=metric, marker='o', linestyle='-', color='0.5')
         plt.title(f"{metric} Over Steps")
         plt.xlabel('Steps')
 
     plt.ylabel(metric)
-    plt.legend()
+    plt.legend(fontsize=10)
     plt.grid(True)
     plt.savefig(output_path)
     plt.close()
@@ -80,7 +80,7 @@ def plot_training_and_test_loss(log_history: list[dict], output_path: str | Path
     :raises ValueError: If the train losses and test losses have different lengths.
     """
     train_losses = []
-    test_losses = []
+    val_losses = []
     steps = []
     epochs = []
 
@@ -90,30 +90,32 @@ def plot_training_and_test_loss(log_history: list[dict], output_path: str | Path
             steps.append(entry['step'])
             epochs.append(entry['epoch'])
         if 'eval_loss' in entry:
-            test_losses.append(entry['eval_loss'])
+            val_losses.append(entry['eval_loss'])
 
-    if len(train_losses) != len(test_losses):
-        print(f"Train losses: {train_losses}, test losses: {test_losses}, "
+    if len(train_losses) != len(val_losses):
+        print(f"Train losses: {train_losses}, val losses: {val_losses}, "
               f"steps: {steps}, epochs: {epochs}")
-        raise ValueError("Train losses and test losses have different lengths")
+        raise ValueError("Train losses and val losses have different lengths")
 
-    plt.figure(figsize=(10, 5))
+    plt.figure(figsize=(8, 4))
 
     if plot_epochs:
-        plt.plot(epochs, train_losses, label='Training Loss', marker='o', linestyle='-',
-                 color='b')
-        plt.plot(epochs, test_losses, label='Test Loss', marker='o', linestyle='-', color='r')
-        plt.title('Training and Test Loss Over Epochs')
+        plt.plot(epochs, train_losses, label='Training Loss',
+                 marker='o', linestyle='-', color='0.4')
+        plt.plot(epochs, val_losses, label='Val Loss',
+                 marker='o', linestyle='-', color='0.8')
+        plt.title('Training and Val Loss Over Epochs')
         plt.xlabel('Epochs')
     else:
-        plt.plot(steps, train_losses, label='Training Loss', marker='o', linestyle='-',
-                    color='b')
-        plt.plot(steps, test_losses, label='Test Loss', marker='o', linestyle='-', color='r')
-        plt.title('Training and Test Loss Over Steps')
+        plt.plot(steps, train_losses, label='Training Loss',
+                 marker='o', linestyle='-', color='0.4')
+        plt.plot(steps, val_losses, label='Val Loss',
+                 marker='o', linestyle='-', color='0.8')
+        plt.title('Training and Val Loss Over Steps')
         plt.xlabel('Steps')
 
     plt.ylabel('Loss')
-    plt.legend()
+    plt.legend(fontsize=10)
     plt.grid(True)
     plt.savefig(parse_path(output_path))
 

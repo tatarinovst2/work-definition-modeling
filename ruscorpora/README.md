@@ -27,7 +27,7 @@ Put them under `ruscorpora/data`.
 Run the `process_ruscorpora_dump.py` script to process the corpus:
 
 ```bash
-python ruscorpora/process_ruscorpora_dump.py
+python ruscorpora/process_ruscorpora_dump.py ruscorpora/process_ruscorpora_20_words_config.json
 ```
 
 The settings for the script are in `process_ruscorpora_config.json`.

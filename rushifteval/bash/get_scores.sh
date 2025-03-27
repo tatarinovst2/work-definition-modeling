@@ -8,7 +8,7 @@ if [ $# -eq 3 ] && [ "$3" == "--normalize" ]; then
     normalize="--normalize"
 fi
 
-python3 rushifteval/train_similarity_model.py \
+python rushifteval/train_similarity_model.py \
 --tsv rushifteval/data/rusemshift/rusemshift_all_raw_annotations.tsv \
 --jsonl "rushifteval/tmp/vectors/${vectors_folder}/vectors_rusemshift_all.jsonl" \
 --metric "$metric" $normalize
@@ -21,18 +21,17 @@ fi
 
 for i in {1..3}
 do
-    python3 rushifteval/calculate_ratings.py \
-    --tsv "rushifteval/data/rushifteval/rushifteval${i}_test_raw_annotations.tsv" \
+    python rushifteval/calculate_ratings.py \
     --jsonl "rushifteval/tmp/vectors/${vectors_folder}/vectors_rushifteval${i}_test.jsonl" \
     --model "rushifteval/tmp/models/similarity_model_${model_postfix}.joblib" \
     --output "rushifteval/tmp/ratings/rushifteval${i}_test.tsv" \
     --metric "$metric" $normalize
 done
 
-python3 rushifteval/calculate_score.py \
+python rushifteval/calculate_score.py \
 rushifteval/tmp/ratings/rushifteval1_test.tsv \
 rushifteval/tmp/ratings/rushifteval2_test.tsv \
 rushifteval/tmp/ratings/rushifteval3_test.tsv \
 rushifteval/tmp/result/result_testset.tsv
 
-python3 rushifteval/check_score.py
+python rushifteval/check_score.py

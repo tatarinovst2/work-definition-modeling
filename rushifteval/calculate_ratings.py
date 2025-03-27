@@ -6,8 +6,8 @@ from pathlib import Path
 import joblib
 from sklearn.linear_model import LinearRegression
 
-from rushifteval_utils import (AnnotatedWordPair, compute_distance, load_annotated_data,
-                               load_jsonl_vectors, parse_path)
+from rushifteval_utils import (AnnotatedWordPair, compute_distance, parse_path,
+                               load_vectorized_data)
 
 
 def load_model(regression_model_path: str | Path) -> LinearRegression:
@@ -44,8 +44,7 @@ def save_annotated_data_to_tsv(annotated_data: list[AnnotatedWordPair],
             ])
 
 
-def process_and_annotate(tsv_file_path: str | Path,  # pylint: disable=too-many-arguments
-                         jsonl_vectors_path: str | Path,
+def process_and_annotate(jsonl_vectors_path: str | Path,
                          regression_model_path: str | Path, metric: str,
                          normalize_flag: bool, output_file_path: str | Path) -> None:
     """
@@ -59,10 +58,8 @@ def process_and_annotate(tsv_file_path: str | Path,  # pylint: disable=too-many-
     :param output_file_path: The path to save the output TSV file.
     :raises ValueError: If the vector is empty.
     """
-    jsonl_vectors = load_jsonl_vectors(jsonl_vectors_path)
     model = load_model(regression_model_path)
-
-    annotated_data = load_annotated_data(tsv_file_path, jsonl_vectors)
+    annotated_data = load_vectorized_data(jsonl_vectors_path)
 
     for word in annotated_data:
         if word.vect1 is None or word.vect2 is None:
@@ -77,8 +74,6 @@ def main() -> None:
     """Parse arguments and call process_and_annotate function with the appropriate parameters."""
     parser = argparse.ArgumentParser(
         description="Process and annotate words with a mean value based on a regression model.")
-    parser.add_argument("--tsv", required=True,
-                        help="Path to input TSV file containing annotations.")
     parser.add_argument("--jsonl", required=True,
                         help="Path to JSONL file containing vectors.")
     parser.add_argument("--model", required=True,
@@ -94,13 +89,11 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    tsv_input_file_path = parse_path(args.tsv)
     jsonl_vectors_file_path = parse_path(args.jsonl)
     regression_model_file_path = parse_path(args.model)
     output_tsv_file_path = parse_path(args.output)
 
     process_and_annotate(
-        tsv_file_path=tsv_input_file_path,
         jsonl_vectors_path=jsonl_vectors_file_path,
         regression_model_path=regression_model_file_path,
         metric=args.metric,

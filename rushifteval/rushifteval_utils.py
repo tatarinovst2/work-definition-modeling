@@ -16,7 +16,7 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 @dataclass
 class AnnotatedWordPair:
     """
-    A dataclass representing a row in the TSV dataset.
+    A dataclass representing a row in the RuShiftEval-like dataset.
 
     :param word: The target word.
     :param sent1: The first sentence.
@@ -31,7 +31,7 @@ class AnnotatedWordPair:
     word: str
     sent1: str
     sent2: str
-    mean: float
+    mean: Optional[float] = None
     definition1: Optional[str] = None
     definition2: Optional[str] = None
     vect1: Optional[list[float]] = None
@@ -135,6 +135,34 @@ def load_annotated_data(tsv_file_path: str | Path,
                 vect1=vect1, vect2=vect2,
                 definition1=definition1, definition2=definition2)
             )
+    return annotated_data
+
+
+def load_vectorized_data(jsonl_file_path: str | Path) -> list[AnnotatedWordPair]:
+    """
+    Load vectorized data from a JSONL file and represent it as a list of AnnotatedWord instances.
+
+    :param jsonl_file_path: The path to the JSONL file containing vectors.
+    :return: A list of AnnotatedWord instances.
+    """
+    annotated_data = []
+    with open(jsonl_file_path, 'r', encoding="utf-8") as jsonl_file:
+        while True: # Read two sequential lines at a time
+            line1 = jsonl_file.readline()
+            if not line1.strip():
+                break
+            line2 = jsonl_file.readline()
+            if not line2.strip():
+                break
+
+            data1 = json.loads(line1)
+            data2 = json.loads(line2)
+
+            annotated_data.append(AnnotatedWordPair(
+                word=data1['word'], sent1=data1['sentence'], sent2=data2['sentence'],
+                vect1=data1['vector'], vect2=data2['vector'])
+            )
+
     return annotated_data
 
 

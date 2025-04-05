@@ -3,22 +3,8 @@ import argparse
 import csv
 from pathlib import Path
 
-import joblib
-from sklearn.linear_model import LinearRegression
-
-from rushifteval_utils import (AnnotatedWordPair, compute_distance, parse_path,
-                               load_vectorized_data)
-
-
-def load_model(regression_model_path: str | Path) -> LinearRegression:
-    """
-    Load a regression model from the specified path.
-
-    :param regression_model_path: The path to the regression model file.
-    :return: The loaded regression model.
-    """
-    regression_model_path = parse_path(regression_model_path)
-    return joblib.load(regression_model_path)
+from rushifteval_utils import (AnnotatedWordPair, compute_distance, normalize_distance,
+                               parse_path, load_vectorized_data)
 
 
 def save_annotated_data_to_tsv(annotated_data: list[AnnotatedWordPair],
@@ -45,27 +31,29 @@ def save_annotated_data_to_tsv(annotated_data: list[AnnotatedWordPair],
 
 
 def process_and_annotate(jsonl_vectors_path: str | Path,
-                         regression_model_path: str | Path, metric: str,
+                         metric: str,
                          normalize_flag: bool, output_file_path: str | Path) -> None:
     """
     Process the TSV file and annotate it with a mean value based on a regression model.
 
-    :param tsv_file_path: The path to the input TSV file containing annotations.
     :param jsonl_vectors_path: The path to the JSONL file containing vectors.
-    :param regression_model_path: The path to the regression model file.
     :param metric: The metric to use for computing distances between vectors.
     :param normalize_flag: A flag indicating whether to normalize vectors.
     :param output_file_path: The path to save the output TSV file.
     :raises ValueError: If the vector is empty.
     """
-    model = load_model(regression_model_path)
     annotated_data = load_vectorized_data(jsonl_vectors_path)
 
     for word in annotated_data:
         if word.vect1 is None or word.vect2 is None:
             raise ValueError("Vector is None!")
-        distance = compute_distance(word.vect1, word.vect2, metric, normalize_flag)
-        word.mean = model.predict([[distance]])[0]
+        word.mean = compute_distance(word.vect1, word.vect2, metric, normalize_flag)
+
+    min_value = min([word.mean for word in annotated_data])
+    max_value = max([word.mean for word in annotated_data])
+
+    for word in annotated_data:
+        word.mean = normalize_distance(word.mean, metric, min_value, max_value)
 
     save_annotated_data_to_tsv(annotated_data, output_file_path)
 
@@ -76,8 +64,6 @@ def main() -> None:
         description="Process and annotate words with a mean value based on a regression model.")
     parser.add_argument("--jsonl", required=True,
                         help="Path to JSONL file containing vectors.")
-    parser.add_argument("--model", required=True,
-                        help="Path to the regression model file.")
     parser.add_argument("--output", required=True,
                         help="Path to save the output TSV file.")
     parser.add_argument("--metric", default="manhattan",
@@ -90,12 +76,10 @@ def main() -> None:
     args = parser.parse_args()
 
     jsonl_vectors_file_path = parse_path(args.jsonl)
-    regression_model_file_path = parse_path(args.model)
     output_tsv_file_path = parse_path(args.output)
 
     process_and_annotate(
         jsonl_vectors_path=jsonl_vectors_file_path,
-        regression_model_path=regression_model_file_path,
         metric=args.metric,
         normalize_flag=args.normalize,
         output_file_path=output_tsv_file_path

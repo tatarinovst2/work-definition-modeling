@@ -8,22 +8,10 @@ if [ $# -eq 3 ] && [ "$3" == "--normalize" ]; then
     normalize="--normalize"
 fi
 
-python rushifteval/train_similarity_model.py \
---tsv rushifteval/data/rusemshift/rusemshift_all_raw_annotations.tsv \
---jsonl "rushifteval/tmp/vectors/${vectors_folder}/vectors_rusemshift_all.jsonl" \
---metric "$metric" $normalize
-
-model_postfix="${metric}"
-
-if [ "$normalize" == "--normalize" ]; then
-    model_postfix="${metric}_normalize"
-fi
-
 for i in {1..3}
 do
     python rushifteval/calculate_ratings.py \
     --jsonl "rushifteval/tmp/vectors/${vectors_folder}/vectors_rushifteval${i}_test.jsonl" \
-    --model "rushifteval/tmp/models/similarity_model_${model_postfix}.joblib" \
     --output "rushifteval/tmp/ratings/rushifteval${i}_test.tsv" \
     --metric "$metric" $normalize
 done

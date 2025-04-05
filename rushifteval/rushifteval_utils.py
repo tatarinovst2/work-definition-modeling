@@ -58,6 +58,27 @@ def load_jsonl_vectors(
     return jsonl_data
 
 
+def normalize_distance(distance: float, metric: str, min_value: float, max_value: float) -> float:
+    """
+    Normalize the distance based on the metric by negating and scaling it between 1 and 4.
+
+    :param distance: The computed distance value.
+    :param metric: The metric used to compute the distance.
+    :param min_value: The minimum distance value for the metric.
+    :param max_value: The maximum distance value for the metric.
+    :return: The normalized distance between 1 and 4.
+    :raises ValueError: If the metric is unsupported.
+    """
+    if metric != "dot_product":
+        distance = -distance
+        min_value, max_value = -max_value, -min_value
+
+    if min_value == max_value:
+        raise ValueError("Min and max values are the same, cannot normalize.")
+
+    return 1 + 3 * (distance - min_value) / (max_value - min_value)
+
+
 def compute_distance(vect1: list[float],  # pylint: disable=too-many-return-statements
                      vect2: list[float],
                      metric: str,

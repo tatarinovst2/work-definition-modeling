@@ -15,7 +15,7 @@ inside.
 
 The meaning of the folders:
 
-- `gold` contains the gold correlation coefficients of RuShiftEval competition 
+- `gold` contains the gold correlation coefficients of RuShiftEval competition
 against which we will check the quality later.
 - `rusemshift` is a training dataset, e.g. we will use it train models converting distances
 between vectors to the dataset format.

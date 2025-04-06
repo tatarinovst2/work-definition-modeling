@@ -1,7 +1,6 @@
 """Module to create RuShiftEval paired datasets."""
 import json
 from argparse import ArgumentParser
-from collections import defaultdict
 from pathlib import Path
 from tqdm import tqdm
 
@@ -52,7 +51,8 @@ def organize_entries(
     :param data: List of dictionaries representing the JSON Lines.
     :return: Nested dictionary with structure words[word][period] = list of entries.
     """
-    words = defaultdict(lambda: defaultdict(list))
+    words: dict[str, dict[str, list[dict]]] = {}
+
     for entry in tqdm(data, desc="Organizing entries"):
         word = entry.get('word')
         date = entry.get('date')
@@ -60,14 +60,18 @@ def organize_entries(
             continue  # Skip entries missing required fields
         period = map_date_to_period(date)
         if period:
+            if word not in words:
+                words[word] = {}
+            if period not in words[word]:
+                words[word][period] = []
             words[word][period].append(entry)
 
     print("Entries have been successfully organized by word and period:")
-    for word in words:
-        pre_count = len(words[word].get('pre', []))
-        soviet_count = len(words[word].get('soviet', []))
-        post_count = len(words[word].get('post', []))
-        print(f"{word}: pre={pre_count}, soviet={soviet_count}, post={post_count}")
+    for word_key, periods in words.items():
+        pre_count = len(periods.get('pre', []))
+        soviet_count = len(periods.get('soviet', []))
+        post_count = len(periods.get('post', []))
+        print(f"{word_key}: pre={pre_count}, soviet={soviet_count}, post={post_count}")
 
     return words
 

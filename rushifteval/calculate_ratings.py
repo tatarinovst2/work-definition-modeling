@@ -3,8 +3,8 @@ import argparse
 import csv
 from pathlib import Path
 
-from rushifteval_utils import (AnnotatedWordPair, compute_distance, normalize_distance,
-                               parse_path, load_vectorized_data)
+from rushifteval_utils import (AnnotatedWordPair, compute_distance, load_vectorized_data,
+                               normalize_distance, parse_path)
 
 
 def save_annotated_data_to_tsv(annotated_data: list[AnnotatedWordPair],
@@ -49,8 +49,8 @@ def process_and_annotate(jsonl_vectors_path: str | Path,
             raise ValueError("Vector is None!")
         word.mean = compute_distance(word.vect1, word.vect2, metric, normalize_flag)
 
-    min_value = min([word.mean for word in annotated_data])
-    max_value = max([word.mean for word in annotated_data])
+    min_value = min(word.mean for word in annotated_data)
+    max_value = max(word.mean for word in annotated_data)
 
     for word in annotated_data:
         word.mean = normalize_distance(word.mean, metric, min_value, max_value)

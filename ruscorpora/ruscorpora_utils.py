@@ -25,6 +25,8 @@ def write_results_to_file(results: list[dict], output_file: str | Path) -> None:
     :param results: List of dictionaries, each representing a found instance.
     :param output_file: Path to the output file.
     """
+    output_file = parse_path(output_file)
+
     if not output_file.parent.exists():
         output_file.parent.mkdir(parents=True, exist_ok=True)
 

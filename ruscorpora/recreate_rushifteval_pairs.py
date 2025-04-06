@@ -2,9 +2,10 @@
 import json
 from argparse import ArgumentParser
 from pathlib import Path
+
 from tqdm import tqdm
 
-from ruscorpora_utils import parse_path, write_results_to_file, ROOT_DIR
+from ruscorpora_utils import parse_path, ROOT_DIR, write_results_to_file
 
 
 def load_data(file_path: Path) -> list[dict]:

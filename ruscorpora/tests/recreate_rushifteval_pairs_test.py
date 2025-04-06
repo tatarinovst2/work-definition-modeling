@@ -4,12 +4,8 @@ import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-from ruscorpora.recreate_rushifteval_pairs import (
-    load_data,
-    map_date_to_period,
-    organize_entries,
-    create_paired_entries,
-)
+from ruscorpora.recreate_rushifteval_pairs import (create_paired_entries, load_data,
+                                                   map_date_to_period, organize_entries)
 
 
 class RecreateRushiftevalPairsTest(unittest.TestCase):

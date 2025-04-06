@@ -41,6 +41,8 @@ preprocesses
 pretrainedtokenizer
 py
 pymorphy
+readme
+rnc
 ruscorpora
 rusemshift
 rushifteval

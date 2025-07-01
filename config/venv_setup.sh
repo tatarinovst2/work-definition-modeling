@@ -32,3 +32,5 @@ fi
 
 python -m pip install -r requirements.txt
 python -m pip install -r requirements_ci.txt
+
+python -m spacy download ru_core_news_sm

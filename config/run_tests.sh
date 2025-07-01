@@ -9,18 +9,28 @@ echo 'Running pytest...'
 configure_script
 
 directories=$(get_project_directories)
-
-for directory in $directories; do
-  export PYTHONPATH="${PYTHONPATH}:$(pwd)/${directory}"
-done
+INITIAL_PYTHONPATH=$PYTHONPATH
+FAILED=false
 
 if [[ -z "${directories}" ]]; then
   echo "No tests to run currently."
   exit 0
 fi
 
-python3 -m pytest
+for directory in $directories; do
+  export PYTHONPATH="${INITIAL_PYTHONPATH}:$(pwd)/${directory}"
+  python3 -m pytest "$directory"
 
-check_if_failed
+  if [[ $? -ne 0 ]]; then
+    FAILED=true
+  fi
+done
+
+export PYTHONPATH=$INITIAL_PYTHONPATH
+
+if [[ "$FAILED" = true ]]; then
+  echo "Pytest failed."
+  exit 1
+fi
 
 echo "Pytest passed."

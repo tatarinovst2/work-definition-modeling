@@ -13,7 +13,7 @@ class ParseWikiTest(unittest.TestCase):
     """Tests for parse_wiki function"""
     def setUp(self):
         self.test_data_dir = Path(__file__).parent / "data"
-        self.test_config_path = self.test_data_dir / "test_config.json"
+        self.test_config_path = self.test_data_dir / "test_parser_config.json"
 
         self.config = load_config(self.test_config_path)
 

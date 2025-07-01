@@ -20,6 +20,6 @@ check_if_failed() {
 }
 
 get_project_directories() {
-  local directories=('wiktionary_parser' 'mas_parser')
+  local directories=('wiktionary_parser' 'model' 'vizvector' 'rushifteval' 'ruscorpora' 'mas_parser')
   echo ${directories[@]}
 }

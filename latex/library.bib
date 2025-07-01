@@ -35,11 +35,13 @@ author = {Tianyi Zhang and Varsha Kishore and Felix Wu and Kilian Q. Weinberger 
 year = {2020},
 }
 
-@online{FRED-T5,
-title = {FRED-T5. Новая SOTA модель для русского языка от SberDevices},
-year = {2023},
-url = {https://habr.com/ru/companies/sberdevices/articles/730088/},
-urldate = {2023-11-15}
+@misc{FRED-T5,
+      title={A Family of Pretrained Transformer Language Models for Russian},
+      author={Dmitry Zmitrovich and Alexander Abramov and Andrey Kalmykov and Maria Tikhonova and Ekaterina Taktasheva and Danil Astafurov and Mark Baushenko and Artem Snegirev and Tatiana Shavrina and Sergey Markov and Vladislav Mikhailov and Alena Fenogenova},
+      year={2023},
+      eprint={2309.10931},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
 }
 
 @inproceedings{RussianSuperGLUE,
@@ -54,3 +56,378 @@ booktitle = {Proceedings of the 2020 Conference on Empirical Methods in Natural 
 title = {Evaluate},
 url = {https://github.com/huggingface/evaluate},
 urldate = {2023-11-15}}
+
+@online{Encodechka,
+title = {encodechka},
+url = {https://github.com/avidale/encodechka},
+urldate = {2024-04-19}
+}
+
+@online{Vectorizer,
+    title = {paraphrase-multilingual-mpnet-base-v2},
+    url = {https://huggingface.co/sentence-transformers/paraphrase-multilingual-mpnet-base-v2},
+    urldate = {2024-04-19},
+}
+
+@misc{rodina2020elmo,
+      title={ELMo and BERT in semantic change detection for Russian},
+      author={Julia Rodina and Yuliya Trofimova and Andrey Kutuzov and Ekaterina Artemova},
+      year={2020},
+}
+
+@inproceedings{kutuzov-etal-2018-diachronic,
+    title = "Diachronic word embeddings and semantic shifts: a survey",
+    author = "Kutuzov, Andrey  and
+      {\O}vrelid, Lilja  and
+      Szymanski, Terrence  and
+      Velldal, Erik",
+    booktitle = "Proceedings of the 27th International Conference on Computational Linguistics",
+    month = aug,
+    year = "2018",
+    address = "Santa Fe, New Mexico, USA",
+    publisher = "Association for Computational Linguistics",
+    pages = "1384--1397",
+}
+
+@inproceedings{shiftry,
+author = {Kutuzov, Andrei and Fomin, V. and Mikhailov, V. and Rodina, Julia},
+year = {2020},
+month = {01},
+pages = {500-516},
+title = {ShiftRy: Web service for diachronic analysis of Russian news},
+doi = {10.28995/2075-7182-2020-19-500-516}
+}
+
+@article{semeval2020task,
+  author       = {Dominik Schlechtweg and
+                  Barbara McGillivray and
+                  Simon Hengchen and
+                  Haim Dubossarsky and
+                  Nina Tahmasebi},
+  title        = {SemEval-2020 Task 1: Unsupervised Lexical Semantic Change Detection},
+  journal      = {CoRR},
+  volume       = {abs/2007.11464},
+  year         = {2020},
+  url          = {https://arxiv.org/abs/2007.11464},
+  eprinttype    = {arXiv},
+  eprint       = {2007.11464},
+  timestamp    = {Tue, 29 Dec 2020 18:21:20 +0100},
+  biburl       = {https://dblp.org/rec/journals/corr/abs-2007-11464.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@inproceedings{rushifteval,
+  title={RuShiftEval: a shared task on semantic shift detection for Russian},
+  author={Kutuzov, Andrey and Pivovarova, Lidia},
+  %month = {06},
+  pages = {533-545},
+  booktitle={Computational linguistics and intellectual technologies: Papers from the annual conference Dialogue},
+  year={2021}
+}
+
+@inproceedings{GlossReader,
+author = {Rachinskiy, Maxim and Arefyev, Nikolay},
+year = {2021},
+month = {06},
+pages = {578-586},
+title = {Zero-shot Cross-lingual Transfer of a Gloss Language Model for Semantic Change Detection},
+doi = {10.28995/2075-7182-2021-20-578-586}
+}
+
+@inproceedings{DeepMistake,
+author = {Arefyev, Nikolay and Fedoseev, Maksim and Protasov, Vitaly and Panchenko, Alexander and Homskiy, Daniil and Davletov, Adis},
+year = {2021},
+month = {06},
+pages = {16-30},
+title = {DeepMistake: Which Senses are Hard to Distinguish for a Word-in-Context Model},
+doi = {10.28995/2075-7182-2021-20-16-30}
+}
+
+@article{XLM-R,
+  author    = {Alexis Conneau and
+               Kartikay Khandelwal and
+               Naman Goyal and
+               Vishrav Chaudhary and
+               Guillaume Wenzek and
+               Francisco Guzm{\'{a}}n and
+               Edouard Grave and
+               Myle Ott and
+               Luke Zettlemoyer and
+               Veselin Stoyanov},
+  title     = {Unsupervised Cross-lingual Representation Learning at Scale},
+  journal   = {CoRR},
+  volume    = {abs/1911.02116},
+  year      = {2019},
+  url       = {http://arxiv.org/abs/1911.02116},
+  eprinttype = {arXiv},
+  eprint    = {1911.02116},
+  timestamp = {Mon, 11 Nov 2019 18:38:09 +0100},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-1911-02116.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+@online{DeepMistakeGitHub,
+title = {DeepMistake},
+url = {https://github.com/Daniil153/DeepMistake},
+urldate = {2024-01-18}}
+
+@online{GlossReaderGitHub,
+title = {GlossReader},
+url = {https://github.com/myrachins/RuShiftEval},
+urldate = {2024-01-18}}
+
+@misc{noraset2016definition,
+      title={Definition Modeling: Learning to define word embeddings in natural language},
+      author={Thanapon Noraset and Chen Liang and Larry Birnbaum and Doug Downey},
+      year={2016},
+      eprint={1612.00394},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+@inproceedings{gadetsky-etal-2018-conditional,
+    title = "Conditional Generators of Words Definitions",
+    author = "Gadetsky, Artyom  and
+      Yakubovskiy, Ilya  and
+      Vetrov, Dmitry",
+    editor = "Gurevych, Iryna  and
+      Miyao, Yusuke",
+    booktitle = "Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)",
+    month = jul,
+    year = "2018",
+    address = "Melbourne, Australia",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/P18-2043",
+    doi = "10.18653/v1/P18-2043",
+    pages = "266--271",
+    abstract = "We explore recently introduced definition modeling technique that provided the tool for evaluation of different distributed vector representations of words through modeling dictionary definitions of words. In this work, we study the problem of word ambiguities in definition modeling and propose a possible solution by employing latent variable modeling and soft attention mechanisms. Our quantitative and qualitative evaluation and analysis of the model shows that taking into account words{'} ambiguity and polysemy leads to performance improvement.",
+}
+
+@inproceedings{huang-etal-2021-definition,
+    title = "Definition Modelling for Appropriate Specificity",
+    author = "Huang, Han  and
+      Kajiwara, Tomoyuki  and
+      Arase, Yuki",
+    editor = "Moens, Marie-Francine  and
+      Huang, Xuanjing  and
+      Specia, Lucia  and
+      Yih, Scott Wen-tau",
+    booktitle = "Proceedings of the 2021 Conference on Empirical Methods in Natural Language Processing",
+    month = nov,
+    year = "2021",
+    address = "Online and Punta Cana, Dominican Republic",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2021.emnlp-main.194",
+    doi = "10.18653/v1/2021.emnlp-main.194",
+    pages = "2499--2509",
+    abstract = "Definition generation techniques aim to generate a definition of a target word or phrase given a context. In previous studies, researchers have faced various issues such as the out-of-vocabulary problem and over/under-specificity problems. Over-specific definitions present narrow word meanings, whereas under-specific definitions present general and context-insensitive meanings. Herein, we propose a method for definition generation with appropriate specificity. The proposed method addresses the aforementioned problems by leveraging a pre-trained encoder-decoder model, namely Text-to-Text Transfer Transformer, and introducing a re-ranking mechanism to model specificity in definitions. Experimental results on standard evaluation datasets indicate that our method significantly outperforms the previous state-of-the-art method. Moreover, manual evaluation confirms that our method effectively addresses the over/under-specificity problems.",
+}
+
+@book{TwoCenturies,
+  author    = {М. К. Данова and Н. Р. Добрушина and А. С. Опачанова and others},
+  title     = {Два века в двадцати словах},
+  edition   = {2},
+  publisher = {Издательский дом Высшей школы экономики},
+  year      = {2018},
+  address   = {Москва},
+%  note      = {Электронное издание. Системные требования: Adobe Reader XI либо Adobe Digital Editions 4.5; экран 10".},
+  isbn      = {978-5-7598-1480-1},
+  url       = {https://znanium.com/catalog/product/1018929},
+  urldate   = {2024-04-20},
+  language  = {Russian},
+  editor    = {Н. Р. Добрушина and М. А. Даниэль},
+  organization = {Нац. исслед. ун-т «Высшая школа экономики»},
+  type      = {Electronic Resource},
+  pagetotal = {455},
+  file      = {PDF},
+  accessmode = {Subscription},
+}
+
+@book{VinogradovWordHistory,
+  title={История слов: около 1500 слов и выражений и более 5000 слов, с ними связанных},
+  author={Виноградов, В.В. and Шведова, Н.Ю.},
+  isbn={9785892850261},
+  lccn={2001425036},
+  url={https://books.google.ru/books?id=zB7YAQAACAAJ},
+  year={1999},
+  publisher={Институт русского языка им. В.В. Виноградова РАН}
+}
+
+@book{BloomfieldLanguage,
+  author    = {Bloomfield, Leonard},
+  title     = {Language},
+  publisher = {Holt, Rinehart and Winston},
+  year      = {1933},
+  address   = {New York},
+}
+
+%@book{TahmasebiComputationalApproachesToSemanticChange,
+%  title        = {Computational Approaches to Semantic Change},
+%  editor       = {Tahmasebi, Nina and Borin, Lars and Jatowt, Adam and Xu, Yang and Hengchen, Simon},
+%  year         = 2021,
+%  series       = {Language Variation},
+%  volume       = 6,
+%  address      = {Berlin},
+%  publisher    = {Language Science Press},
+%  doi          = {10.5281/zenodo.5040241}
+%}
+
+@incollection{TahmasebiComputationalApproachesToSemanticChange,
+  author    = {Nina Tahmasebi and Lars Borin and Adam Jatowt},
+  title     = {Survey of computational approaches to lexical semantic change detection},
+  booktitle = {Computational approaches to semantic change},
+  editor    = {Nina Tahmasebi and Lars Borin and Adam Jatowt and Yang Xu and Simon Hengchen},
+  year      = {2021},
+  pages     = {1--91},
+  publisher = {Language Science Press},
+  address   = {Berlin},
+}
+
+@book{SemanticDefinitionsAndAnalysis,
+  title={Словарные дефиниции и семантический анализ},
+  author={Стернин, И. А. and Рудакова, А. В.},
+  year={2017},
+  publisher={Воронеж},
+  pages={34}
+}
+
+@Book{MAS1981,
+  author    = {Евгеньева, А. П.},
+  title     = {{Словарь русского языка: В 4-х т.}},
+  publisher = {Русский язык},
+  year      = {1981-1984},
+  editor    = {А. П. Евгеньева},
+  edition   = {4-е изд., испр. и доп},
+  address   = {Москва},
+  organization = {Полиграфресурсы},
+  note      = {В 4-х томах}
+}
+
+@online{Wiktionary,
+  author = {{Wiktionary contributors}},
+  title = {Wiktionary, the free dictionary},
+  year = {2023},
+  url = {https://www.wiktionary.org/},
+  urldate = {2024-04-10}
+}
+
+@book{TolkovyDmitriev,
+  title     = {Толковый словарь русского языка : Ок. 2000 словар. ст., свыше 12000 значений},
+  publisher = {Астрель [и др.]},
+  year      = {2003},
+  editor    = {Дмитриев, Д.В.},
+  author    = {Ахапкин, Д.Н. and others},
+  address   = {Москва},
+  note      = {ГУП ИПК Ульян. Дом печати},
+  pages     = {989},
+  size      = {15 см},
+  series    = {Словари Академии Российской},
+  isbn      = {5-271-06086-1},
+}
+
+@book{TolkovyKuznetsov,
+  title     = {Большой толковый словарь русского языка: А-Я},
+  publisher = {Норинт},
+  year      = {1998},
+  author    = {Кузнецов, С. А.},
+  editor    = {Кузнецов, С. А.},
+  address   = {СПб.},
+  pages     = {1534},
+  isbn      = {5-7711-0015-3},
+  note      = {РАН. Ин-т лингв. исслед. Сост., гл. ред. канд. филол. наук С. А. Кузнецов},
+}
+
+@online{WorkGitHub,
+  author = {Tatarinov, M. D.},
+  title = {Work Definition Modeling},
+%  urldate = {2024},
+  url = {https://github.com/tatarinovst2/work-definition-modeling},
+%  note = {Accessed: 2024-04-24}
+}
+
+@inproceedings{Harris2014SemanticShifts,
+  title={Semantic Shift in the English Language},
+  author={Timothy M. Harris},
+  year={2014},
+  url={https://api.semanticscholar.org/CorpusID:60071546}
+}
+
+@misc{Periti2024AnalyzingLexicalReplacements,
+      title={Analyzing Semantic Change through Lexical Replacements},
+      author={Francesco Periti and Pierluigi Cassotti and Haim Dubossarsky and Nina Tahmasebi},
+      year={2024},
+      eprint={2404.18570},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+@misc{Maysak2016,
+  author       = {Майсак, Т. А.},
+  title        = {Грамматикализация},
+  year         = {2016},
+  howpublished = {\emph{Большая российская энциклопедия. Электронная версия}},
+  url          = {https://old.bigenc.ru/linguistics/text/2375801},
+%  note         = {Accessed: 2024-05-21}
+}
+
+@article{Word2VecModelAnalysis,
+author = {Jatnika, Derry and Bijaksana, Moch and Ardiyanti, Arie},
+year = {2019},
+month = {01},
+pages = {160-167},
+title = {Word2Vec Model Analysis for Semantic Similarities in English Words},
+volume = {157},
+journal = {Procedia Computer Science},
+doi = {10.1016/j.procs.2019.08.153}
+}
+
+@misc{Word2VecOriginal,
+      title={Efficient Estimation of Word Representations in Vector Space},
+      author={Tomas Mikolov and Kai Chen and Greg Corrado and Jeffrey Dean},
+      year={2013},
+      eprint={1301.3781},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+@phdthesis{Kutuzov2020Thesis,
+  author       = {Andrey Kutuzov},
+  title        = {Distributional Word Embeddings in Modeling Diachronic Semantic Change},
+  school       = {University of Oslo},
+  year         = 2020,
+  type         = {Doctoral Thesis},
+  url          = {https://www.duo.uio.no/bitstream/handle/10852/81045/1/Kutuzov-Thesis.pdf},
+  urn          = {URN:NBN:no-84130},
+%  note         = {Accessed: 2020-11-16T12:34:15Z},
+  language     = {English}
+}
+
+@online{SketchEngineWSI,
+    title = {Sketch engine},
+    urldate = {2024-05-26},
+    url = {https://www.sketchengine.eu/guide/word-sense-induction/},
+}
+
+@inproceedings{DBSCAN,
+author = {Ester, Martin and Kriegel, Hans-Peter and Sander, J\"{o}rg and Xu, Xiaowei},
+title = {A density-based algorithm for discovering clusters in large spatial databases with noise},
+year = {1996},
+publisher = {AAAI Press},
+abstract = {Clustering algorithms are attractive for the task of class identification in spatial databases. However, the application to large spatial databases rises the following requirements for clustering algorithms: minimal requirements of domain knowledge to determine the input parameters, discovery of clusters with arbitrary shape and good efficiency on large databases. The well-known clustering algorithms offer no solution to the combination of these requirements. In this paper, we present the new clustering algorithm DBSCAN relying on a density-based notion of clusters which is designed to discover clusters of arbitrary shape. DBSCAN requires only one input parameter and supports the user in determining an appropriate value for it. We performed an experimental evaluation of the effectiveness and efficiency of DBSCAN using synthetic data and real data of the SEQUOIA 2000 benchmark. The results of our experiments demonstrate that (1) DBSCAN is significantly more effective in discovering clusters of arbitrary shape than the well-known algorithm CLAR-ANS, and that (2) DBSCAN outperforms CLARANS by a factor of more than 100 in terms of efficiency.},
+booktitle = {Proceedings of the Second International Conference on Knowledge Discovery and Data Mining},
+pages = {226–231},
+numpages = {6},
+keywords = {arbitrary shape of clusters, clustering algorithms, efficiency on large spatial databases, handling nlj4-275oise},
+location = {Portland, Oregon},
+series = {KDD'96}
+}
+
+@book{ushakov1940,
+  author       = {Ушаков, Д.Н.},
+  title        = {Толковый словарь русского языка. Т. 4. С - Ящурный},
+  editor       = {Волин, Б.М. and Ушаков, Д.Н.},
+  year         = 1940,
+  address      = {Москва},
+  publisher    = {Государственное издательство иностранных и национальных словарей},
+%  note         = {Составители: Виноградов, В.В., Винокур, Г.О., Ларин, Б.А., Ожегов, С.И., Томашевский, Б.В., Ушаков, Д.Н. Под редакцией: Ушаков, Д.Н.}
+}

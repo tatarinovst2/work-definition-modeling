@@ -1,0 +1,18 @@
+{
+  "remove_latin_in_parenthesis": true,
+  "remove_missed_tags": true,
+  "max_definition_character_length": 200,
+  "remove_entries_without_examples": true,
+  "throw_out_definition_markers": [
+    "?"
+  ],
+  "tags_to_remove": [
+    "разг."
+  ],
+  "markers_for_limiting": [
+    {
+      "marker": "фамилия",
+      "leave_each": 10
+    }
+  ]
+}

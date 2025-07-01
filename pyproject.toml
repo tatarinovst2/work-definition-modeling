@@ -75,7 +75,7 @@ exclude = [
 application_import_names = [
     'config',
     'wiktionary_parser',
-    'mas_parser'
+    'mas_parser',
     'model',
     'vizvector',
     'rushifteval',

@@ -65,11 +65,11 @@ You don't need to unpack it, the parser will do it for you.
 
 ### 3. Put it under the `wiktionary_parser/data` directory
 
-### 4. Configure the `wiktionary_parser_config.py` file
+### 4. Configure the `parsing_config.json` and `cleaning_config.json` files
 
 You can specify the following parameters:
 
-* `keep_entries_without_examples` - will not skip definitions without examples.
+#### Parsing Configuration
 
 * `templates_to_remove` - templates to remove from the text.
 
@@ -109,6 +109,22 @@ they will be concatenated to form the text representation of the template,
 
 `ending_text` is the text that will be added after the description (optional).
 
+#### Cleaning Configuration
+
+* `remove_latin_in_parenthesis` - whether to remove Latin characters in parentheses.
+
+* `remove_missed_tags` - whether to remove missed tags.
+
+* `max_definition_character_length` - maximum allowed length of definition in characters.
+
+* `remove_entries_without_examples` - whether to remove entries without examples.
+
+* `throw_out_definition_markers` - definitions containing these markers will be fully removed.
+
+* `tags_to_remove` - Tags to remove.
+
+* `markers_for_limiting` - Markers for limiting entries.
+
 ### 5. Run the parser
 
 Open the terminal or the command line in the root directory of the project
@@ -129,13 +145,13 @@ represent grammatical meaning instead of lexical or non-informative definitions.
 For this run the following command:
 
 ```bash
-python wiktionary_parser/clean_dataset.py --dataset-path path/to/the/dataset
+python wiktionary_parser/clean_dataset.py --dataset-path path/to/the/dataset \
 --output-path path/to/new/dataset
 ```
 
 For example:
 
 ```bash
-python wiktionary_parser/clean_dataset.py --dataset-path wiktionary_parser/data/definitions.jsonl
+python wiktionary_parser/clean_dataset.py --dataset-path wiktionary_parser/data/definitions.jsonl \
 --output-path wiktionary_parser/data/cleaned_definitions.jsonl
 ```

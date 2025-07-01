@@ -172,8 +172,18 @@ Thumbs.db
 models/
 wiktionary_parser/data/*xml.bz2
 wiktionary_parser/data/*.jsonl
+model/data/
+wiktionary_parser/data/
+rushifteval/data
+rushifteval/tmp
+ruscorpora/data
+ruscorpora/tmp
+ruscorpora/DBCV-master
+vizvector/data/
+tmp/
 
 # LaTeX
 latex/main.*
+latex/larm*
 !latex/main.pdf
 !latex/main.tex

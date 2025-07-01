@@ -91,7 +91,7 @@ You can visualize the predictions using `visualize.py` script from the `vizvecto
 
 ```bash
 python vizvector/visualize.py ruscorpora/data/vectors/ruscorpora_sample_300_seed_42_vectors.jsonl \
-пакет --eps 0.49 --min-samples 15
+пакет --eps 0.11 --min-samples 8
 ```
 
 To get visualizations for all words, run the bash script:

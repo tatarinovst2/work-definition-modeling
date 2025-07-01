@@ -24,6 +24,11 @@ matrix:
       - 'pre'
   sources:
   - '*.md'
+  - 'rushifteval/*.md'
+  - 'ruscorpora/*.md'
+  - 'model/*.md'
+  - 'model/docs/*.md'
+  - 'vizvector/*.md'
   default_encoding: utf-8
 
 - name: Docstrings
@@ -42,4 +47,9 @@ matrix:
   sources:
     - 'config/*/*.py'
     - 'wiktionary_parser/*.py'
+    - 'model/*.py'
+    - 'model/*/*.py'
+    - 'vizvector/*.py'
+    - 'rushifteval/*.py'
+    - 'ruscorpora/*.py'
   default_encoding: utf-8

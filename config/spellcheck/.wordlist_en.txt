@@ -33,12 +33,16 @@ param
 pathlib
 png
 pos
+post
+pre
 pred
 preprocess
 preprocesses
 pretrainedtokenizer
 py
 pymorphy
+readme
+rnc
 ruscorpora
 rusemshift
 rushifteval

@@ -184,5 +184,6 @@ tmp/
 
 # LaTeX
 latex/main.*
+latex/larm*
 !latex/main.pdf
 !latex/main.tex

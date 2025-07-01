@@ -1,0 +1,47 @@
+Dear Reviewers,
+
+Thank you very much for your feedback on our submission. We greatly appreciate the time and effort you have invested in evaluating our work.
+
+In response to your comments, we have made the following revisions to the paper:
+
+1. Rewritten Pipeline for RuShiftEval:
+
+    Comment:
+    If the authors aim to fairly compare against other teams in RuShiftEval'2021, they should forget about the usage pairs, process the pre-Soviet, Soviet and post-Soviet corpora and produce change scored bases on these text collections.
+    ...
+    Thus, I recommend the authors to either:
+    1) re-do their RuShiftEval experiments following the proper shared task pipeline,
+    or
+    2) re-write the paper acknowledging that they are solving the word-in-context (WiC) task for Russian.
+
+    Answer:
+    We have revised our approach to the RuShiftEval benchmark to align with the proper shared task methodology. We now process the pre-Soviet, Soviet, and post-Soviet corpora to produce change scores for the target words. The method is described in Section 3.2 (page 3-4). In fact, we sample the usages in a similar way to the DeepMistake submission to RuShiftEval task: https://www.dialogue-conf.org/media/5491/arefyevnplusetal133.pdf (see 3.1).
+
+2. Corrected Description of Training Procedures:
+
+    Comment:
+    Another issue with the paper under review is that is skips so many important details. As an example, it is not clear how did the "training" on MAS described in section 4.2 look like (or is it "MAC", as it is called in 4.4?). What exactly was trained, with what objective? My bet is that FRED-T5-1.7B model was fine-tuned on MAS for Russian definition generation, but it is never said explicitly, so the reader has to guess.
+    If indeed FRED was fine-tuned as a definition generator on MAS, what was the test set which brought the scores described in Table 3? The same "Small academic dictionary" or something else? If the former, then how it was split into training and testing parts?
+
+    Answer:
+    We have clarified the training procedure for the model in Sections 3.1 (page 3) and 4.2 (page 4). Moreover, Section 4.2 now states the split parameters for the dataset, and Section 4.4 (page 5) has been updated to mention that the test part of the dataset was used.
+
+3. Corrected and Enhanced References:
+
+    Comment:
+    Finally, the authors should really invest some effort into putting their references in order.
+    As an example, let's look at page 2. Why the citation for word2vec is [Jatnika et al 2019] and for static embeddings in general [Tahmasebi et al 2021]? These methods are at least 8 years older than that. For word2vec, the reference should be [Mikolov et al 2013] (https://proceedings.neurips.cc/paper/2013/file/9aa42b31882ec039965f3c4923ce901b-Paper.pdf)
+    Similarly, ELMo architecture was not created by [Kutuzov 2020], it should be https://aclanthology.org/N18-1202/
+
+    The bibliography in the end of the paper is very noisy, with many references lacking any information except the author, title, and year. This includes even the paper describing the main LLM used by the authors, FRED-T5. It was published at LREC-COLING 2024, here's how one should cite it:
+    https://aclanthology.org/2024.lrec-main.45/
+    (see the bottom of this page).
+
+    I also was surprised to see this reference:
+    "M.K. Danova, N.R. Dobrushina, A.S. Opachanova, et al. 2018. Dva veka v dvadtsati slovakh [Two Centuries in Twenty Words]. Izdatel’skiy dom Vysshey shkoly ekonomiki, Moskva, 2 edition."
+    To the best of my knowledge, in reality, this book is edited by Dobrushina and Daniel, and Opachanova is only one of many contributors; see https://publications.hse.ru/books/174178828.
+
+    Answer:
+    We have reviewed and corrected citations throughout the paper to ensure proper attribution.
+
+Additionally, we have discussed Fedorova et al. (2024) in Section 2.1 (page 2), included a comparison with that approach in Section 4.5 (page 6), and made more minor improvements throughout the paper.

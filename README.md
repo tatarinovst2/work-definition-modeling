@@ -5,16 +5,6 @@ This is the repository for the thesis "Assessment of the applicability of the me
 detecting semantic changes of words by a neural network language model based on generated
 definitions" by [Maxim Tatarinov](https://github.com/tatarinovst2)
 
-## Components
-
-The repository consists of the following components:
-
-* [wiktionary_parser](wiktionary_parser/README.md) - a parser for Wiktionary dump files.
-* [model](model) - a module for training, evaluation and inference of the FRED-T5-1.7B model.
-  * [Model training](model/docs/Model%20training.md) - split the dataset and train the model.
-  * [Inference](model/docs/Inference.md) - generate definitions for the dataset.
-  * [Evaluation](model/docs/Evaluation.md) - evaluate the model.
-
 ## Steps to reproduce
 
 To reproduce the results, follow the steps below. Steps can be skipped if you download the corresponding data.
